@@ -40,7 +40,7 @@ for i in df.index:
     siteCode = df['CODE']
     siteName = df['SITE']
     freqNum = df['NUMBER']
-    freqency = df['FREQENCY']
+    frequency = df['FREQUENCY']
     freqText = df['FREQ-TEXT']
     dayNumber = df['DAYS TO COMPLETE']
     nextQaDate =  df['NEXT QA']
@@ -132,7 +132,7 @@ for i in df.index:
 
             # Change the dropdown list 
             contractQAWindow.child_window(auto_id="cboFrequencyPeriod", control_type="ComboBox").click_input()
-            pyautogui.typewrite(freqency[i])
+            pyautogui.typewrite(frequency[i])
             pyautogui.press("tab")
             pyautogui.PAUSE = 2.5
 
