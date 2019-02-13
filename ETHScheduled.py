@@ -68,7 +68,8 @@ df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
 for i in df.index:
     area = df['AREA']
     title = df['TITLE']
-    date = df['DATE']
+    dateStart = df['DATE START']
+    dateEND = df['DATE END']
     qaTemplate = df['QA TEMPLATE']
     task = df['TASK']
     status = df['STATUS']
@@ -89,7 +90,7 @@ for i in df.index:
 
     # 'x' marks need to set it up, otherwise no need setup.
     ## cleprint(completeTitle + ' - ' + monthFeb)
-    if monthFeb[i] != "x":
+    if monthMar[i] != "x":
        # print("No Need Setup ...")
         continue
 
@@ -112,34 +113,31 @@ for i in df.index:
     contractQAWindow.wait('exists', timeout=15)
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
-    dateString = "01022019"
-    pyautogui.typewrite(dateString)
-    # pyautogui.press('tab')
+    dateStartString = "01032019"
+    dateEndString = "31032019"
+    pyautogui.typewrite(dateStartString)
+    pyautogui.press('tab')
+    pyautogui.typewrite(dateEndString)
     #nextDateString = str(nextQaDate[i])
 
     # get the date character one by one and type in
     # for letter in nextDateString:
     #     pyautogui.typewrite(letter)
-    # pyautogui.press('tab')
+    pyautogui.press('tab')
 
     ## contractQAWindow.child_window(auto_id="datEffectiveTo", control_type="Edit")
-    pyautogui.press('tab')
-    pyautogui.press('backspace')
-    pyautogui.press('tab')
     pyautogui.press('tab')
     pyautogui.typewrite(qaTemplate[i])
     pyautogui.press('tab')
     ## the title will auto comes up.
-    ## fiirst remove them
     ## add desired one
-    pyautogui.press('backspace')
     pyautogui.typewrite(completeTitle)
     pyautogui.press('tab')
     pyautogui.typewrite(str(task[i]))
     pyautogui.press('tab')
     contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
     contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
-    pyautogui.typewrite(dateString)
+    pyautogui.typewrite(dateStartString)
     pyautogui.press('tab')
 
     contractQAWindow.Accept.click_input()
