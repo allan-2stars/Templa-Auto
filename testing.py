@@ -57,7 +57,7 @@ print("starting...")
 
 # templa.child_window(title="Copy", control_type="Button").click_input()
 
-productDetailWindow = app.window(title_re='Products - *')
+productDetailWindow = app.window(title_re='QA Item - *')
 # productDetailWindow.wait('exists', timeout=15)
 
 # #productDetailWindow.print_control_identifiers()
@@ -71,17 +71,17 @@ productDetailWindow = app.window(title_re='Products - *')
 
 print("general info filled")
  # Go to Price Group, change selling price
-productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()
+# productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()
 
-priceGroupTextBox = productDetailWindow.child_window(title="Urbanest Room Cleaning", control_type="DataItem")
-FixedPriceTextBox = priceGroupTextBox.child_window(title="Fixed price", control_type="Edit")
-FixedPriceTextBox.click_input()
+# priceGroupTextBox = productDetailWindow.child_window(title="Urbanest Room Cleaning", control_type="DataItem")
+# FixedPriceTextBox = priceGroupTextBox.child_window(title="Fixed price", control_type="Edit")
+# FixedPriceTextBox.click_input()
 # pyautogui.moveRel(20, 0)
 # pyautogui.click()
 
 
 
-#productDetailWindow.print_control_identifiers()
+productDetailWindow.print_control_identifiers()
 
 
 

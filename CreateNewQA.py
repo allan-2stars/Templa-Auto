@@ -23,12 +23,9 @@ else:
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
 print("Starting...")
-# start 
-mainContractsTab = templa.child_window(title='Contracts', control_type='TabItem')
+# start click on QA Items Tab
+mainContractsTab = templa.child_window(title='QA Items', control_type='TabItem')
 mainContractsTab.click_input()
-mainContractsWindow = templa.child_window(title='Contracts', control_type='Window')
-
-
 
 ########################
 #
