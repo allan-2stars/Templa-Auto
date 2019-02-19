@@ -102,7 +102,7 @@ for i in df.index:
         #productDetailWindow.print_control_identifiers()
         # Type code
         productDetailWindow.child_window(auto_id="txtCode", control_type="Edit").click_input()
-        pyautogui.typewrite(productCode[i])
+        pyautogui.typewrite(str(productCode[i]))
         productDetailWindow.child_window(auto_id="txtDescription", control_type="Edit").click_input()
         pyautogui.typewrite(itemName[i])
 
@@ -110,6 +110,12 @@ for i in df.index:
         pyautogui.press('tab')
         pyautogui.press('tab')
         pyautogui.typewrite(category[i])
+        #pyautogui.press('tab')
+        # incase there are multiple items to select
+        # move cursor select the top one.
+        # because longest match principle, one the top one will be selected.
+        # pyautogui.moveRel(40,20)
+        # pyautogui.click()
         # pyautogui.press('tab')
         # pyautogui.moveRel(60,20)
         # pyautogui.click() # open the site by double click
@@ -142,7 +148,8 @@ for i in df.index:
         
         # Go to Price Group, change selling price
         # if no need to setup sale price, then clientname will be "na"
-        hasSalePrice = str(clientName[i]) != 'na'
+        hasSalePrice = str(clientName[i]) != 'nan'
+        print(str(clientName[i]))
         print ("has client? " + str(hasSalePrice))
         if hasSalePrice:
             productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()

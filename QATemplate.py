@@ -131,7 +131,7 @@ for i in df.index:
         # # get the date character one by one and type in
         # for letter in nextDateString:
         #     pyautogui.typewrite(letter)
-        pyautogui.typewrite("01092018")
+        pyautogui.typewrite("01032019")
         pyautogui.press('tab')
 
         # Save
