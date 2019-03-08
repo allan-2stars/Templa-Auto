@@ -90,7 +90,7 @@ for i in df.index:
 
     # 'x' marks need to set it up, otherwise no need setup.
     ## cleprint(completeTitle + ' - ' + monthFeb)
-    if monthMar[i] != "x":
+    if monthApr[i] != "x":
        # print("No Need Setup ...")
         continue
 
@@ -113,8 +113,8 @@ for i in df.index:
     contractQAWindow.wait('exists', timeout=15)
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
-    dateStartString = "01032019"
-    dateEndString = "31032019"
+    dateStartString = "01042019"
+    dateEndString = "30042019"
     pyautogui.typewrite(dateStartString)
     pyautogui.press('tab')
     pyautogui.typewrite(dateEndString)

@@ -31,7 +31,7 @@ mainProductsWindow = templa.child_window(title='Product List', control_type='Win
 # Setup Excel Sheet
 #
 ########################
-sheetLoader = 'Urbanest NT Price' 
+sheetLoader = 'Product Cost'
 df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
 
 for i in df.index:
@@ -51,9 +51,13 @@ for i in df.index:
         print("Stop here")
         break
 
-    # click on the Code Edit Box
-    mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(itemName[i]))
+    # click on the Code/Items name to Edit Box
+    if sheetLoader == "Urbanest NT Price"
+        mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
+        pyautogui.typewrite(str(itemName[i]))
+    else        
+        mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
+        pyautogui.typewrite(str(productCode[i]))
 
     # # in case the code is not long enough to narrow to one product
     # # so we need item description to narrow it down further

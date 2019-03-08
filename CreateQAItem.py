@@ -72,6 +72,7 @@ for i in df.index:
     # pyautogui.press('tab')
     # QAItemDetailWindow.Save.click_input()
     pyautogui.PAUSE = 2.5
+    print(details[i] +" Done.")
     QAItemDetailWindow.child_window(title="Save and new", control_type="Button").click()
 
 QAItemDetailWindow.Close.click_input()

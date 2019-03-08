@@ -88,7 +88,7 @@ for i in df.index:
         print("#################################")
         print(" ")
         pyautogui.moveRel(-25, 25) 
-        pyautogui.click() # open the site by double click
+        pyautogui.click() # reset the select status
 
     else:
         print("CSM Different, need to change")

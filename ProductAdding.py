@@ -79,24 +79,29 @@ for i in df.index:
 
     # if no product showing, then click on clear fileter button
     # and try next one
-    productItem = mainProductsWindow.child_window(title=str(productCode[i]), control_type="DataItem")
+    # productItem = mainProductsWindow.child_window(title=str(productCode[i]), control_type="DataItem")
+    # get category and ready for check exisitance
+    currentCategory=str(".*"+category[i])
+    print (currentCategory)
+    productItem = mainProductsWindow.child_window(title_re=currentCategory, control_type="DataItem")
+    productDetailWindow = app.window(title_re='Products - *')
+
     if productItem.exists():
-        # click clear button
-        print (str(productCode[i]) + " Exist")
-        mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
+        print(str(productCode[i]) + "Product Exists, open it directly")
+        pyautogui.moveRel(-25, 25) 
+        pyautogui.doubleClick() # open the existing product by double click
         
     else:  
-        print (str(productCode[i]) + " Product not exist, continue...")
+        print (str(productCode[i]) + " Product not exist, add as new...")
         #
-
-        #######################################
-        #
-        # Add as New Products
-        #
-        #######################################
+        # Add as New Products when product not exists yet
         templa.child_window(title="New", control_type="Button").click_input()
 
-        productDetailWindow = app.window(title_re='Products - *')
+        #######################################
+        #
+        # Update Products
+        #
+        #######################################        
         productDetailWindow.wait('exists', timeout=15)
 
         #productDetailWindow.print_control_identifiers()
@@ -160,60 +165,58 @@ for i in df.index:
             pyautogui.typewrite(str(salePrice[i]))
             print ("Sale Price is: " + str(salePrice[i]))
 
-        ###################################
-        # 
-        # Need add Product code in the first page
-        #
-        ###################################
-        # Go to First Page, only change the cost price
-        productDetailWindow.window(title='Suppliers', control_type='TabItem').click_input()
+    ###################################
+    # 
+    # Need add Product code in the first page
+    #
+    ###################################
 
-        # Go to supplier, only change the cost price
-        productDetailWindow.window(title='Suppliers', control_type='TabItem').click_input()
-        supplierEntry = productDetailWindow.child_window(title_re=supplierCodeRe[i])
-        if not supplierEntry.exists():
-            productDetailWindow.Add.click_input()
-            print ("supplier not exist in the list")
-            # open new supplier detail window
-            productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
-            productSupplierWindow.wait('exists', timeout=15)
-            # add supplier name by code
-            # the supplier text box is focused by default
-            print ("add supplier")
-            pyautogui.typewrite(supplierCode[i])
-            pyautogui.press('tab')
-            preferredCheckbox = productSupplierWindow.child_window(auto_id="chkIsPreferredSupplier", control_type="CheckBox")
-            isChecked = preferredCheckbox.get_toggle_state()
+    # Go to supplier, only change the cost price
+    productDetailWindow.window(title='Suppliers', control_type='TabItem').click_input()
+    supplierEntry = productDetailWindow.child_window(title_re=supplierCodeRe[i])
+    if not supplierEntry.exists():
+        productDetailWindow.Add.click_input()
+        print ("supplier not exist in the list")
+        # open new supplier detail window
+        productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
+        productSupplierWindow.wait('exists', timeout=15)
+        # add supplier name by code
+        # the supplier text box is focused by default
+        print ("add supplier")
+        pyautogui.typewrite(supplierCode[i])
+        pyautogui.press('tab')
+        preferredCheckbox = productSupplierWindow.child_window(auto_id="chkIsPreferredSupplier", control_type="CheckBox")
+        isChecked = preferredCheckbox.get_toggle_state()
 
-            # check if match with Excel sheet data
-            if str(isChecked) != preferString:
-                preferredCheckbox.toggle()
-            # you can also use tab tab to go down
-            pyautogui.press('tab')
-            pyautogui.press('tab')
-            pyautogui.typewrite(str(productCode[i]))
-            pyautogui.press('tab')
-            # check prefer checkbox
-            # add/change price
-            #productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
-            pyautogui.typewrite(str(cost[i]))
-            #pyautogui.press('tab')
-        else:  
-            # open specific supplier item
-            supplierEntry.click_input(button='left', double=True)
-            productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
-            productSupplierWindow.wait('exists', timeout=15)
-            # add/change price
-            productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
-            pyautogui.typewrite(str(cost[i]))
-            pyautogui.press('tab')
+        # check if match with Excel sheet data
+        if str(isChecked) != preferString:
+            preferredCheckbox.toggle()
+        # you can also use tab tab to go down
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.typewrite(str(productCode[i]))
+        pyautogui.press('tab')
+        # check prefer checkbox
+        # add/change price
+        #productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
+        pyautogui.typewrite(str(cost[i]))
+        #pyautogui.press('tab')
+    else:  
+        # open specific supplier item
+        supplierEntry.click_input(button='left', double=True)
+        productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
+        productSupplierWindow.wait('exists', timeout=15)
+        # add/change price
+        productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
+        pyautogui.typewrite(str(cost[i]))
+        pyautogui.press('tab')
 
-        # Save
-        productSupplierWindow.Accept.click_input()
-        pyautogui.PAUSE = 2.5
-        productDetailWindow.Save.click_input()
-        pyautogui.PAUSE = 2.5
-        print (str(productCode[i]) + " is Done now")
+    # Save
+    productSupplierWindow.Accept.click_input()
+    pyautogui.PAUSE = 2.5
+    productDetailWindow.Save.click_input()
+    pyautogui.PAUSE = 2.5
+    print (str(productCode[i]) + " is Done now")
 
     print ("###################################")
     print (" ")
