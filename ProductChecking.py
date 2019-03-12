@@ -39,9 +39,11 @@ for i in df.index:
     productCode = df['PRODUCT-CODE'] 
     status = df['STATUS']
 
+    # strip product code first
+    productPartNo = str(productCode[i]).strip()
 
     if status[i] == "Done":
-        print(str(productCode[i]) + " is Done")
+        print(productPartNo) + " is Done")
         continue
 
     if status[i] == "Stop":
@@ -55,7 +57,7 @@ for i in df.index:
     #######################################
         # click on the Code Edit Box
 
-    productPartNo = str(productCode[i]).strip()
+
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
     pyautogui.typewrite(productPartNo)
 
