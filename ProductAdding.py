@@ -58,41 +58,28 @@ for i in df.index:
         break
 
 
+    # trim the space on leading and tailing, in case excel sheet code un-stripped.
+    productPartNo = str(productCode[i]).strip()
 
     # # If the product exists
     # # click on the "Code" Edit Box
-    # mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
-    # pyautogui.typewrite(str(productCode[i]))
-
-    # click on the "Product group" Edit Box
-    # print("select product group...")
-    # mainProductsWindow.window(title='Product group', control_type='ComboBox').click_input()
-    # pyautogui.typewrite(category[i])
-    # pyautogui.moveRel(20, 25) 
-    # pyautogui.click()
-    # templa.child_window(title="Copy", control_type="Button").click_input()
-    # print("copied one product..")
-
-    # click on the Code Edit Box
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(productCode[i]))
+    pyautogui.typewrite(productPartNo)
 
-    # if no product showing, then click on clear fileter button
-    # and try next one
-    # productItem = mainProductsWindow.child_window(title=str(productCode[i]), control_type="DataItem")
+
+    # check if the Part Number is match the Product code, move Part no. on the first column
+    productItem = mainProductsWindow.child_window(title=productPartNo, control_type="DataItem")
     # get category and ready for check exisitance
-    currentCategory=str(".*"+category[i])
-    print (currentCategory)
-    productItem = mainProductsWindow.child_window(title_re=currentCategory, control_type="DataItem")
+    break
     productDetailWindow = app.window(title_re='Products - *')
-
+    # if the product exists already, then directly open it.
     if productItem.exists():
-        print(str(productCode[i]) + "Product Exists, open it directly")
-        pyautogui.moveRel(-25, 25) 
+        print(productPartNo + "Product Exists, open it directly")
+        pyautogui.moveRel(-25, 25) # move the cursor and selec the product
         pyautogui.doubleClick() # open the existing product by double click
-        
+    # if not exists, create a new one.
     else:  
-        print (str(productCode[i]) + " Product not exist, add as new...")
+        print (productPartNo + " Product not exist, add as new...")
         #
         # Add as New Products when product not exists yet
         templa.child_window(title="New", control_type="Button").click_input()
@@ -107,7 +94,7 @@ for i in df.index:
         #productDetailWindow.print_control_identifiers()
         # Type code
         productDetailWindow.child_window(auto_id="txtCode", control_type="Edit").click_input()
-        pyautogui.typewrite(str(productCode[i]))
+        pyautogui.typewrite(productPartNo)
         productDetailWindow.child_window(auto_id="txtDescription", control_type="Edit").click_input()
         pyautogui.typewrite(itemName[i])
 
@@ -115,16 +102,6 @@ for i in df.index:
         pyautogui.press('tab')
         pyautogui.press('tab')
         pyautogui.typewrite(category[i])
-        #pyautogui.press('tab')
-        # incase there are multiple items to select
-        # move cursor select the top one.
-        # because longest match principle, one the top one will be selected.
-        # pyautogui.moveRel(40,20)
-        # pyautogui.click()
-        # pyautogui.press('tab')
-        # pyautogui.moveRel(60,20)
-        # pyautogui.click() # open the site by double click
-
         # Tab 7x time to Purchased as Unit
         pyautogui.press('tab')
         pyautogui.press('tab')   
@@ -194,7 +171,7 @@ for i in df.index:
         # you can also use tab tab to go down
         pyautogui.press('tab')
         pyautogui.press('tab')
-        pyautogui.typewrite(str(productCode[i]))
+        pyautogui.typewrite(productPartNo)
         pyautogui.press('tab')
         # check prefer checkbox
         # add/change price
@@ -216,7 +193,7 @@ for i in df.index:
     pyautogui.PAUSE = 2.5
     productDetailWindow.Save.click_input()
     pyautogui.PAUSE = 2.5
-    print (str(productCode[i]) + " is Done now")
+    print (productPartNo + " is Done now")
 
     print ("###################################")
     print (" ")

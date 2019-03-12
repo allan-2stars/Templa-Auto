@@ -54,20 +54,21 @@ for i in df.index:
     #
     #######################################
         # click on the Code Edit Box
+
+    productPartNo = str(productCode[i]).strip()
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(productCode[i]))
+    pyautogui.typewrite(productPartNo)
 
     # if no product showing, then click on clear fileter button
     # and try next one
-    productItem = mainProductsWindow.child_window(title=str(productCode[i]), control_type="DataItem")
+    productItem = mainProductsWindow.child_window(title=productPartNo, control_type="DataItem")
     if productItem.exists():
         # click clear button
-        print (str(productCode[i]) + " Exist")
+        print (productPartNo + " Exist")
     else:  
-        print (str(productCode[i]) + " Not Not Exist")
+        print (productPartNo + " Not Not Exist")
         #
     mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
-    print (" ")
 
 
 
