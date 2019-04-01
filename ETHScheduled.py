@@ -113,8 +113,8 @@ for i in df.index:
     contractQAWindow.wait('exists', timeout=15)
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
-    dateStartString = "01042019"
-    dateEndString = "30042019"
+    dateStartString = "01052019"
+    dateEndString = "30052019"
     pyautogui.typewrite(dateStartString)
     pyautogui.press('tab')
     pyautogui.typewrite(dateEndString)

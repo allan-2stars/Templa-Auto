@@ -62,18 +62,18 @@ for i in df.index:
     productPartNo = str(productCode[i]).strip()
 
     if status[i] == "Done":
-        print(productPartNo) + " is Done")
+        print(productPartNo + " is Done")
         continue
 
     if status[i] == "Stop":
         print("Stop here")
         break
-    print ("code is" + productPartNo))
+    print ("code is" + productPartNo)
     storeTemplateWindow.child_window(title="Code", control_type="ComboBox").click_input()
 
     # click on the Code Edit Box
 
-    pyautogui.typewrite(productPartNo))
+    pyautogui.typewrite(productPartNo)
     pyautogui.moveRel(0, 25)
     pyautogui.PAUSE = 0.5
     pyautogui.doubleClick() # open the site by double click

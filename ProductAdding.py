@@ -70,7 +70,7 @@ for i in df.index:
     # check if the Part Number is match the Product code, move Part no. on the first column
     productItem = mainProductsWindow.child_window(title=productPartNo, control_type="DataItem")
     # get category and ready for check exisitance
-    break
+
     productDetailWindow = app.window(title_re='Products - *')
     # if the product exists already, then directly open it.
     if productItem.exists():
@@ -110,6 +110,7 @@ for i in df.index:
         pyautogui.press('tab')
         pyautogui.press('tab')
         pyautogui.press('tab')
+        pyautogui.press('tab')
         pyautogui.typewrite(unit[i])
         # Then keep going to all Unit
         pyautogui.press('tab')
@@ -128,19 +129,19 @@ for i in df.index:
         #
         ###################################
         
-        # Go to Price Group, change selling price
-        # if no need to setup sale price, then clientname will be "na"
-        hasSalePrice = str(clientName[i]) != 'nan'
-        print(str(clientName[i]))
-        print ("has client? " + str(hasSalePrice))
-        if hasSalePrice:
-            productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()
-            # find the Client Name
-            priceGroupTextBox = productDetailWindow.child_window(title=clientName[i], control_type="DataItem")
-            FixedPriceTextBox = priceGroupTextBox.child_window(title="Fixed price", control_type="Edit")
-            FixedPriceTextBox.click_input()
-            pyautogui.typewrite(str(salePrice[i]))
-            print ("Sale Price is: " + str(salePrice[i]))
+    # Go to Price Group, change selling price
+    # if no need to setup sale price, then clientname will be "na"
+    hasSalePrice = str(clientName[i]) != 'nan'
+    print(str(clientName[i]))
+    print ("has client? " + str(hasSalePrice))
+    if hasSalePrice:
+        productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()
+        # find the Client Name
+        priceGroupTextBox = productDetailWindow.child_window(title=clientName[i], control_type="DataItem")
+        FixedPriceTextBox = priceGroupTextBox.child_window(title="Fixed price", control_type="Edit")
+        FixedPriceTextBox.click_input()
+        pyautogui.typewrite(str(salePrice[i]))
+        print ("Sale Price is: " + str(salePrice[i]))
 
     ###################################
     # 
