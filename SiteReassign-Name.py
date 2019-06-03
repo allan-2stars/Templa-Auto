@@ -45,7 +45,6 @@ df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
 
 for i in df.index:
-    siteCode = df['CODE']
     siteName = df['SITE']
     csm = df['CSM']
     tablet = df['TABLET']
@@ -55,7 +54,7 @@ for i in df.index:
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
     if status[i] == "Done":
-        print(str(siteCode[i]) + " is Done")
+        print(str(siteName[i]) + " is Done")
         continue
 
     if status[i] == "Stop":
@@ -63,8 +62,8 @@ for i in df.index:
         break
 
     # click on the Code Edit Box
-    mainSitesWindow.window(title='Code', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(siteCode[i]))
+    mainSitesWindow.window(title='Name', control_type='ComboBox').click_input()
+    pyautogui.typewrite(str(siteName[i]))
 
     #####################################
     # before open the site, 
@@ -82,7 +81,7 @@ for i in df.index:
     csmExists = mainSitesWindow.child_window(title=str(csm[i]), control_type="DataItem")
     
     if csmExists.exists():  
-        print("site Code: " + siteCode[i])
+        print("site Code: " + siteName[i])
         print("site Name: " + siteName[i])
         print("Already assigned to " + csm[i])
         print("#################################")
@@ -162,7 +161,7 @@ for i in df.index:
         siteAnalysisWindow.Accept.click_input()
         siteDetailWindow.Save.click_input()
         pyautogui.PAUSE = 1.5
-        print(str(siteCode[i]) + ": is Done now")
+        print(str(siteName[i]) + ": is Done now")
         print("###############################")
         print(" ")
 

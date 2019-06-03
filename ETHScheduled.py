@@ -63,7 +63,7 @@ contractDetailWindow.child_window(title='QA', control_type='TabItem').click_inpu
 #
 ########################
 sheetLoader = 'ETH' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 # print("Reading Excel...")
 for i in df.index:
     area = df['AREA']
@@ -87,10 +87,10 @@ for i in df.index:
     monthDec = df['Dec']
     completeTitle = area[i] + ' - ' + title[i]
 
-
+    print(completeTitle + str(status[i]))
     # 'x' marks need to set it up, otherwise no need setup.
     ## cleprint(completeTitle + ' - ' + monthFeb)
-    if monthApr[i] != "x":
+    if monthJun[i] != "x":
        # print("No Need Setup ...")
         continue
 
@@ -100,6 +100,7 @@ for i in df.index:
 
     if status[i] == "Done":
         print(completeTitle + " is Done")
+       
         continue
 
 
@@ -113,8 +114,8 @@ for i in df.index:
     contractQAWindow.wait('exists', timeout=15)
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
-    dateStartString = "01052019"
-    dateEndString = "30052019"
+    dateStartString = "01062019"
+    dateEndString = "30062019"
     pyautogui.typewrite(dateStartString)
     pyautogui.press('tab')
     pyautogui.typewrite(dateEndString)

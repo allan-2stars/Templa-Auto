@@ -61,7 +61,7 @@ for i in df.index:
     pyautogui.doubleClick() # open the site by double click
 
     print("contiune...")
-    print("site code is: " + siteCode[i])
+    print("site code is: " + str(siteCode[i]))
 
     # # open analysis details dialouge window
     contractDetailWindow = app.window(title_re='Contract - *')
@@ -145,8 +145,15 @@ for i in df.index:
             contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
             contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
 
-
-            nextDateString = "31122018"
+            if frequency[i] == "m":
+                nextDateString = "01052019"
+            if frequency[i] == "w":
+                nextDateString = "06052019"
+            if frequency[i] == "y":
+                nextDateString = "01012019"
+            else:
+                nextDateString = "06052019"
+                
             pyautogui.typewrite(nextDateString)
             # pyautogui.press('tab')
             #nextDateString = str(nextQaDate[i])

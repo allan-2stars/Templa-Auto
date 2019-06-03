@@ -37,7 +37,7 @@ time.sleep(5)
 print("Starting...")
 if errorWindow.exists():
     print("Active user exists...")
-    redCross = errorWindow.child_window(auto_id="43", control_type="Edit")
+    redCross = errorWindow.child_window(auto_id="45", control_type="Edit")
     redCross.click_input()
     pyautogui.press('y')
     errorWindow.Continue.click_input()
