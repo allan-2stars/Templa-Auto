@@ -56,7 +56,7 @@ for i in df.index:
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
     if status[i] == "Done":
-        print(siteCode[i] + " is Done")
+        print(str(siteCode[i]) + " is Done")
         continue
 
     if status[i] == "Stop":
@@ -273,7 +273,7 @@ for i in df.index:
         pyautogui.PAUSE = 2.5
         contractDetailWindow.Close.click_input()
         pyautogui.PAUSE = 2.5
-        print (siteCode[i] + ": Done now")
+        print (str(siteCode[i]) + ": Done now")
         print ("######################################")
         print (" ")
 
@@ -282,7 +282,7 @@ for i in df.index:
     else:
         contractDetailWindow.Close.click_input()
         pyautogui.PAUSE = 2.5
-        print (siteCode[i] + ": No need change due to no QA.")
+        print (str(siteCode[i]) + ": No need change due to no QA.")
         print ("######################################")
         print (" ")
 
