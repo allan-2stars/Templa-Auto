@@ -256,7 +256,7 @@ for i in df.index:
                 # find the email
                 print("adding new Contact to list...")
                 contactsSelectWindow = app.window(title='Contacts Select')
-                contactsSelectWindow.wait('exists', timeout=25)
+                contactsSelectWindow.wait('exists', timeout=35)
                 contactsSelectWindow.window(title='Email', control_type='ComboBox').click_input()
                 pyautogui.typewrite(emailList[k])
                 pyautogui.moveRel(0, 25)
