@@ -65,6 +65,13 @@ site_reallocate_sheet = 'KPI Analysis'
 df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
 
+
+########################################################################
+####                                                                ####
+############           ANALYSIS & GENERATE REPORT          #############
+## recursively generate analysis report and export to local drive ######
+##
+########################################################################
 for i in df.index:
     reportTitle = df['TITLE']
     monthName = df['MONTH']
