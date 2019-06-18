@@ -20,10 +20,6 @@ else:
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
-## start 
-mainLiteUsersTab = templa.child_window(title='LITE Users', control_type='TabItem')
-mainLiteUsersTab.click_input()
-mainLiteUsersWindow = templa.child_window(title='LITE Users', control_type='Window')
 
 ########################
 #
@@ -38,6 +34,7 @@ for i in df.index:
     userCode = df['USER CODE']
     userName = df['USER NAME']
     userEmail = df['USER EMAIL']
+    userGroup = df['USER GROUP']
     status = df['STATUS']
 
     if status[i] == "Done":
@@ -48,8 +45,45 @@ for i in df.index:
         print("Stop here")
         break
 
+
+    ## start 
+    mainUsersTab = templa.child_window(title=userGroup[i], control_type='TabItem')
+    mainUsersTab.click_input()
+    mainUsersWindow = templa.child_window(title=userGroup[i], control_type='Window')
+
     # click on the Code Edit Box
-    mainLiteUsersWindow.window(title='Name', control_type='ComboBox').click_input()
+    mainUsersWindow.window(title='Name', control_type='ComboBox').click_input()
     pyautogui.typewrite(str(userName))
 
+    userEmailExists = mainUsersWindow.child_window(title=str(userEmail[i]), control_type="DataItem")
     
+    if userEmailExists.exists():  
+        print("User Name: " + userName[i])
+        print("Already assigned to " + userEmail[i])
+        print("#################################")
+        print(" ")
+        pyautogui.moveRel(-25, 25) 
+        pyautogui.click() # reset the select status
+
+    else:
+        print("Email is incorrect, ready to change")
+        pyautogui.moveRel(-25, 25) 
+        pyautogui.doubleClick() # open the users window by double click
+
+        userDetailWindow = app.window(title_re='User Details - *')
+        userDetailWindow.wait('exists', timeout=15)
+        userDetailWindow.window(title='General', control_type='TabItem').click_input()
+        # print("found the users General Tab: " + str(userName[i]))
+        userDetailWindow.child_window(title="Email address", control_type="Edit").click_input()
+        ## select the email part
+        pyautogui.moveRel(200,0)
+        pyautogui.PAUSE = 1.5
+        pyautogui.dragRel(-500,0)
+        pyautogui.PAUSE = 1.5
+        pyautogui.typewrite(userEmail[i])
+        pyautogui.press('tab')
+        userDetailWindow.Save.click_input()
+        pyautogui.PAUSE = 1.5
+        print(str(userName[i]) + ": is Done now")
+        print("###############################")
+        print(" ")
