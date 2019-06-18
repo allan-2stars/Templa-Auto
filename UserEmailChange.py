@@ -53,7 +53,7 @@ for i in df.index:
 
     # click on the Code Edit Box
     mainUsersWindow.window(title='Name', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(userName))
+    pyautogui.typewrite(str(userName[i]))
 
     userEmailExists = mainUsersWindow.child_window(title=str(userEmail[i]), control_type="DataItem")
     
@@ -72,14 +72,10 @@ for i in df.index:
 
         userDetailWindow = app.window(title_re='User Details - *')
         userDetailWindow.wait('exists', timeout=15)
-        userDetailWindow.window(title='General', control_type='TabItem').click_input()
+        # userDetailWindow.window(title='General', control_type='TabItem').click_input()
         # print("found the users General Tab: " + str(userName[i]))
-        userDetailWindow.child_window(title="Email address", control_type="Edit").click_input()
-        ## select the email part
-        pyautogui.moveRel(200,0)
-        pyautogui.PAUSE = 1.5
-        pyautogui.dragRel(-500,0)
-        pyautogui.PAUSE = 1.5
+        userDetailWindow.child_window(auto_id="txtMobile", control_type="Edit").click_input()
+        pyautogui.press('tab')
         pyautogui.typewrite(userEmail[i])
         pyautogui.press('tab')
         userDetailWindow.Save.click_input()
