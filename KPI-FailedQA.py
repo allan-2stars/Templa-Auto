@@ -41,7 +41,7 @@ for i in df.index:
     fileName = df['FILE_NAME_FAILED_QA_ITEMS']
     status = df['STATUS']
 
-    useContract = df['USE CONTRACTS']
+    useContracts = df['USE CONTRACTS']
     useSite = df['USE SITE']
     useClient = df['USE CLIENT']
     useTemplate = df['USE TEMPLATE']
@@ -59,9 +59,9 @@ for i in df.index:
 
     ## start 
     completedQAWindow = templa.child_window(title='Completed QA Items', control_type='TabItem')
-    completedQAWindow.click_input()
+    # completedQAWindow.click_input()
 
-    # templa['Change filter'].click_input()
+    #templa['Change filter'].click_input()
     filterWindow = templa.window(title_re='QA Completed Item Filter Detail - *')
     filterWindow.wait('exists', timeout=15)
 
@@ -72,6 +72,7 @@ for i in df.index:
     QAFilterCriteria.click_input()
 
     if useTemplate[i] == 'Yes':
+        print("Use Template")
         ## Use Template Filter
         filterWindow.child_window(title="QA template", control_type="DataItem").click_input()
         pyautogui.moveRel(100,0)
@@ -108,8 +109,9 @@ for i in df.index:
     siteFilterCriteria.click_input()
 
 
-    if useContract[i] == 'Yes':
+    if useContracts[i] == 'Yes':
         ## Use Contracts filter
+        print("Use Contracts")
         filterWindow.child_window(title="Contracts", auto_id="5", control_type="DataItem").click_input()
         pyautogui.moveRel(100,0)
         pyautogui.dragRel(-300,0)
@@ -118,6 +120,7 @@ for i in df.index:
 
     if useSite[i] == 'Yes':
         ## Use Site Filter
+        print("Use Site")
         filterWindow.child_window(title="Site", control_type="DataItem").click_input()
         pyautogui.moveRel(100,0)
         pyautogui.dragRel(-300,0)
@@ -126,6 +129,7 @@ for i in df.index:
 
     if useClient[i] == 'Yes':
         ## Use Client Filter
+        print("Use Client")
         filterWindow.child_window(title="Client", control_type="DataItem").click_input()
         pyautogui.moveRel(100,0)
         pyautogui.dragRel(-300,0)
@@ -133,7 +137,13 @@ for i in df.index:
         pyautogui.press('tab')
 
 
-
-
     # ## Save the filter
     filterWindow.Save.click_input()
+    #siteDescriptionTab = completedQAWindow.child_window(title="Site description", control_type="DataItem")
+    mainCompletedWindow = templa.child_window(title='Completed QA Items', control_type='Window')
+    csmWindow = mainCompletedWindow.child_window(title="CSM", auto_id="56", control_type="ComboBox")
+    csmWindow.wait('exists', 120)
+    templa.child_window(title="Excel", control_type="Button").click_input()
+
+
+
