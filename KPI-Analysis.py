@@ -34,16 +34,16 @@ def saveAsExcel(window, pathName, folderName, fileName):
     addressBar = saveAsWindow.child_window(title_re="Address: *", control_type="ToolBar")
     addressBar.click_input()
     pyautogui.typewrite(pathName)
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     pyautogui.press('enter')
     ## add a new folder if not exists
     folderNameNeeded = saveAsWindow.child_window(title=folderName, control_type="ListItem")
     if not folderNameNeeded.exists():
         print('folder NOT exists yet.')
         saveAsWindow.child_window(title="New folder", auto_id="{E44616AD-6DF1-4B94-85A4-E465AE8A19DB}", control_type="Button").click_input()
-        pyautogui.PAUSE = 2.5
+        time.sleep(2)
         pyautogui.typewrite(folderName)
-        pyautogui.PAUSE = 2.5
+        time.sleep(2)
         pyautogui.press('enter')
     ## get into the newly created folder
     folderNameNeeded.click_input(button='left', double=True)
@@ -52,7 +52,7 @@ def saveAsExcel(window, pathName, folderName, fileName):
     pyautogui.typewrite(fileName)
     ## Save button click
     saveAsWindow.child_window(title="Save", auto_id="1", control_type="Button").click_input()
-    pyautogui.PAUSE = 5.5
+    time.sleep(2)
 
 ############### function end ########################
 
@@ -117,7 +117,7 @@ for i in df.index:
     
     ## Header defined
     siteHeader = analysisWindow.child_window(title="Site", auto_id="5", control_type="ComboBox")
-    siteHeader.wait('exists', timeout=120)
+    siteHeader.wait('exists', timeout=180)
     ## once the report loaded, start generating...
     dragArea = analysisWindow.child_window(auto_id="GroupByBox", control_type="Group")
     qaItemHeader = analysisWindow.child_window(title="QA Item",  control_type="ComboBox")
@@ -128,9 +128,9 @@ for i in df.index:
 
     ## drag "Site" Label up
     siteHeader.click_input(button='left', double='true')
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     pyautogui.moveRel(0, -20)
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     pyautogui.dragRel(0,-70)
 
 
@@ -141,15 +141,15 @@ for i in df.index:
 
     #analysisWindow.click_input()
     ## drag "Site" Label down
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     siteDragArea.click_input()
     pyautogui.dragRel(0,60)
 
     ## drag "QA Item" Label up
     qaItemHeader.click_input(button='left', double='true')
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     pyautogui.moveRel(0, -20)
-    pyautogui.PAUSE = 2.5
+    time.sleep(1)
     pyautogui.dragRel(0,-70)
 
     saveAsExcel(analysisWindow, filePath[i], folderName , fileNameAllItems[i])
