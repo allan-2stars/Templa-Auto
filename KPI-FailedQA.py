@@ -117,6 +117,7 @@ for i in df.index:
     if status[i] == "Stop":
         print("Stop here")
         break
+        
     print(' ')
 
     ## start 
@@ -150,16 +151,18 @@ for i in df.index:
     pyautogui.press('tab')
     pyautogui.typewrite('30062019')
 
-    pyautogui.press('tab')
-    pyautogui.press('tab')
-    pyautogui.press('tab')
+
     ## if the site is Special case, use below
     if str(siteName[i]) == 'DAWR' or str(siteName[i]) == 'PMC':
-        pyautogui.press('right')
-        pyautogui.press('right')
-        pyautogui.press('space')
+        print('Ignore the failed Items')
+        # pyautogui.press('right')
+        # pyautogui.press('right')
+        # pyautogui.press('space')
     # ## ## click on Failed Items button to YES
     else:
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.press('tab')
         pyautogui.press('right')
         pyautogui.press('space')
 
