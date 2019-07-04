@@ -57,6 +57,10 @@ for i in df.index:
         print(str(siteName[i]) + " is Done")
         continue
 
+    if status[i] == "Skip":
+        print(siteCode[i] + " is Skipped")
+        continue
+
     if status[i] == "Stop":
         print("Stop here")
         break

@@ -57,6 +57,10 @@ for i in df.index:
     if status[i] == "Done":
         print(str(siteCode[i]) + " is Done")
         continue
+    
+    if status[i] == "Skip":
+        print(str(siteCode[i]) + " is Skipped")
+        continue
 
     if status[i] == "Stop":
         print("Stop here")
@@ -82,7 +86,7 @@ for i in df.index:
     csmExists = mainSitesWindow.child_window(title=str(csm[i]), control_type="DataItem")
     
     if csmExists.exists():  
-        print("site Code: " + siteCode[i])
+        print("site Code: " + str(siteCode[i]))
         print("site Name: " + siteName[i])
         print("Already assigned to " + csm[i])
         print("#################################")
