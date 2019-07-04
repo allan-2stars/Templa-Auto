@@ -23,28 +23,29 @@ else:
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
-
-
-
-#templa.child_window(title='Change filter', control_type='Button').click_input()
 filterWindow = templa.window(title_re='QA Completed Item Filter Detail - *')
-filterWindow.wait('exists', timeout=15)
 
-## change the site filters criteria
-# siteFilterCriteria = filterWindow.child_window(title='Site filtering criteria', control_type='TabItem')
-# siteFilterCriteria.click_input()
+protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
+protertyFilterCriteria.click_input()
 
-filterWindow.child_window(auto_id="cslQATemplate", control_type="Pane").click_input()
-pyautogui.typewrite("276")
-pyautogui.press('tab')
+groupItem = filterWindow.child_window(title="Group", auto_id="2", control_type="DataItem")
+matchTypeSection = groupItem.child_window(title="Match type", auto_id="3", control_type="ComboBox")
+valueSection = groupItem.child_window(title="Value", auto_id="1", control_type="ComboBox")
 
-# filterWindow.child_window(auto_id="cslSite", control_type="Pane").click_input()
 
-# filterWindow.child_window(auto_id="cslClient", control_type="Pane").click_input()
+matchTypeSection.click_input()
+pyautogui.typewrite("e")
+pyautogui.press("tab")
+time.sleep(2)
+valueSection.click_input()
+pyautogui.typewrite("r")
+pyautogui.press("tab")
+
+
 
 print('finish')
 
 
-##filterWindow.print_control_identifiers()
+#filterWindow.print_control_identifiers()
 
 

@@ -197,6 +197,24 @@ for i in df.index:
         pyautogui.typewrite(str(client[i]))
         pyautogui.press('tab')
 
+    ## check the other tab filtering
+    if siteName[i] == 'Redcape':    
+        protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
+        protertyFilterCriteria.click_input()
+        ## get the handle of Group filter
+        groupItem = filterWindow.child_window(title="Group", auto_id="2", control_type="DataItem")
+        matchTypeSection = groupItem.child_window(title="Match type", auto_id="3", control_type="ComboBox")
+        valueSection = groupItem.child_window(title="Value", auto_id="1", control_type="ComboBox")
+
+        ## click and change the filter Equal to ...
+        matchTypeSection.click_input()
+        pyautogui.typewrite("e")  # e, for Equal to
+        pyautogui.press("tab")
+        time.sleep(2)
+        valueSection.click_input()
+        pyautogui.typewrite('r') # filter the site name
+        pyautogui.press("tab")
+
 
     # ## Save the filter
     print('Saving the filter ...')
@@ -207,18 +225,22 @@ for i in df.index:
     csmWindow = mainCompletedWindow.child_window(title="CSM", auto_id="56", control_type="ComboBox")
     csmWindow.wait('exists', 180)
 
+    templa.child_window(title='Select format', control_type='Button').click_input()
+    filterFormatsWindow = templa.window(title='Filtered List Formats')
+    filterFormatsWindow.wait('exists', timeout=15)
+    ## type the format name
+    filterFormatsWindow.window(title='Description', control_type='ComboBox').click_input()
+
     ## if the site is Special case, use below
     if str(siteName[i]) == 'DAWR' or str(siteName[i]) == 'PMC':
-        templa.child_window(title='Select format', control_type='Button').click_input()
-        filterFormatsWindow = templa.window(title='Filtered List Formats')
-        filterFormatsWindow.wait('exists', timeout=15)
-
-        ## type the format name
-        filterFormatsWindow.window(title='Description', control_type='ComboBox').click_input()
         pyautogui.typewrite(str(siteName[i]))
         pyautogui.moveRel(-25, 25) 
         pyautogui.doubleClick() # apply the format
-
+    else:
+        pyautogui.typewrite("Standard Format")
+        pyautogui.moveRel(-25, 25) 
+        pyautogui.doubleClick() # apply the format
+        
 
 
     ## read below from excel sheet
