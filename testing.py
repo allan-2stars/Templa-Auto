@@ -23,29 +23,14 @@ else:
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
-filterWindow = templa.window(title_re='QA Completed Item Filter Detail - *')
 
-protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
-protertyFilterCriteria.click_input()
+# # open analysis details dialouge window
+contractDetailWindow = app.window(title_re='Contract - *')
+contractDetailWindow.wait('exists', timeout=15)
+contractDetailWindow.child_window(title="Add", auto_id="btnAddQA", control_type="Button").click_input()
 
-groupItem = filterWindow.child_window(title="Group", auto_id="2", control_type="DataItem")
-matchTypeSection = groupItem.child_window(title="Match type", auto_id="3", control_type="ComboBox")
-valueSection = groupItem.child_window(title="Value", auto_id="1", control_type="ComboBox")
-
-
-matchTypeSection.click_input()
-pyautogui.typewrite("e")
-pyautogui.press("tab")
-time.sleep(2)
-valueSection.click_input()
-pyautogui.typewrite("r")
-pyautogui.press("tab")
-
-
-
-print('finish')
-
-
-#filterWindow.print_control_identifiers()
+## in Contrac QA Window
+dlg = app.top_window()
+dlg.print_control_identifiers()
 
 
