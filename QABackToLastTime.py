@@ -42,7 +42,11 @@ for i in df.index:
     status = df['STATUS']
 
     if status[i] == "Done":
-        print(siteCode[i] + " is Done")
+        print(str(siteCode[i]) + " is Done")
+        continue
+
+    if status[i] == "Skip":
+        print(str(siteCode[i]) + " is Skipped")
         continue
 
     if status[i] == "Stop":
@@ -56,7 +60,7 @@ for i in df.index:
     pyautogui.doubleClick() # open the site by double click
 
     print("contiune...")
-    print("site code is: " + siteCode[i])
+    print("site code is: " + str(siteCode[i]))
 
     # # open analysis details dialouge window
     contractDetailWindow = app.window(title_re='Contract - *')
@@ -67,12 +71,15 @@ for i in df.index:
     contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
     # see if exist
     qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
-    qaExternalItemOther = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
-
+    qaExternalItemExt = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
+    qaContractItem = contractDetailWindow.window(title='2 -- Contract Cleaning -- Contract Cleaning')
+    existsExternalItem = qaExternalItem.exists()
+    existsExtItem = qaExternalItemExt.exists()
+    existContractItem = qaContractItem.exists()
 
     # if item exist, then see if need to change freq
-    if  qaExternalItem.exists() or qaExternalItemOther.exists():
-        # exist, then test if need to change
+    if  existsExternalItem or existsExtItem or existContractItem:
+        
         contractDetailWindow.window(title='New version').click_input(double=True)
 
         pyautogui.PAUSE = 2.5
@@ -81,7 +88,16 @@ for i in df.index:
 
         # press the tab of QA
         contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-        qaExternalItem.click_input(double=True)
+        if existsExternalItem:
+            qaExternalItem.click_input(double=True)
+        if existsExtItem:
+            qaExternalItemExt.click_input(double=True)
+        if existContractItem:
+            qaContractItem.click_input(double=True)
+        else:
+            print ("QA Item not found, exit...")
+            break
+
         print ("openning the qa item...")
 
         contractDetailWindow.child_window(title='Edit this effective version').click_input()
@@ -113,7 +129,7 @@ for i in df.index:
         contractDetailWindow.window(title='Request approval').click_input()
         pyautogui.PAUSE = 2.5
         pyautogui.typewrite('y') ## equivilent to clicking "yes"
-        print(siteCode[i] + " updated now")
+        print(str(siteCode[i]) + " updated now")
         time.sleep(16)
         
     # if no qa, close it
@@ -122,7 +138,7 @@ for i in df.index:
         print ("No QA for this site, closed directly.")
        
 
-    print(siteCode[i] + "Done now")
+    print(str(siteCode[i]) + "Done now")
     print("##################")
     print("                  ")
     
