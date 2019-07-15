@@ -43,7 +43,7 @@ for i in df.index:
     status = df['STATUS']
     prefer = df['PREFERRED']
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(productCode[i]) + " is Done")
         continue
 

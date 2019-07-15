@@ -98,9 +98,8 @@ for i in df.index:
         print("Stop here")
         break
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(completeTitle + " is Done")
-       
         continue
 
 

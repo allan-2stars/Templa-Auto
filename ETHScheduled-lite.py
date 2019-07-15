@@ -23,38 +23,8 @@ else:
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
 print("Starting...")
-## start 
-# mainContractsTab = templa.child_window(title='Contracts', control_type='TabItem')
-# mainContractsTab.click_input()
-# mainContractsWindow = templa.child_window(title='Contracts', control_type='Window')
-
-# #########################
-# # open ETH site window
-# #########################
-
-# # click on the Code Edit Box
-# mainContractsWindow.window(title='Site', control_type='ComboBox').click_input()
-# pyautogui.typewrite("VI-THO01")
-# pyautogui.moveRel(0, 25) 
-# pyautogui.doubleClick() # open the site by double click
-
-print("contiune...")
 print("Site Activated")
 
-# # open analysis details dialouge window
-# contractDetailWindow = app.window(title_re='Contract - *')
-# contractDetailWindow.wait('exists', timeout=15)
-## Start a New Version
-
-# contractDetailWindow.window(title='New version').click_input(double=True)
-
-## and confirm you want to start a new version
-# pyautogui.PAUSE = 2.5
-# pyautogui.typewrite('y') ## equivilent to clicking "yes"
-# pyautogui.PAUSE = 3.5
-
-# press the tab of QA
-# contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
 
 
 ########################

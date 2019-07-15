@@ -41,7 +41,7 @@ for i in df.index:
     status = df['STATUS']
 
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(productCode[i]) + " is Done")
         continue
 

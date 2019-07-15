@@ -27,10 +27,21 @@ templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Ser
 # # open analysis details dialouge window
 contractDetailWindow = app.window(title_re='Contract - *')
 contractDetailWindow.wait('exists', timeout=15)
-contractDetailWindow.child_window(title="Add", auto_id="btnAddQA", control_type="Button").click_input()
 
-## in Contrac QA Window
-dlg = app.top_window()
-dlg.print_control_identifiers()
+# press the tab of QA
+contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
+contractDetailWindow.child_window(title="Title", auto_id="16", control_type="ComboBox").click_input()
+pyautogui.typewrite('Monthly')
+
+qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
+qaExternalItemExt = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
+qaContractItem = contractDetailWindow.window(title='2 -- Contract Cleaning -- Contract Cleaning')
+existsExternalItem = qaExternalItem.exists()
+existsExtItem = qaExternalItemExt.exists()
+existContractItem = qaContractItem.exists()
+if  existsExternalItem or existsExtItem or existContractItem:
+    print("exist")
+
+##contractDetailWindow.print_control_identifiers()
 
 

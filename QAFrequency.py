@@ -46,7 +46,7 @@ for i in df.index:
     nextQaDate =  df['NEXT QA']
     status = df['STATUS']
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(siteCode[i] + " is Done")
         continue
 

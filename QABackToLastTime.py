@@ -40,13 +40,10 @@ for i in df.index:
     siteCode = df['CODE']
     siteName = df['SITE']
     status = df['STATUS']
+    title = df['TITLE']
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(siteCode[i]) + " is Done")
-        continue
-
-    if status[i] == "Skip":
-        print(str(siteCode[i]) + " is Skipped")
         continue
 
     if status[i] == "Stop":
@@ -69,7 +66,20 @@ for i in df.index:
 
     # Go to QA tab
     contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-    # see if exist
+    ################################
+    ##
+    ## below conditions for in case
+    ## there are multiple QA Items you have, and need to change
+    ##
+    titleBox = contractDetailWindow.child_window(title="Title", auto_id="16", control_type="ComboBox")
+    isMultipleItems = False
+    if title[i] != "":
+        titleBox.click_input()
+        pyautogui.typewrite(title[i])
+        isMultipleItems = True
+
+    ################################
+    # see if QA item exist
     qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
     qaExternalItemExt = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
     qaContractItem = contractDetailWindow.window(title='2 -- Contract Cleaning -- Contract Cleaning')
@@ -88,6 +98,15 @@ for i in df.index:
 
         # press the tab of QA
         contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
+
+        ## if multiple Items in the list
+        ## filter out till one item left
+        if isMultipleItems:
+            titleBox.click_input()
+            pyautogui.typewrite(title[i])
+
+        ################################
+        
         if existsExternalItem:
             qaExternalItem.click_input(double=True)
         if existsExtItem:

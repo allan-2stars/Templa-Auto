@@ -42,7 +42,7 @@ for i in df.index:
     # strip product code first
     productPartNo = str(productCode[i]).strip()
 
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(productPartNo) + " is Done")
         continue
 

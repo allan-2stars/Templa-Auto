@@ -53,13 +53,10 @@ for i in df.index:
     #print("Site Name:" + siteName[i])
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(siteName[i]) + " is Done")
         continue
 
-    if status[i] == "Skip":
-        print(siteCode[i] + " is Skipped")
-        continue
 
     if status[i] == "Stop":
         print("Stop here")

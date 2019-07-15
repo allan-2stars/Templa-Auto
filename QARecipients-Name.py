@@ -54,7 +54,7 @@ for i in df.index:
     #print("Site Name:" + siteName[i])
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(siteName[i]) + " is Done")
         continue
 

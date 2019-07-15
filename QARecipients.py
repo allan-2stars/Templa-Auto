@@ -55,12 +55,8 @@ for i in df.index:
     #print("Site Name:" + siteName[i])
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
-    if status[i] == "Done":
+    if status[i] == "Done" or status[i] == "Skip":
         print(str(siteCode[i]) + " is Done")
-        continue
-
-    if status[i] == "Skip":
-        print(str(siteCode[i]) + " is Skipped")
         continue
 
     if status[i] == "Stop":
@@ -69,7 +65,7 @@ for i in df.index:
 
     # click on the Code Edit Box
     mainContractsWindow.window(title='Site', control_type='ComboBox').click_input()
-    pyautogui.typewrite(siteCode[i])
+    pyautogui.typewrite(str(siteCode[i]))
     pyautogui.moveRel(0, 25) 
     pyautogui.doubleClick() # open the site by double click
     print("starting...")
