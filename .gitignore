@@ -3,3 +3,9 @@ test-bk2019-mar-19.xlsx
 templaAPIStructure.xlsx
 functions.json
 .vscode
+*.pdf
+pdf
+*.txt
+*.html
+*.css
+*.webarchive

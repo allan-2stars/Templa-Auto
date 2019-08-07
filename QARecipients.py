@@ -34,7 +34,7 @@ mainContractsWindow = templa.child_window(title='Contracts', control_type='Windo
 #
 ########################
 sheetLoader = 'QA-Recipient' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 
 for i in df.index:
     siteCode = df['CODE']

@@ -146,10 +146,10 @@ for i in df.index:
 
     ## filter on date range of audited date
     filterWindow.child_window(auto_id="datAuditDateFrom", control_type="Edit").click_input()
-    pyautogui.typewrite('01062019')
+    pyautogui.typewrite('01072019')
     ##filterWindow.child_window(auto_id="datAuditDateTo", control_type="Edit").click_input()
     pyautogui.press('tab')
-    pyautogui.typewrite('30062019')
+    pyautogui.typewrite('31072019')
 
 
     ## if the site is Special case, use below
@@ -199,7 +199,7 @@ for i in df.index:
 
     ## check the other tab filtering
     if siteName[i] == 'Redcape':    
-                    protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
+        protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
         protertyFilterCriteria.click_input()
         ## get the handle of Group filter
         groupItem = filterWindow.child_window(title="Group", auto_id="2", control_type="DataItem")

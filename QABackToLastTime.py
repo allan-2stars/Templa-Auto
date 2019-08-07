@@ -40,7 +40,7 @@ for i in df.index:
     siteCode = df['CODE']
     siteName = df['SITE']
     status = df['STATUS']
-    title = df['TITLE']
+    qaType = df['QAs TYPE']
 
     if status[i] == "Done" or status[i] == "Skip":
         print(str(siteCode[i]) + " is Done")
@@ -71,24 +71,24 @@ for i in df.index:
     ## below conditions for in case
     ## there are multiple QA Items you have, and need to change
     ##
-    titleBox = contractDetailWindow.child_window(title="Title", auto_id="16", control_type="ComboBox")
-    isMultipleItems = False
-    if title[i] != "":
-        titleBox.click_input()
-        pyautogui.typewrite(title[i])
-        isMultipleItems = True
+    # titleBox = contractDetailWindow.child_window(title="Title", auto_id="16", control_type="ComboBox")
+    # isMultipleItems = False
+    # if title[i] != "":
+    #     titleBox.click_input()
+    #     pyautogui.typewrite(title[i])
+    #     isMultipleItems = True
 
     ################################
     # see if QA item exist
+
+    # see if exist	    # see if exist
+    qaInternalItem = contractDetailWindow.window(title='1 -- Internal QA -- QA-INT')
     qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
-    qaExternalItemExt = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
-    qaContractItem = contractDetailWindow.window(title='2 -- Contract Cleaning -- Contract Cleaning')
-    existsExternalItem = qaExternalItem.exists()
-    existsExtItem = qaExternalItemExt.exists()
-    existContractItem = qaContractItem.exists()
+    qaExternalItemOther = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
+
 
     # if item exist, then see if need to change freq
-    if  existsExternalItem or existsExtItem or existContractItem:
+    if  qaInternalItem.exists() or qaExternalItem.exists() or qaExternalItemOther.exists():
         
         contractDetailWindow.window(title='New version').click_input(double=True)
 
@@ -98,24 +98,27 @@ for i in df.index:
 
         # press the tab of QA
         contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-
-        ## if multiple Items in the list
-        ## filter out till one item left
-        if isMultipleItems:
-            titleBox.click_input()
-            pyautogui.typewrite(title[i])
-
-        ################################
-        
-        if existsExternalItem:
-            qaExternalItem.click_input(double=True)
-        if existsExtItem:
-            qaExternalItemExt.click_input(double=True)
-        if existContractItem:
-            qaContractItem.click_input(double=True)
+        qaTemplateBox = contractDetailWindow.child_window(title="QA template", control_type="ComboBox")
+        qaTemplateBox.click_input()
+        QA_Type = str(qaType[i])
+        if QA_Type == 'Meet and Greet':
+            pyautogui.typewrite(QA_Type)
+            time.sleep(2)
+            qaInternalItem.wait('exists', timeout=3)
+            qaInternalItem.click_input(double=True)
         else:
-            print ("QA Item not found, exit...")
-            break
+            qaExternalItem.click_input(double=True)
+        # ################################
+        
+        # if existsExternalItem:
+        #     qaExternalItem.click_input(double=True)
+        # if existsExtItem:
+        #     qaExternalItemExt.click_input(double=True)
+        # if existContractItem:
+        #     qaContractItem.click_input(double=True)
+        # else:
+        #     print ("QA Item not found, exit...")
+        #     break
 
         print ("openning the qa item...")
 
@@ -149,7 +152,7 @@ for i in df.index:
         pyautogui.PAUSE = 2.5
         pyautogui.typewrite('y') ## equivilent to clicking "yes"
         print(str(siteCode[i]) + " updated now")
-        time.sleep(16)
+        #time.sleep(16)
         
     # if no qa, close it
     else:
@@ -157,7 +160,7 @@ for i in df.index:
         print ("No QA for this site, closed directly.")
        
 
-    print(str(siteCode[i]) + "Done now")
+    print("Done:", str(siteCode[i]))
     print("##################")
     print("                  ")
     

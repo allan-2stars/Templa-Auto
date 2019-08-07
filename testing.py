@@ -45,3 +45,5 @@ if  existsExternalItem or existsExtItem or existContractItem:
 ##contractDetailWindow.print_control_identifiers()
 
 
+
+
