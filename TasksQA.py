@@ -86,36 +86,47 @@ for i in df.index:
         contractDetailWindow.Close.click_input()
         print ('Task already exists, closed directly.')
         print('No change')
-        
     else:
-        #contractDetailWindow.window(title='New version').click_input(double=True)
-        # pyautogui.PAUSE = 2.5
-        # pyautogui.typewrite('y') ## equivilent to clicking 'yes'
-        # pyautogui.PAUSE = 3.5
+        contractDetailWindow.window(title='New version').click_input(double=True)
+        pyautogui.PAUSE = 2.5
+        pyautogui.typewrite('y') ## equivilent to clicking 'yes'
+        pyautogui.PAUSE = 3.5
 
         # press the tab of QA
         contractDetailWindow.child_window(title='Tasks', control_type='TabItem').click_input()
         contractDetailWindow.child_window(title='Task', control_type='ComboBox').click_input()
         pyautogui.typewrite(str(int(taskNumber[i])))
-        pyautogui.moveRel(0, 20)
+        pyautogui.moveRel(0, 15)
         pyautogui.doubleClick()
         print ('openning the task item...')
         ## open the Contract Task window
         taskWindow = contractDetailWindow.window(title_re='Contract Task - *')
         taskWindow.wait('exists', timeout=15)
+        ## type in task Description
+        # taskWindow.child_window(auto_id="txtDescription", control_type="Edit").click_input()
+        # pyautogui.moveRel(100,0)
+        # pyautogui.click()
+        # pyautogui.dragRel(-500,0)
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.press('tab')
+        pyautogui.typewrite(str(taskName[i]))
 
-        taskWindow.print_control_identifiers()
-        # taskWindow.child_window(title='Description', control_type='Edit').click_input()
-        # pyautogui.typewrite(str(taskName))
-        # taskWindow.child_window(title='Full details', control_type='Edit').click_input()
-        # pyautogui.typewrite(str(taskName))
+        ## type in task details
+        # taskWindow.child_window(auto_id="txtTaskDetails", control_type="Edit").click_input()
+        # pyautogui.moveRel(100,0)
+        # pyautogui.click()
+        # pyautogui.dragRel(-500,0)
+        pyautogui.press('tab')
+        pyautogui.typewrite(str(taskName[i]))
         ## Accept
-        # contractQAWindow.Accept.click_input()
-        # contractDetailWindow.window(title='Request approval').click_input()
-        # pyautogui.PAUSE = 2.5
-        # pyautogui.typewrite('y') ## equivilent to clicking 'yes'
+        contractQAWindow.Accept.click_input()
+        contractDetailWindow.window(title='Request approval').click_input()
+        pyautogui.PAUSE = 2.5
+        pyautogui.typewrite('y') ## equivilent to clicking 'yes'
 
-        # print('site name', siteName[i] + ' Updated.')
+        print('site name', siteName[i] + ' Updated.')
         time.sleep(6)
 
     print('##################')
