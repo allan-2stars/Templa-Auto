@@ -121,7 +121,7 @@ for i in df.index:
         pyautogui.press('tab')
         pyautogui.typewrite(str(taskName[i]))
         ## Accept
-        contractQAWindow.Accept.click_input()
+        taskWindow.Accept.click_input()
         contractDetailWindow.window(title='Request approval').click_input()
         pyautogui.PAUSE = 2.5
         pyautogui.typewrite('y') ## equivilent to clicking 'yes'
