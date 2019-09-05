@@ -146,10 +146,10 @@ for i in df.index:
 
     ## filter on date range of audited date
     filterWindow.child_window(auto_id="datAuditDateFrom", control_type="Edit").click_input()
-    pyautogui.typewrite('01072019')
+    pyautogui.typewrite('01082019')
     ##filterWindow.child_window(auto_id="datAuditDateTo", control_type="Edit").click_input()
     pyautogui.press('tab')
-    pyautogui.typewrite('31072019')
+    pyautogui.typewrite('31082019')
 
 
     ## if the site is Special case, use below
@@ -244,7 +244,7 @@ for i in df.index:
 
 
     ## read below from excel sheet
-    folderName = monthName[i] + '-' + str(yearName[i])
+    folderName = str(monthName[i]) + '-' + str(int(yearName[i]))
     ##
     print('Ready to Export to Excel File ...')
     saveAsExcel(templa, filePath[i], folderName , fileName[i])

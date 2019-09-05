@@ -51,6 +51,7 @@ for i in df.index:
     jobTitle1 = df['JOB TITLE1']
     jobTitle2 = df['JOB TITLE2']
     jobTitle3 = df['JOB TITLE3']
+    isFailRecipient = df['FAIL RECIPIENT']
     status = df['STATUS']
     #print("Site Name:" + siteName[i])
     #print("CSM: " + csm[i])
@@ -91,7 +92,13 @@ for i in df.index:
     print("qa item OTHER exist: " + str(qaExternalItemOtherExists))
     
     if  qaExternalItemExists or qaExternalItemOtherExists:
-        contractDetailWindow['QA form recipients'].click_input() 
+        ## QA failure recipients button click.
+        if str(isFailRecipient[i]).lower() == 'yes':
+            contractDetailWindow['QA failure recipients'].click_input()
+        ## QA recipients button click.
+        else:
+            contractDetailWindow['QA form recipients'].click_input()
+
         contractRecipientsWindow = contractDetailWindow.child_window(title_re='Contract Recipients - *')
         contractRecipientsWindow.wait('exists', timeout=15)
         

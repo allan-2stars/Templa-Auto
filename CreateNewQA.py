@@ -23,9 +23,9 @@ else:
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
 print("Starting...")
-# start click on QA Items Tab
-mainContractsTab = templa.child_window(title='QA Items', control_type='TabItem')
+mainContractsTab = templa.child_window(title='Contracts', control_type='TabItem')
 mainContractsTab.click_input()
+mainContractsWindow = templa.child_window(title='Contracts', control_type='Window')
 
 ########################
 #
@@ -45,6 +45,7 @@ for i in df.index:
     freqNum = df['FREQ NUM']
     frequency = df['FREQUENCY']
     daysToComplete = df['DAYS TO COMPLETE']
+    titleInfo = df['TITLE INFO']
     status = df['STATUS']
 
     if status[i] == "Stop":
@@ -67,7 +68,7 @@ for i in df.index:
     pyautogui.doubleClick() # open the site by double click
 
     print("contiune...")
-    print("Site code is: " + siteCode[i])
+    print("Site code is: " + str(siteCode[i]))
 
     # # open analysis details dialouge window
     contractDetailWindow = app.window(title_re='Contract - *')
@@ -93,12 +94,12 @@ for i in df.index:
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
     # change this as require much quicker that for loop
-    dataStart = "19022019"
+    dataStart = "01092019"
     pyautogui.typewrite(dataStart)
     pyautogui.press('tab')
-    dateFinish = "28022019"
+    dateFinish = "30092019"
     pyautogui.typewrite(dateFinish)
-    dateNextQA = "13022019"
+    dateNextQA = "01092019"
 
     # pyautogui.press('tab')
     #nextDateString = str(nextQaDate[i])
@@ -118,7 +119,7 @@ for i in df.index:
     ## fiirst remove them
     ## add desired one
     pyautogui.press('backspace')
-    pyautogui.typewrite(siteName[i])
+    pyautogui.typewrite(siteName[i] + ' - ' + titleInfo[i])
     pyautogui.press('tab')
     pyautogui.typewrite(str(task[i]))
 
@@ -147,10 +148,10 @@ for i in df.index:
     pyautogui.press('tab')
 
     contractQAWindow.Accept.click_input()
-    contractDetailWindow.window(title='Request approval').click_input()
+    contractDetailWindow.window(title='Request approval', control_type='Button').click_input()
     pyautogui.PAUSE = 2.5
     pyautogui.typewrite('y') ## equivilent to clicking "yes"
-    print(siteCode[i] + " updated now")
+    print(str(siteCode[i]) + str(siteName[i]) + " updated now")
     time.sleep(3)
 
 # contractDetailWindow.window(title='Request approval').click_input()

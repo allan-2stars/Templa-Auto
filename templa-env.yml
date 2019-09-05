@@ -1,0 +1,4 @@
+name: tempa-env
+channels:
+  - defaults
+prefix: C:\anaconda3\envs\tempa-env

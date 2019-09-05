@@ -146,13 +146,13 @@ for i in df.index:
             contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
 
             if frequency[i] == "m":
-                nextDateString = "01072019"
+                nextDateString = "02092019"
             if frequency[i] == "w":
-                nextDateString = "01072019"
+                nextDateString = "02092019"
             if frequency[i] == "y":
-                nextDateString = "01012019"
+                nextDateString = "02092019"
             else:
-                nextDateString = "01072019"
+                nextDateString = "02092019"
                 
             pyautogui.typewrite(nextDateString)
             # pyautogui.press('tab')
@@ -165,7 +165,8 @@ for i in df.index:
 
             # Save
             contractQAWindow.Accept.click_input()
-            contractDetailWindow.window(title='Request approval').click_input()
+            #contractDetailWindow.print_control_identifiers()
+            contractDetailWindow.child_window(title="Request approval", auto_id="[Group : workflow Tools] Tool : requestapproval - Index : 0 ", control_type="Button").click_input()
             pyautogui.PAUSE = 2.5
             pyautogui.typewrite('y') ## equivilent to clicking "yes"
             print(siteCode[i] + " updated now")

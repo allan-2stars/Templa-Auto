@@ -95,7 +95,8 @@ for i in df.index:
         previouseAnalysisWindow = app.window(title=reportTitle[i])
     else: 
         previouseAnalysisWindow = app.window(title=reportTitle[i-1])
-
+    print('report now is,', reportTitle[i])
+    print('last report is',reportTitle[i-1])
     analysisWindow = app.window(title=reportTitle[i])
     ## open the report selection window
     ## previouseAnalysisWindow['Select live report'].click_input()  ## too slow
