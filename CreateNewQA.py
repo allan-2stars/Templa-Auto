@@ -97,8 +97,9 @@ for i in df.index:
     dataStart = "01092019"
     pyautogui.typewrite(dataStart)
     pyautogui.press('tab')
-    dateFinish = "30092019"
-    pyautogui.typewrite(dateFinish)
+    # dateFinish = "30092019"
+    # pyautogui.typewrite(dateFinish)
+    pyautogui.press('backspace')
     dateNextQA = "01092019"
 
     # pyautogui.press('tab')
@@ -114,6 +115,7 @@ for i in df.index:
     pyautogui.press('tab')
     pyautogui.press('tab')
     pyautogui.typewrite(qaTemplate[i])
+    print(str(qaTemplate[i]))
     pyautogui.press('tab')
     ## the title will auto comes up.
     ## fiirst remove them
