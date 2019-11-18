@@ -13,7 +13,7 @@ import sys
 import pywinauto
 from datetime import datetime
 
-
+## get Templa ready
 if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
     templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
     app = Application(backend='uia').connect(path=templa_file)
@@ -22,103 +22,95 @@ else:
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
-print("Starting...")
-## start 
-mainContractsTab = templa.child_window(title='Contracts', control_type='TabItem')
-mainContractsTab.click_input()
-mainContractsWindow = templa.child_window(title='Contracts', control_type='Window')
+
+##### defined a function for save report into specific forlder repeatively ######
+
+def saveAsExcel(window, pathName, folderName, fileName):
+    ## export to excel and save
+    window.child_window(title="Excel", auto_id="[Group : report Tools] Tool : Report_Excel - Index : 2 ", control_type="Button").click_input()
+    saveAsWindow = window.child_window(title='Save As')
+    saveAsWindow.wait('exists', timeout=15)
+    print('save as window open')
+    addressBar = saveAsWindow.child_window(title_re="Address: *", control_type="ToolBar")
+    addressBar.click_input()
+    pyautogui.typewrite(pathName)
+    time.sleep(1)
+    pyautogui.press('enter')
+    ## add a new folder if not exists
+    folderNameNeeded = saveAsWindow.child_window(title=folderName, control_type="ListItem")
+    if not folderNameNeeded.exists():
+        print('folder NOT exists yet.')
+        saveAsWindow.child_window(title="New folder", auto_id="{E44616AD-6DF1-4B94-85A4-E465AE8A19DB}", control_type="Button").click_input()
+        time.sleep(2)
+        pyautogui.typewrite(folderName)
+        time.sleep(2)
+        pyautogui.press('enter')
+    ## get into the newly created folder
+    folderNameNeeded.click_input(button='left', double=True)
+    ## File name type
+    saveAsWindow.child_window(title="File name:", auto_id="FileNameControlHost", control_type="ComboBox").click_input()
+    pyautogui.typewrite(fileName)
+    ## Save button click
+    saveAsWindow.child_window(title="Save", auto_id="1", control_type="Button").click_input()
+    time.sleep(2)
+
+############### function end ########################
 
 ########################
 #
 # Setup Excel Sheet
 #
 ########################
-sheetLoader = 'Chagne Tasks' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
-print("Reading Excel...")
+site_reallocate_sheet = 'KPI Analysis' 
+df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
+print("starting...")
+
+
+########################################################################
+####                                                                ####
+############           ANALYSIS & GENERATE REPORT          #############
+## recursively generate analysis report and export to local drive ######
+##
+########################################################################
 for i in df.index:
-    siteCode = df['CODE']
-    siteName = df['SITE']
-    taskName = df['TASK']
-    taskNumber = df['TASK NUMBER']
+    reportTitle = df['TITLE']
+    monthName = df['MONTH']
+    yearName = df['YEAR']
+    fileNameSiteTotals = df['FILE_NAME_SITE_TOTALS']
+    fileNameAllItems = df['FILE_NAME_ALL_ITEMS']
+    filePath = df['PATH']
     status = df['STATUS']
 
     if status[i] == "Done" or status[i] == "Skip":
-        print(str(siteCode[i]) + " is Done")
-        continue
-
-    if status[i] == "Skip":
-        print(str(siteCode[i]) + " is Sklipped")
+        print(str(reportTitle[i]) + " is Done")
         continue
 
     if status[i] == "Stop":
         print("Stop here")
         break
 
-    # click on the Code Edit Box
-    mainContractsWindow.window(title='Site', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(siteCode[i]))
+
+    ## start a report with title, need open one of the report analyser first
+    if i < 1:
+        previouseAnalysisWindow = app.window(title=reportTitle[i])
+    else: 
+        previouseAnalysisWindow = app.window(title=reportTitle[i-1])
+    print('report now is,', str(reportTitle[i]))
+    print('last report is',str(reportTitle[i-1]))
+    analysisWindow = app.window(title=str(reportTitle[i]))
+    ## open the report selection window
+    ## previouseAnalysisWindow['Select live report'].click_input()  ## too slow
+    liveReportButton = previouseAnalysisWindow.child_window(title="Select live report", auto_id="[Group : report Tools] Tool : Select - Index : 5 ", control_type="Button")
+    liveReportButton.wait('exists',10)
+    liveReportButton.click_input()
+    reportConfigWindow = previouseAnalysisWindow.child_window(title='QA Analysis Report Configurations')
+    reportConfigWindow.wait('exists', timeout=15)
+
+    ## type report title 
+    reportConfigWindow.window(title='Description', control_type='ComboBox').click_input()
+    pyautogui.typewrite(str(reportTitle[i]))
     pyautogui.moveRel(0, 25) 
-    pyautogui.doubleClick() # open the site by double click
+    pyautogui.click() # open the site by double click
+    reportConfigWindow.Select.click_input()
 
-    print("contiune...")
-    print("site code is: " + str(siteCode[i]))
-
-    # # open analysis details dialouge window
-    contractDetailWindow = app.window(title_re='Contract - *')
-    contractDetailWindow.wait('exists', timeout=15)
-
-
-    # Go to QA tab
-    contractDetailWindow.child_window(title='Tasks', control_type='TabItem').click_input()
-    # see if exist
-    # qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
-    
-    contractDetailWindow.child_window(title='Task', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(int(taskNumber[i])))
-    qaAgedCareItem = contractDetailWindow.window(title=str(taskName[i]))
-    
-    # qaExternalItemOther = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
-
-
-    # if item exist, then see if need to change freq
-    if  qaAgedCareItem.exists():
-        contractDetailWindow.Close.click_input()
-        print ('Task already exists, closed directly.')
-        print('No change')
-        
-    else:
-        #contractDetailWindow.window(title='New version').click_input(double=True)
-        # pyautogui.PAUSE = 2.5
-        # pyautogui.typewrite('y') ## equivilent to clicking 'yes'
-        # pyautogui.PAUSE = 3.5
-
-        # press the tab of QA
-        contractDetailWindow.child_window(title='Tasks', control_type='TabItem').click_input()
-        contractDetailWindow.child_window(title='Task', control_type='ComboBox').click_input()
-        pyautogui.typewrite(str(int(taskNumber[i])))
-        pyautogui.moveRel(0, 20)
-        pyautogui.doubleClick()
-        print ('openning the task item...')
-        ## open the Contract Task window
-        taskWindow = contractDetailWindow.window(title_re='Contract Task - *')
-        taskWindow.wait('exists', timeout=15)
-
-        taskWindow.print_control_identifiers()
-        # taskWindow.child_window(title='Description', control_type='Edit').click_input()
-        # pyautogui.typewrite(str(taskName))
-        # taskWindow.child_window(title='Full details', control_type='Edit').click_input()
-        # pyautogui.typewrite(str(taskName))
-        ## Accept
-        # contractQAWindow.Accept.click_input()
-        # contractDetailWindow.window(title='Request approval').click_input()
-        # pyautogui.PAUSE = 2.5
-        # pyautogui.typewrite('y') ## equivilent to clicking 'yes'
-
-        # print('site name', siteName[i] + ' Updated.')
-        time.sleep(6)
-
-    print('##################')
-    print('                  ')
-    
-    
+    analysisWindow.print_control_identifiers()

@@ -69,7 +69,7 @@ for i in df.index:
     pyautogui.press('tab')
     #QAItemDetailWindow.child_window(title="Item group", control_type="Text")
     pyautogui.typewrite(itemGroup[i])
-    # pyautogui.press('tab')
+    pyautogui.press('tab')
     # QAItemDetailWindow.Save.click_input()
     pyautogui.PAUSE = 2.5
     print(details[i] +" Done.")

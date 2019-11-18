@@ -146,14 +146,15 @@ for i in df.index:
             contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
 
             if frequency[i] == "m":
-                nextDateString = "02092019"
-            if frequency[i] == "w":
-                nextDateString = "02092019"
-            if frequency[i] == "y":
-                nextDateString = "02092019"
+                nextDateString = "01112019"
+            elif frequency[i] == "w":
+                nextDateString = "28102019"
+            elif frequency[i] == "y":
+                nextDateString = "01012020"
             else:
-                nextDateString = "02092019"
-                
+                nextDateString = "01012020"
+            print('frequency text is', frequency[i])
+            print('next qa date is', nextDateString)
             pyautogui.typewrite(nextDateString)
             # pyautogui.press('tab')
             #nextDateString = str(nextQaDate[i])

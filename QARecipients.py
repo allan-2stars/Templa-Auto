@@ -85,13 +85,15 @@ for i in df.index:
     # if no qa at all, then no need to change qa recipient
     qaExternalItemTitle = '2 -- External QA -- QA-EXT'
     qaExternalItemTitleOther = '4 -- QA-EXT -- QA-EXT'
+    qaAgedCareItemTitle = 'NationWide - Nation Wide Aged Care Standard'
 
     qaExternalItemExists = contractDetailWindow.window(title=qaExternalItemTitle).exists()
     qaExternalItemOtherExists = contractDetailWindow.window(title=qaExternalItemTitleOther).exists()
+    qaAgedCareItemTitleExists = contractDetailWindow.window(title=qaAgedCareItemTitle).exists()
     print("qa item NORMAL exist: " + str(qaExternalItemExists))
     print("qa item OTHER exist: " + str(qaExternalItemOtherExists))
     
-    if  qaExternalItemExists or qaExternalItemOtherExists:
+    if  qaExternalItemExists or qaExternalItemOtherExists or qaAgedCareItemTitleExists:
         ## QA failure recipients button click.
         if str(isFailRecipient[i]).lower() == 'yes':
             contractDetailWindow['QA failure recipients'].click_input()
@@ -273,6 +275,10 @@ for i in df.index:
                 contactsSelectWindow.Close.click_input()
                 
             else:
+                print('recipient exist either:', recipientExitEither)
+                print('recipient exist both:', recipientExitBoth)
+                print('need to add:', checkStateOnExcel)
+
                 print("something wrong, no conditions is matched")
 
         # Save

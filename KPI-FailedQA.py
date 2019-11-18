@@ -146,10 +146,10 @@ for i in df.index:
 
     ## filter on date range of audited date
     filterWindow.child_window(auto_id="datAuditDateFrom", control_type="Edit").click_input()
-    pyautogui.typewrite('01082019')
+    pyautogui.typewrite('01102019')
     ##filterWindow.child_window(auto_id="datAuditDateTo", control_type="Edit").click_input()
     pyautogui.press('tab')
-    pyautogui.typewrite('31082019')
+    pyautogui.typewrite('31102019')
 
 
     ## if the site is Special case, use below

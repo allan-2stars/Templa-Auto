@@ -83,7 +83,7 @@ for i in df.index:
     
     if csmExists.exists():  
         print("site Code: " + str(siteCode[i]))
-        print("site Name: " + siteName[i])
+        print("site Name: " + str(siteName[i]))
         print("Already assigned to " + csm[i])
         print("#################################")
         print(" ")
