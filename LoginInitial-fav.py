@@ -49,7 +49,7 @@ templa.child_window(title="Favourites", control_type="Group").click_input()
 
 ### the list of title in 'Favourites' menu
 list_favourites = ['Workflow Manager', 'Device Registration', 'Workflow Paths', \
-                   'Analysis Codes', 'Sites', 'Contracts', 'Contacts']
+                   'LITE Users', 'Analysis Codes', 'Sites', 'Contracts', 'Contacts']
 
 ## Open Contract
 for list_title in list_favourites:
