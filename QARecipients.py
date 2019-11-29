@@ -83,8 +83,10 @@ for i in df.index:
 
     # Check if there is QA Items
     # if no qa at all, then no need to change qa recipient
-    qaExternalItemTitle = '2 -- External QA -- QA-EXT'
-    qaExternalItemTitleOther = '4 -- QA-EXT -- QA-EXT'
+    # qaExternalItemTitle = '2 -- External QA -- QA-EXT'
+    # qaExternalItemTitleOther = '4 -- QA-EXT -- QA-EXT'
+    qaExternalItemTitle = '2'
+    qaExternalItemTitleOther = '4'
     qaAgedCareItemTitle = 'NationWide - Nation Wide Aged Care Standard'
 
     qaExternalItemExists = contractDetailWindow.window(title=qaExternalItemTitle).exists()
@@ -139,9 +141,10 @@ for i in df.index:
 
 
         arrayCount = len(recipientsAddingList)
-        print ('now is row: ' + str(i)) 
+        print ('now is row: ' + str(i))
+        ## loop over the recipient names
         for k in range(arrayCount):
-            print ('array count: ' + str(arrayCount)+' '+str(k))
+            print ("recipient's name array total: " + str(arrayCount)+ ', now is on ' + str(k+1))
 
             ## Need to check 2 ways around
             ## firstname lastname
@@ -150,136 +153,143 @@ for i in df.index:
 
 
             nameArray = str(recipientsAddingList[k]).split(" ")
-            nameFirstLast = recipientsAddingList[k]
-            nameLastFirst = nameArray[1] + " " + nameArray[0]
-            recipientEntryFL = contractRecipientsWindow.window(title=nameFirstLast)
-            recipientEntryLF = contractRecipientsWindow.window(title=nameLastFirst)
+            for name in nameArray:
+                print('the name in array is: ' + name)
+            if len(nameArray) == 1: ## name only contains one word
+                recipient_name = nameArray[0]
+                print('Name must be 2x words, and currently is ', recipient_name)
 
-            print("check name exist or not: " + recipientsAddingList[k])
-            recipientExitEither = recipientEntryFL.exists() or recipientEntryLF.exists()
-            recipientExitBoth = recipientEntryFL.exists() and recipientEntryLF.exists()
+            if len(nameArray) == 2: ## name contains two words
+                nameFirstLast = nameArray[0] + " " + nameArray[1]
+                nameLastFirst = nameArray[1] + " " + nameArray[0]
+                recipientEntryFL = contractRecipientsWindow.window(title=nameFirstLast)
+                recipientEntryLF = contractRecipientsWindow.window(title=nameLastFirst)
 
-            checkStateOnExcel = str(int(checkStateList[k]))
+                print("check name exist or not: " + recipientsAddingList[k])
+                recipientExitEither = recipientEntryFL.exists() or recipientEntryLF.exists()
+                recipientExitBoth = recipientEntryFL.exists() and recipientEntryLF.exists()
 
-            ## Recipient Exist in the List First Name Last Name
-            
-            
-            if recipientExitBoth:
-                if checkStateOnExcel == "0":
-                    print("duplicate name exist: " + nameFirstLast)
-                    recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                    recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                    isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
-                    isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
+                checkStateOnExcel = str(int(checkStateList[k]))
+
+                ## Recipient Exist in the List First Name Last Name
+                
+                
+                if recipientExitBoth:
+                    if checkStateOnExcel == "0":
+                        print("duplicate name exist: " + nameFirstLast)
+                        recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                        recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                        isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
+                        isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
+                        
+                        if str(isCheckedFL) != checkStateOnExcel:
+                            recipientEntryCheckboxLF.toggle()
+                            recipientEntryCheckboxFL.toggle()
+                            print("check state CHANGED to: " + checkStateOnExcel)
+                        else:
+                            print("check state SAME as before: " + checkStateOnExcel)
+
+
+                    if checkStateOnExcel == "1":
+                        print("duplicate name exist: " + nameFirstLast)
+                        recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                        recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                        isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
+                        isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
+                        
+                        # If currently not checked, let Firstname Lastname check
+                        if str(isCheckedFL) != checkStateOnExcel:
+                            recipientEntryCheckboxFL.toggle()
+                            print("First Last, state CHANGED to: " + checkStateOnExcel)
+
+                        # If currently checked, let Firstname Lastname remained
+                        if str(isCheckedFL) == checkStateOnExcel:
+                            print("First Last, state Same as: " + checkStateOnExcel)
+
+                        # If currently checked, let Lastname Firstname off check
+                        if str(isCheckedLF) == checkStateOnExcel:
+                            recipientEntryCheckboxFL.toggle()
+                            print("duplicate name turned off")
+
+                        # If currently not checked, let Lastname Firstname keep un-checked  
+                        if str(isCheckedLF) != checkStateOnExcel:
+                            print("duplicated name no need change")
+
+                elif recipientEntryFL.exists():
+                    print("exist: " + nameFirstLast)
+                    recipientEntryCheckboxFL = recipientEntryFL.child_window(title="Receive documents?", control_type="CheckBox")
+                    isCheckedFL = recipientEntryCheckboxFL.get_toggle_state()
                     
+                    print('state in system now: ' + str(isCheckedFL))
+                    print("  ")
+                    print('recipient state should be: ' + checkStateOnExcel)
                     if str(isCheckedFL) != checkStateOnExcel:
-                        recipientEntryCheckboxLF.toggle()
                         recipientEntryCheckboxFL.toggle()
                         print("check state CHANGED to: " + checkStateOnExcel)
                     else:
                         print("check state SAME as before: " + checkStateOnExcel)
 
-
-                if checkStateOnExcel == "1":
-                    print("duplicate name exist: " + nameFirstLast)
+                ## Recipient Exist in the List, Last Name First Name
+                elif recipientEntryLF.exists():
+                    print("exist: " + nameLastFirst)
                     recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                    recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
                     isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
-                    isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
                     
-                    # If currently not checked, let Firstname Lastname check
-                    if str(isCheckedFL) != checkStateOnExcel:
-                        recipientEntryCheckboxFL.toggle()
-                        print("First Last, state CHANGED to: " + checkStateOnExcel)
-
-                    # If currently checked, let Firstname Lastname remained
-                    if str(isCheckedFL) == checkStateOnExcel:
-                        print("First Last, state Same as: " + checkStateOnExcel)
-
-                    # If currently checked, let Lastname Firstname off check
-                    if str(isCheckedLF) == checkStateOnExcel:
-                        recipientEntryCheckboxFL.toggle()
-                        print("duplicate name turned off")
-
-                    # If currently not checked, let Lastname Firstname keep un-checked  
+                    print('state in system now: ' + str(isCheckedLF))
+                    print("  ")
+                    print('recipient state should be: ' + checkStateOnExcel)
                     if str(isCheckedLF) != checkStateOnExcel:
-                        print("duplicated name no need change")
-
-            elif recipientEntryFL.exists():
-                print("exist: " + nameFirstLast)
-                recipientEntryCheckboxFL = recipientEntryFL.child_window(title="Receive documents?", control_type="CheckBox")
-                isCheckedFL = recipientEntryCheckboxFL.get_toggle_state()
+                        recipientEntryCheckboxLF.toggle()
+                        print("check state CHANGED to: " + checkStateOnExcel)
+                    else:
+                        print("check state SAME as before: " + checkStateOnExcel)
                 
-                print('state in system now: ' + str(isCheckedFL))
-                print("  ")
-                print('recipient state should be: ' + checkStateOnExcel)
-                if str(isCheckedFL) != checkStateOnExcel:
-                    recipientEntryCheckboxFL.toggle()
-                    print("check state CHANGED to: " + checkStateOnExcel)
-                else:
-                    print("check state SAME as before: " + checkStateOnExcel)
-
-            ## Recipient Exist in the List, Last Name First Name
-            elif recipientEntryLF.exists():
-                print("exist: " + nameLastFirst)
-                recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
-                
-                print('state in system now: ' + str(isCheckedLF))
-                print("  ")
-                print('recipient state should be: ' + checkStateOnExcel)
-                if str(isCheckedLF) != checkStateOnExcel:
-                    recipientEntryCheckboxLF.toggle()
-                    print("check state CHANGED to: " + checkStateOnExcel)
-                else:
-                    print("check state SAME as before: " + checkStateOnExcel)
-               
-            ## Recipient NOT exist, we need to add a new item
-            ## but also, need to know if add a CSM or Client
-            elif not recipientExitEither and checkStateOnExcel == "0":
-                print('recipient not exist, and no need add')
-                
+                ## Recipient NOT exist, we need to add a new item
+                ## but also, need to know if add a CSM or Client
+                elif not recipientExitEither and checkStateOnExcel == "0":
+                    print('recipient not exist, and no need add')
                     
-            ## If need to add a CSM User
-            elif not recipientExitEither and checkStateOnExcel == "1" and jobTitleList[k] == "CSM":
-                print('recipient not exist, and need add')
-                # click on the add contact button
-                contractRecipientsWindow.child_window(title="Add user", control_type="Button").click_input()
-                # find the email
-                print("adding new CSM user to list...")
-                usersSelectWindow = app.window(title='Users')
-                usersSelectWindow.wait('exists', timeout=15)
-                usersSelectWindow.window(title='Email', control_type='ComboBox').click_input()
-                pyautogui.typewrite(str(emailList[k]))
-                pyautogui.moveRel(0, 25)
-                pyautogui.click()
-                usersSelectWindow.Select.click_input()
-                # if need more to add, continue above
-                usersSelectWindow.Close.click_input()
-                
+                        
+                ## If need to add a CSM User
+                elif not recipientExitEither and checkStateOnExcel == "1" and jobTitleList[k] == "CSM":
+                    print('recipient not exist, and need add')
+                    # click on the add contact button
+                    contractRecipientsWindow.child_window(title="Add user", control_type="Button").click_input()
+                    # find the email
+                    print("adding new CSM user to list...")
+                    usersSelectWindow = app.window(title='Users')
+                    usersSelectWindow.wait('exists', timeout=15)
+                    usersSelectWindow.window(title='Email', control_type='ComboBox').click_input()
+                    pyautogui.typewrite(str(emailList[k]))
+                    pyautogui.moveRel(0, 25)
+                    pyautogui.click()
+                    usersSelectWindow.Select.click_input()
+                    # if need more to add, continue above
+                    usersSelectWindow.Close.click_input()
+                    
 
-            ## If need to add a Client
-            elif not recipientExitEither and checkStateOnExcel == "1" and jobTitleList[k] == "Client":
-                # click on the add contact button
-                contractRecipientsWindow.child_window(title="Add contact", control_type="Button").click_input()
-                # find the email
-                print("adding new Contact to list...")
-                contactsSelectWindow = app.window(title='Contacts Select')
-                contactsSelectWindow.wait('exists', timeout=35)
-                contactsSelectWindow.window(title='Email', control_type='ComboBox').click_input()
-                pyautogui.typewrite(emailList[k])
-                pyautogui.moveRel(0, 25)
-                pyautogui.click()
-                contactsSelectWindow.Select.click_input()
-                # if need more to add, continue above
-                contactsSelectWindow.Close.click_input()
-                
-            else:
-                print('recipient exist either:', recipientExitEither)
-                print('recipient exist both:', recipientExitBoth)
-                print('need to add:', checkStateOnExcel)
+                ## If need to add a Client
+                elif not recipientExitEither and checkStateOnExcel == "1" and jobTitleList[k] == "Client":
+                    # click on the add contact button
+                    contractRecipientsWindow.child_window(title="Add contact", control_type="Button").click_input()
+                    # find the email
+                    print("adding new Contact to list...")
+                    contactsSelectWindow = app.window(title='Contacts Select')
+                    contactsSelectWindow.wait('exists', timeout=35)
+                    contactsSelectWindow.window(title='Email', control_type='ComboBox').click_input()
+                    pyautogui.typewrite(emailList[k])
+                    pyautogui.moveRel(0, 25)
+                    pyautogui.click()
+                    contactsSelectWindow.Select.click_input()
+                    # if need more to add, continue above
+                    contactsSelectWindow.Close.click_input()
+                    
+                else:
+                    print('recipient exist either:', recipientExitEither)
+                    print('recipient exist both:', recipientExitBoth)
+                    print('need to add:', checkStateOnExcel)
 
-                print("something wrong, no conditions is matched")
+                    print("something wrong, no conditions is matched")
 
         # Save
         contractRecipientsWindow.Save.click_input()

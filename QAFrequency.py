@@ -70,10 +70,12 @@ for i in df.index:
 
     # Go to QA tab
     contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-    # see if exist
-    qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
-    qaExternalItemOther = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
 
+
+    # see if exist, use the Task number to check, in Templa, open "Task number" tab if not there.
+    qaExternalItem = contractDetailWindow.window(title='2')
+    qaExternalItemOther = contractDetailWindow.window(title='4')
+    print('QA other exists? ',qaExternalItemOther.exists())
 
     # if item exist, then see if need to change freq
     if  qaExternalItem.exists() or qaExternalItemOther.exists():
@@ -100,7 +102,10 @@ for i in df.index:
 
             # press the tab of QA
             contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-            qaExternalItem.click_input(double=True)
+            if qaExternalItem.exists():
+                qaExternalItem.click_input(double=True)
+            if qaExternalItemOther.exists():
+                qaExternalItemOther.click_input(double=True)
             print ("openning the qa item...")
 
             contractDetailWindow.child_window(title='Edit this effective version').click_input()
@@ -145,25 +150,26 @@ for i in df.index:
             contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
             contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
 
-            if frequency[i] == "m":
-                nextDateString = "01112019"
-            elif frequency[i] == "w":
-                nextDateString = "28102019"
-            elif frequency[i] == "y":
-                nextDateString = "01012020"
-            else:
-                nextDateString = "01012020"
-            print('frequency text is', frequency[i])
-            print('next qa date is', nextDateString)
-            pyautogui.typewrite(nextDateString)
+            # if frequency[i] == "m":
+            #     nextDateString = "01122019"
+            # elif frequency[i] == "w":
+            #     nextDateString = "28102019"
+            # elif frequency[i] == "y":
+            #     nextDateString = "01012020"
+            # else:
+            #     nextDateString = "01012020"
+            # print('frequency text is', frequency[i])
+            # print('next qa date is', nextDateString)
+            # pyautogui.typewrite(nextDateString)
             # pyautogui.press('tab')
-            #nextDateString = str(nextQaDate[i])
+            nextDateString = str(nextQaDate[i])
         
             # get the date character one by one and type in
-            # for letter in nextDateString:
-            #     pyautogui.typewrite(letter)
-            # pyautogui.press('tab')
-
+            for letter in nextDateString:
+                pyautogui.typewrite(letter)
+            
+            pyautogui.press('tab')
+            print('next qa date is', nextDateString)
             # Save
             contractQAWindow.Accept.click_input()
             #contractDetailWindow.print_control_identifiers()
