@@ -7,6 +7,8 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 from pywinauto.application import Application
 import time
+from datetime import datetime
+import calendar
 import csv
 import os
 import sys
@@ -40,6 +42,12 @@ print("Starting...")
 
 print("contiune...")
 print("Site Activated")
+next_month = datetime.now().month + 1
+current_year = datetime.now().year
+lastday_next_month = calendar.monthrange(current_year, next_month)[1]
+
+dateStartString = '01' + str(next_month) + str(current_year)
+dateEndString = str(lastday_next_month) + str(next_month) + str(current_year)
 
 # # open analysis details dialouge window
 contractDetailWindow = app.window(title_re='Contract - *')
@@ -88,10 +96,34 @@ for i in df.index:
     completeTitle = area[i] + ' - ' + title[i]
 
     print(completeTitle + str(status[i]))
+
+    use_month = monthJan   
+    if next_month == 2:
+        use_month = monthFeb
+    if next_month == 3:
+        use_month = monthMar
+    if next_month == 4:
+        use_month = monthApr
+    if next_month == 5:
+        use_month = monthMar
+    if next_month == 6:
+        use_month = monthJun
+    if next_month == 7:
+        use_month = monthMJul
+    if next_month == 8:
+        use_month = monthAug
+    if next_month == 9:
+        use_month = monthSep
+    if next_month == 10:
+        use_month = monthOct
+    if next_month == 11:
+        use_month = monthNov
+    if next_month == 12:
+        use_month = monthDec
+        
     # 'x' marks need to set it up, otherwise no need setup.
-    ## cleprint(completeTitle + ' - ' + monthFeb)
-    if monthNov[i] != "x":
-       # print("No Need Setup ...")
+    if use_month[i] != "x":
+        print("the QA for month of " + str(next_month))
         continue
 
     if status[i] == "Stop":
@@ -102,9 +134,6 @@ for i in df.index:
         print(completeTitle + " is Done")
         continue
 
-
-
-
     ## click Add    
     contractDetailWindow.child_window(title="Add", auto_id="btnAddQA", control_type="Button").click_input()
 
@@ -113,8 +142,6 @@ for i in df.index:
     contractQAWindow.wait('exists', timeout=15)
     contractQAWindow.child_window(auto_id="datEffectiveFrom", control_type="Edit").click_input()
 
-    dateStartString = "01112019"
-    dateEndString = "30112019"
     pyautogui.typewrite(dateStartString)
     pyautogui.press('tab')
     pyautogui.typewrite(dateEndString)
