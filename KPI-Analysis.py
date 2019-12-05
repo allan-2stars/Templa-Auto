@@ -53,9 +53,9 @@ def saveAsExcel(flag, window, pathName, folderName, fileName):
             pyautogui.press('enter')
         ## get into the newly created folder
         folderNameNeeded.click_input(button='left', double=True)
+        saveAsWindow.child_window(title='File name:', auto_id='FileNameControlHost', control_type='ComboBox').click_input()
     
-    ## type the file name for saving
-    saveAsWindow.child_window(title='File name:', auto_id='FileNameControlHost', control_type='ComboBox').click_input()
+    ## directly type the file name for saving
     pyautogui.typewrite(fileName)
     ## Save button click
     saveAsWindow.child_window(title='Save', auto_id='1', control_type='Button').click_input()
