@@ -20,7 +20,7 @@ if (os.path.exists(r'E:\TCMS_LIVE\Client Suite')):
     templa_file = r'E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe'
     app = Application(backend='uia').connect(path=templa_file)
 else:
-    print('Can't find Templa on your computer')
+    print('Can not find Templa on your computer')
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
