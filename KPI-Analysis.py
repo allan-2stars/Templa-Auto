@@ -27,29 +27,34 @@ templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Ser
 
 ##### defined a function for save report into specific forlder repeatively ######
 
-def saveAsExcel(window, pathName, folderName, fileName):
+def saveAsExcel(flag, window, pathName, folderName, fileName):
     ## export to excel and save
     window.child_window(title='Excel', auto_id='[Group : report Tools] Tool : Report_Excel - Index : 2 ', control_type='Button').click_input()
     saveAsWindow = window.child_window(title='Save As')
     saveAsWindow.wait('exists', timeout=15)
     print('save as window open')
-    addressBar = saveAsWindow.child_window(title_re='Address: *', control_type='ToolBar')
-    addressBar.click_input()
-    pyautogui.typewrite(pathName)
-    time.sleep(1)
-    pyautogui.press('enter')
-    ## add a new folder if not exists
-    folderNameNeeded = saveAsWindow.child_window(title=folderName, control_type='ListItem')
-    if not folderNameNeeded.exists():
-        print('folder NOT exists yet.')
-        saveAsWindow.child_window(title='New folder', auto_id='{E44616AD-6DF1-4B94-85A4-E465AE8A19DB}', control_type='Button').click_input()
-        time.sleep(2)
-        pyautogui.typewrite(folderName)
-        time.sleep(2)
+
+    ## check if this 'save' is the same as the previouse 'save' - save in the same folder?
+    if flag == 'first save round':
+        addressBar = saveAsWindow.child_window(title_re='Address: *', control_type='ToolBar')
+        addressBar.click_input()
+        pyautogui.typewrite(pathName)
+        time.sleep(1)
         pyautogui.press('enter')
-    ## get into the newly created folder
-    folderNameNeeded.click_input(button='left', double=True)
-    ## File name type
+
+        ## add a new folder if not exists
+        folderNameNeeded = saveAsWindow.child_window(title=folderName, control_type='ListItem')
+        if not folderNameNeeded.exists():
+            print('folder NOT exists yet.')
+            saveAsWindow.child_window(title='New folder', auto_id='{E44616AD-6DF1-4B94-85A4-E465AE8A19DB}', control_type='Button').click_input()
+            time.sleep(2)
+            pyautogui.typewrite(folderName)
+            time.sleep(2)
+            pyautogui.press('enter')
+        ## get into the newly created folder
+        folderNameNeeded.click_input(button='left', double=True)
+    
+    ## type the file name for saving
     saveAsWindow.child_window(title='File name:', auto_id='FileNameControlHost', control_type='ComboBox').click_input()
     pyautogui.typewrite(fileName)
     ## Save button click
@@ -175,8 +180,11 @@ for i in df.index:
 
     ## read below from excel sheet
     folderName = monthName + '-' + yearName
-
-    saveAsExcel(analysisWindow, filePath[i], folderName , fileNameSiteTotals[i])
+    print('folder name: ' + folderName)
+    
+    ## save to the folder
+    ## setup a flag, if the same site, no need to change the saving path
+    saveAsExcel('first save round', analysisWindow, filePath[i], folderName , fileNameSiteTotals[i])
 
     #analysisWindow.click_input()
     ## drag 'Site' Label down
@@ -191,7 +199,8 @@ for i in df.index:
     time.sleep(1)
     pyautogui.dragRel(0,-70)
 
-    saveAsExcel(analysisWindow, filePath[i], folderName , fileNameAllItems[i])
+    ## save to the folder
+    saveAsExcel('same save round', analysisWindow, filePath[i], folderName , fileNameAllItems[i])
 
     print(str(reportTitle[i]) + ': is Done now')
     print('###############################')
