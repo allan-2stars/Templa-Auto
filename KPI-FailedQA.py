@@ -122,16 +122,16 @@ if analysis_month == 12:
     analysis_month_text = 'Dec'
 
 monthName = analysis_month_text
-yearName = analysis_year
+yearName = str(analysis_year)
 
-lastday_analysis_month = calendar.monthrange(analysis_year, analysis_month)[1]
+lastday_analysis_month = str(calendar.monthrange(analysis_year, analysis_month)[1])
 
-dateStartString = '01' + str(analysis_month) + str(analysis_year)
-dateEndString = str(lastday_analysis_month) + str(analysis_month) + str(analysis_year)
+dateStartString = '01' + str(analysis_month) + yearName
+dateEndString = lastday_analysis_month + str(analysis_month) + yearName
 
 print('starting...')
-print('analysis month:' + analysis_month + 'analysis year: ' + analysis_year)
-print('analysis month text:' + analysis_month_text + 'analysis month last day: ' + lastday_analysis_month)
+print('analysis month:' + monthName + 'analysis year: ' + yearName)
+print('analysis month text:' + analysis_month_text)
 
 for i in df.index:
     constracts = df['CONTRACTS']
@@ -147,9 +147,6 @@ for i in df.index:
     useSite = df['USE SITE']
     useClient = df['USE CLIENT']
     useTemplate = df['USE TEMPLATE']
-
-    #monthName = df['MONTH']
-    #yearName = df['YEAR']
 
     if status[i] == 'Done':
         print(str(siteName[i]) + ' is Done')
@@ -290,7 +287,7 @@ for i in df.index:
 
 
     ## read below from excel sheet
-    folderName = str(monthName[i]) + '-' + str(int(yearName[i]))
+    folderName = monthName + '-' + yearName
     ##
     print('Ready to Export to Excel File ...')
     saveAsExcel(templa, filePath[i], folderName , fileName[i])

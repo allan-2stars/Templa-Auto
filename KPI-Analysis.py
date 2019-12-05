@@ -174,7 +174,7 @@ for i in df.index:
 
 
     ## read below from excel sheet
-    folderName = monthName[i] + '-' + str(yearName[i])
+    folderName = monthName + '-' + yearName
 
     saveAsExcel(analysisWindow, filePath[i], folderName , fileNameSiteTotals[i])
 
