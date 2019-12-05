@@ -7,6 +7,8 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 from pywinauto.application import Application
 import time
+from datetime import datetime
+import calendar
 import csv
 import os
 import sys
@@ -14,11 +16,11 @@ import pywinauto
 from datetime import datetime
 
 ## get Templa ready
-if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
-    templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
+if (os.path.exists(r'E:\TCMS_LIVE\Client Suite')):
+    templa_file = r'E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe'
     app = Application(backend='uia').connect(path=templa_file)
 else:
-    print("Can't find Templa on your computer")
+    print('Can't find Templa on your computer')
 
 templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
@@ -28,11 +30,11 @@ templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Ser
 
 def saveAsExcel(window, pathName, folderName, fileName):
     ## export to excel and save
-    window.child_window(title="Excel", control_type="Button").click_input()
+    window.child_window(title='Excel', control_type='Button').click_input()
     saveAsWindow = window.child_window(title='Save As')
     saveAsWindow.wait('exists', timeout=15)
     print('save as window open')
-    addressBar = saveAsWindow.child_window(title_re="Address: *", control_type="ToolBar")
+    addressBar = saveAsWindow.child_window(title_re='Address: *', control_type='ToolBar')
     addressBar.click_input()
     pyautogui.typewrite(pathName)
     time.sleep(1)
@@ -42,9 +44,9 @@ def saveAsExcel(window, pathName, folderName, fileName):
     upperCaseFolderName = folderName.upper()
     lowerCaseFolderName = folderName.lower()
     titleCaseFolderName = folderName.title()
-    upperCaseFolder = saveAsWindow.child_window(title=upperCaseFolderName, control_type="ListItem")
-    lowerCaseFolder = saveAsWindow.child_window(title=lowerCaseFolderName, control_type="ListItem")
-    titleCaseFolder = saveAsWindow.child_window(title=titleCaseFolderName, control_type="ListItem")
+    upperCaseFolder = saveAsWindow.child_window(title=upperCaseFolderName, control_type='ListItem')
+    lowerCaseFolder = saveAsWindow.child_window(title=lowerCaseFolderName, control_type='ListItem')
+    titleCaseFolder = saveAsWindow.child_window(title=titleCaseFolderName, control_type='ListItem')
 
     ## default folder name is Title Case Folder
     folderNameNeeded = titleCaseFolder
@@ -60,7 +62,7 @@ def saveAsExcel(window, pathName, folderName, fileName):
         folderNameNeeded = lowerCaseFolder
     else:
         print('folder NOT exists yet.')
-        saveAsWindow.child_window(title="New folder", control_type="Button").click_input()
+        saveAsWindow.child_window(title='New folder', control_type='Button').click_input()
         time.sleep(2)
         pyautogui.typewrite(titleCaseFolderName)
         time.sleep(2)
@@ -70,10 +72,10 @@ def saveAsExcel(window, pathName, folderName, fileName):
     ## get into the newly created folder
     folderNameNeeded.click_input(button='left', double=True)
     ## File name type
-    saveAsWindow.child_window(title="File name:", auto_id="FileNameControlHost", control_type="ComboBox").click_input()
+    saveAsWindow.child_window(title='File name:', auto_id='FileNameControlHost', control_type='ComboBox').click_input()
     pyautogui.typewrite(fileName)
     ## Save button click
-    saveAsWindow.child_window(title="Save", auto_id="1", control_type="Button").click_input()
+    saveAsWindow.child_window(title='Save', auto_id='1', control_type='Button').click_input()
     time.sleep(2)
 
 ############### function end ########################
@@ -86,7 +88,50 @@ def saveAsExcel(window, pathName, folderName, fileName):
 ########################
 Work_Sheet = 'KPI QA Completed Items' 
 df = pd.read_excel('test.xlsx', sheet_name=Work_Sheet)
-print("starting...")
+
+if datetime.now().month - 1 == 0:
+    analysis_month = 12
+    analysis_year = datetime.now().year - 1
+else:
+    analysis_month = datetime.now().month - 1
+    analysis_year = datetime.now().year
+
+if analysis_month == 1:
+    analysis_month_text = 'Jan'
+if analysis_month == 2:
+    analysis_month_text = 'Feb'
+if analysis_month == 3:
+    analysis_month_text = 'Mar'
+if analysis_month == 4:
+    analysis_month_text = 'Apr'
+if analysis_month == 5:
+    analysis_month_text = 'May'
+if analysis_month == 6:
+    analysis_month_text = 'Jun'
+if analysis_month == 7:
+    analysis_month_text = 'Jul'
+if analysis_month == 8:
+    analysis_month_text = 'Aug'
+if analysis_month == 9:
+    analysis_month_text = 'Sep'
+if analysis_month == 10:
+    analysis_month_text = 'Oct'
+if analysis_month == 11:
+    analysis_month_text = 'Nov'
+if analysis_month == 12:
+    analysis_month_text = 'Dec'
+
+monthName = analysis_month_text
+yearName = analysis_year
+
+lastday_analysis_month = calendar.monthrange(analysis_year, analysis_month)[1]
+
+dateStartString = '01' + str(analysis_month) + str(analysis_year)
+dateEndString = str(lastday_analysis_month) + str(analysis_month) + str(analysis_year)
+
+print('starting...')
+print('analysis month:' + analysis_month + 'analysis year: ' + analysis_year)
+print('analysis month text:' + analysis_month_text + 'analysis month last day: ' + lastday_analysis_month)
 
 for i in df.index:
     constracts = df['CONTRACTS']
@@ -103,19 +148,19 @@ for i in df.index:
     useClient = df['USE CLIENT']
     useTemplate = df['USE TEMPLATE']
 
-    monthName = df['MONTH']
-    yearName = df['YEAR']
+    #monthName = df['MONTH']
+    #yearName = df['YEAR']
 
-    if status[i] == "Done":
-        print(str(siteName[i]) + " is Done")
+    if status[i] == 'Done':
+        print(str(siteName[i]) + ' is Done')
         continue
 
-    if status[i] == "Skip":
-        print(str(siteName[i]) + " is Skipped")
+    if status[i] == 'Skip':
+        print(str(siteName[i]) + ' is Skipped')
         continue
 
-    if status[i] == "Stop":
-        print("Stop here")
+    if status[i] == 'Stop':
+        print('Stop here')
         break
         
     print(' ')
@@ -135,7 +180,7 @@ for i in df.index:
     if useTemplate[i] == 'Yes':
         print('Use Template')
         ## Use Template Filter
-        filterWindow.child_window(auto_id="cslQATemplate", control_type="Pane").click_input()
+        filterWindow.child_window(auto_id='cslQATemplate', control_type='Pane').click_input()
         pyautogui.typewrite(str(int(template[i])))
 
         pyautogui.press('tab')
@@ -144,12 +189,13 @@ for i in df.index:
     # ############                    ###############
     # ############  Basic Filtering   ###############
 
+
     ## filter on date range of audited date
-    filterWindow.child_window(auto_id="datAuditDateFrom", control_type="Edit").click_input()
-    pyautogui.typewrite('01102019')
-    ##filterWindow.child_window(auto_id="datAuditDateTo", control_type="Edit").click_input()
+    filterWindow.child_window(auto_id='datAuditDateFrom', control_type='Edit').click_input()
+    pyautogui.typewrite(dateStartString)
+    ##filterWindow.child_window(auto_id='datAuditDateTo', control_type='Edit').click_input()
     pyautogui.press('tab')
-    pyautogui.typewrite('31102019')
+    pyautogui.typewrite(dateEndString)
 
 
     ## if the site is Special case, use below
@@ -178,22 +224,22 @@ for i in df.index:
 
     if useContracts[i] == 'Yes':
         ## Use Contracts filter
-        print("Use Contracts")
-        filterWindow.child_window(title="Contracts", auto_id="5", control_type="DataItem").click_input()
+        print('Use Contracts')
+        filterWindow.child_window(title='Contracts', auto_id='5', control_type='DataItem').click_input()
         pyautogui.typewrite(str(constracts[i]))
         pyautogui.press('tab')
 
     if useSite[i] == 'Yes':
         ## Use Site Filter
-        print("Use Site")
-        filterWindow.child_window(auto_id="cslSite", control_type="Pane").click_input()
+        print('Use Site')
+        filterWindow.child_window(auto_id='cslSite', control_type='Pane').click_input()
         pyautogui.typewrite(str(site[i]))
         pyautogui.press('tab')
 
     if useClient[i] == 'Yes':
         ## Use Client Filter
-        print("Use Client")
-        filterWindow.child_window(auto_id="cslClient", control_type="Pane").click_input()
+        print('Use Client')
+        filterWindow.child_window(auto_id='cslClient', control_type='Pane').click_input()
         pyautogui.typewrite(str(client[i]))
         pyautogui.press('tab')
 
@@ -202,27 +248,27 @@ for i in df.index:
         protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
         protertyFilterCriteria.click_input()
         ## get the handle of Group filter
-        groupItem = filterWindow.child_window(title="Group", auto_id="2", control_type="DataItem")
-        matchTypeSection = groupItem.child_window(title="Match type", auto_id="3", control_type="ComboBox")
-        valueSection = groupItem.child_window(title="Value", auto_id="1", control_type="ComboBox")
+        groupItem = filterWindow.child_window(title='Group', auto_id='2', control_type='DataItem')
+        matchTypeSection = groupItem.child_window(title='Match type', auto_id='3', control_type='ComboBox')
+        valueSection = groupItem.child_window(title='Value', auto_id='1', control_type='ComboBox')
 
         ## click and change the filter Equal to ...
         matchTypeSection.click_input()
-        pyautogui.typewrite("e")  # e, for Equal to
-        pyautogui.press("tab")
+        pyautogui.typewrite('e')  # e, for Equal to
+        pyautogui.press('tab')
         time.sleep(2)
         valueSection.click_input()
         pyautogui.typewrite('r') # filter the site name
-        pyautogui.press("tab")
+        pyautogui.press('tab')
 
 
     # ## Save the filter
     print('Saving the filter ...')
     filterWindow.Save.click_input()
     
-    #siteDescriptionTab = completedQAWindow.child_window(title="Site description", control_type="DataItem")
+    #siteDescriptionTab = completedQAWindow.child_window(title='Site description', control_type='DataItem')
     mainCompletedWindow = templa.child_window(title='Completed QA Items', control_type='Window')
-    csmWindow = mainCompletedWindow.child_window(title="CSM", auto_id="56", control_type="ComboBox")
+    csmWindow = mainCompletedWindow.child_window(title='CSM', auto_id='56', control_type='ComboBox')
     csmWindow.wait('exists', 180)
 
     templa.child_window(title='Select format', control_type='Button').click_input()
@@ -237,7 +283,7 @@ for i in df.index:
         pyautogui.moveRel(-25, 25) 
         pyautogui.doubleClick() # apply the format
     else:
-        pyautogui.typewrite("Standard Format")
+        pyautogui.typewrite('Standard Format')
         pyautogui.moveRel(-25, 25) 
         pyautogui.doubleClick() # apply the format
         
