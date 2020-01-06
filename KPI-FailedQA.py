@@ -130,8 +130,8 @@ dateStartString = '01' + str(analysis_month) + yearName
 dateEndString = lastday_analysis_month + str(analysis_month) + yearName
 
 print('starting...')
-print('analysis month:' + monthName + 'analysis year: ' + yearName)
-print('analysis month text:' + analysis_month_text)
+print('analysis month: ' + monthName + ' analysis year: ' + yearName)
+print('analysis month text: ' + analysis_month_text)
 
 for i in df.index:
     constracts = df['CONTRACTS']
@@ -160,10 +160,11 @@ for i in df.index:
         print('Stop here')
         break
         
-    print(' ')
+    print("finding the 'Completed QA Items'...")
 
     ## start 
     completedQAWindow = templa.child_window(title='Completed QA Items', control_type='TabItem')
+    print(str(completedQAWindow.exists()))
     completedQAWindow.click_input()
 
     templa.child_window(title='Change filter', control_type='Button').click_input()

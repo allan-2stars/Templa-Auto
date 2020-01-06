@@ -161,10 +161,11 @@ for i in df.index:
     
     ## Header defined
     siteHeader = analysisWindow.child_window(title='Site', control_type='ComboBox')
-    siteHeader.wait('exists', timeout=280)
+    siteHeader.wait('exists', timeout=280)  ## wait for the analysis result
     ## once the report loaded, start generating...
     dragArea = analysisWindow.child_window(auto_id='GroupByBox', control_type='Group')
     qaItemHeader = analysisWindow.child_window(title='QA Item',  control_type='ComboBox')
+    qaSiteAreaHeader = analysisWindow.child_window(title='QA Site Area',  control_type='ComboBox')
     print('Data loaded, report generating ...')
     ## Drag area title defined
     siteDragArea = analysisWindow.child_window(title='Site', control_type='Button')
@@ -187,17 +188,33 @@ for i in df.index:
     saveAsExcel('first save round', analysisWindow, filePath[i], folderName , fileNameSiteTotals[i])
 
     #analysisWindow.click_input()
-    ## drag 'Site' Label down
+    ## drag 'Site' or other Label down back
     time.sleep(1)
+
     siteDragArea.click_input()
-    pyautogui.dragRel(0,60)
+    pyautogui.dragRel(50, 60)
 
     ## drag 'QA Item' Label up
-    qaItemHeader.click_input(button='left', double='true')
-    time.sleep(1)
-    pyautogui.moveRel(0, -20)
-    time.sleep(1)
-    pyautogui.dragRel(0,-70)
+    
+    if reportTitle[i] == "DAWR Monthly" or reportTitle[i] == "Prime Minister and Cabinet (PMC)":
+        qaSiteAreaHeader.click_input()
+        time.sleep(1)
+        pyautogui.moveRel(0, -20)
+        time.sleep(1)
+        pyautogui.dragRel(0,-70)
+        time.sleep(1)
+        ## drag 'Site' Label to the right
+        siteHeader.click_input(button='left', double='true')
+        time.sleep(1)
+        pyautogui.moveRel(0, -20)
+        time.sleep(1)
+        pyautogui.dragRel(100, 0)
+    else:
+        qaItemHeader.click_input(button='left', double='true')
+        time.sleep(1)
+        pyautogui.moveRel(0, -20)
+        time.sleep(1)
+        pyautogui.dragRel(0,-70)
 
     ## save to the folder
     saveAsExcel('same save round', analysisWindow, filePath[i], folderName , fileNameAllItems[i])

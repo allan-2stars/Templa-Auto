@@ -7,7 +7,8 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 from pywinauto.application import Application
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, date
+import dateutil.relativedelta as relativedelta
 import calendar
 import csv
 import os
@@ -42,13 +43,18 @@ print("Starting...")
 
 print("contiune...")
 print("Site Activated")
-next_month = datetime.now().month + 1
+
+next_month_today = date.today() + relativedelta.relativedelta(months=1)
+next_month = next_month_today.strftime("%m") # type of String
+
+
 current_year = datetime.now().year
-lastday_next_month = calendar.monthrange(current_year, next_month)[1]
+lastday_next_month = calendar.monthrange(current_year, int(next_month))[1]
 
-dateStartString = '01' + str(next_month) + str(current_year)
-dateEndString = str(lastday_next_month) + str(next_month) + str(current_year)
-
+dateStartString = '01' + next_month + str(current_year)
+dateEndString = str(lastday_next_month) + next_month + str(current_year)
+print(dateStartString)
+print(dateEndString)
 # # open analysis details dialouge window
 contractDetailWindow = app.window(title_re='Contract - *')
 contractDetailWindow.wait('exists', timeout=15)
@@ -95,30 +101,30 @@ for i in df.index:
     monthDec = df['Dec']
     completeTitle = area[i] + ' - ' + title[i]
 
-    print(completeTitle + str(status[i]))
+    print(completeTitle + ' ' + str(status[i]))
 
     use_month = monthJan   
-    if next_month == 2:
+    if next_month == '02':
         use_month = monthFeb
-    if next_month == 3:
+    if next_month == '03':
         use_month = monthMar
-    if next_month == 4:
+    if next_month == '04':
         use_month = monthApr
-    if next_month == 5:
+    if next_month == '05':
         use_month = monthMar
-    if next_month == 6:
+    if next_month == '06':
         use_month = monthJun
-    if next_month == 7:
+    if next_month == '07':
         use_month = monthMJul
-    if next_month == 8:
+    if next_month == '08':
         use_month = monthAug
-    if next_month == 9:
+    if next_month == '09':
         use_month = monthSep
-    if next_month == 10:
+    if next_month == '10':
         use_month = monthOct
-    if next_month == 11:
+    if next_month == '11':
         use_month = monthNov
-    if next_month == 12:
+    if next_month == '12':
         use_month = monthDec
         
     # 'x' marks need to set it up, otherwise no need setup.
@@ -133,7 +139,7 @@ for i in df.index:
     if status[i] == "Done" or status[i] == "Skip":
         print(completeTitle + " is Done")
         continue
-
+    print('now is writing... ' + str(use_month[i]) + ' ' + str(current_year))
     ## click Add    
     contractDetailWindow.child_window(title="Add", auto_id="btnAddQA", control_type="Button").click_input()
 
