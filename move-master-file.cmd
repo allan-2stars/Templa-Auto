@@ -1,3 +1,9 @@
+@echo off
+setlocal
+:PROMPT
+SET /P AREYOUSURE=Are you sure (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*Affinity*" "C:\Profiles\awang\My Documents\Report Monthly KPI\Affinity\Dec-2019"
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*BASF*" "C:\Profiles\awang\My Documents\Report Monthly KPI\BASF\Dec-2019"
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*Bowling*" "C:\Profiles\awang\My Documents\Report Monthly KPI\BCA\Dec-2019"
@@ -14,3 +20,7 @@ move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*PMC*" "C:\P
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*Produce*" "C:\Profiles\awang\My Documents\Report Monthly KPI\Produce Markets\Dec-2019"
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*DHS*" "C:\Profiles\awang\My Documents\Report Monthly KPI\SADHS\Dec-2019"
 move "C:\Profiles\awang\My Documents\Report Monthly KPI\MasterFiles\*MAXX*" "C:\Profiles\awang\My Documents\Report Monthly KPI\TK MAXX\Dec-2019"
+
+
+:END
+endlocal

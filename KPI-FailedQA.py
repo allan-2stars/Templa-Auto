@@ -164,7 +164,7 @@ for i in df.index:
 
     ## start 
     completedQAWindow = templa.child_window(title='Completed QA Items', control_type='TabItem')
-    print(str(completedQAWindow.exists()))
+    print('"Completed QA Items" found? ', str(completedQAWindow.exists()))
     completedQAWindow.click_input()
 
     templa.child_window(title='Change filter', control_type='Button').click_input()

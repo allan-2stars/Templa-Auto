@@ -1,3 +1,9 @@
+@echo off
+setlocal
+:PROMPT
+SET /P AREYOUSURE=Are you sure (Y/[N])?
+IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
+
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\Affinity\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\BASF\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\BCA\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
@@ -14,3 +20,6 @@ copy "C:\Profiles\awang\My Documents\Report Monthly KPI\PMC\Nov-2019\*.pdf" "C:\
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\Produce Markets\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\SADHS\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
 copy "C:\Profiles\awang\My Documents\Report Monthly KPI\TK MAXX\Nov-2019\*.pdf" "C:\Profiles\awang\My Documents\Report Monthly KPI\EmailFiles"
+
+:END
+endlocal
