@@ -1,15 +1,8 @@
-#from subprocess import Popen
-#from pywinauto import Desktop
 import pyautogui
 from pywinauto.application import Application
-import time
-#import csv
 import os
-#import sys
+import time
 
-#print(templa)
-#def generate_data_file(t_interval, interface_name, file_name):
-# start Wireshark
 if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
     templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
     app = Application(backend='uia').start(templa_file)

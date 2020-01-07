@@ -1,14 +1,9 @@
-from subprocess import Popen
-from pywinauto import Desktop
+
 import pyautogui
-import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
 from pywinauto.application import Application
-import time
-import csv
 import os
-import sys
+import time
+#import sys
 
 #print(templa)
 #def generate_data_file(t_interval, interface_name, file_name):
