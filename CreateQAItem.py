@@ -40,7 +40,7 @@ print("QA Item Window opened...")
 #
 ########################
 sheetLoader = 'Add QA Items' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 # print("Reading Excel...")
 for i in df.index:
     details = df['DETAILS']
