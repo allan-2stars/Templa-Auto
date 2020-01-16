@@ -10,3 +10,6 @@ pdf
 *.css
 *.webarchive
 *.epub
+testing*
+test*
+templa-env.yml
