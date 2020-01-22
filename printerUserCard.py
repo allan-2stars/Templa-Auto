@@ -24,12 +24,18 @@ def check_exists_by_xpath(xpath):
         return False
     return True
 
+def check_exists_by_link_text(link_name):
+    try:
+        driver.find_element_by_link_text(link_name)
+    except NoSuchElementException:
+        return False
+    return True
+
 ## due to same xpath for different login setting page, so 
 ## check and use are separate xpath
 xpath_to_check = '//*[@id="mainContentsScroll"]/form/div[1]/div/input[3]'
 xpath_to_use = '//*[@id="mainContentsScroll"]/form/div[1]/div/input[2]'
 
-print(str(check_exists_by_xpath(xpath_to_check)))
 if check_exists_by_xpath(xpath_to_check):  
     
     ## click the login admin button
@@ -63,8 +69,8 @@ display_items_list.send_keys("100")
 # Setup Excel Sheet to read user names
 #
 #######################################
-sheetLoader = '192.168.10.19' 
-df = pd.read_excel('printer-setup.xlsx', sheetname=sheetLoader)
+sheetLoader = 'id_list' 
+df = pd.read_excel('printer-setup.xlsx', sheet_name=sheetLoader)
 print("starting...")
 
 ## literate all the record from Excel sheet
@@ -84,9 +90,40 @@ for i in df.index:
 
 
     ## Search Users one by one and change the settings
-    username_link = driver.find_element_by_link_text(user_name[i].strip())
-    username_link.click()
+    
+
+
+    ## first thing first, check if the link text exists
+    
+    ## as long as the link text cannot be found, then click next page
+    ## if till the last page, still unfound, then set the link_name_found as False.
+    link_text_found = True
+    next_page_button = driver.find_element_by_xpath('//*[@id="main"]/form/p[1]/input[2]')
+    while not check_exists_by_link_text(user_name[i].strip()):
+        next_page_button = driver.find_element_by_xpath('//*[@id="main"]/form/p[1]/input[2]')
+       
+        if not next_page_button.is_enabled():
+            link_text_found = False
+            break
+        else:
+            next_page_button.click()
+
+
+    print('--- finished checking user name ---')
+    ## if exists, strip the space and click on the link
+    if link_text_found == True:
+        username_link = driver.find_element_by_link_text(user_name[i].strip())
+        username_link.click()
+    else:
+        print('--------------- Alert -------------')
+        print('User '  + user_name[i] + ' Cannot be Found !!!')
+        print(' ')
+        print(' --------- Very Important !!------------------')
+        print(' ---------------------------------------------')
+        continue
+        
     ## on the newly opened page, click on submit to setup the Card ID
+    ## click "Submit"
     driver.find_element_by_xpath('//*[@id="main"]/form/table[1]/tbody/tr[5]/td/input').click()
     
     ############################################
@@ -101,7 +138,7 @@ for i in df.index:
     
     ## parse all code to text and 
     ## adding leading 0 at front
-    user_code_text = '0'+ str(user_code[i])
+    user_code_text = '0'+ str(int(user_code[i]))
     time.sleep(2)
     
     register_delete_button = driver.find_element_by_xpath('//*[@id="main"]/form/table[2]/tbody/tr/td/input')
@@ -126,5 +163,8 @@ for i in df.index:
     submit_button.click()
     print('done for: ' + user_name[i])
     time.sleep(2)
+    
+print('-------------- Done all ------------')
+    
 
 #driver.close()
