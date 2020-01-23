@@ -92,28 +92,39 @@ for i in df.index:
     ## Search Users one by one and change the settings
     
 
-
-    ## first thing first, check if the link text exists
+    ################################################
+    ##
+    ## Check if the User Name link text exists
+    ##
+    ################################################
     
     ## as long as the link text cannot be found, then click next page
     ## if till the last page, still unfound, then set the link_name_found as False.
-    link_text_found = True
+    link_text_found = True  ## a flag for check if found the user link
     next_page_button = driver.find_element_by_xpath('//*[@id="main"]/form/p[1]/input[2]')
+    
+    ## Search the user name link until found, 
     while not check_exists_by_link_text(user_name[i].strip()):
+        ## if not found, see if this is the last page?
         next_page_button = driver.find_element_by_xpath('//*[@id="main"]/form/p[1]/input[2]')
-       
+        
+        ## if this is the last page, the stop the loop
+        ## set the flag to False
         if not next_page_button.is_enabled():
             link_text_found = False
             break
+            
+        ## if not the last page, go to next page
         else:
             next_page_button.click()
 
 
     print('--- finished checking user name ---')
-    ## if exists, strip the space and click on the link
+    ## if user link exists, click on the link
     if link_text_found == True:
         username_link = driver.find_element_by_link_text(user_name[i].strip())
         username_link.click()
+    ## if the user link not found, continue to check next user
     else:
         print('--------------- Alert -------------')
         print('User '  + user_name[i] + ' Cannot be Found !!!')
@@ -122,16 +133,23 @@ for i in df.index:
         print(' ---------------------------------------------')
         continue
         
-    ## on the newly opened page, click on submit to setup the Card ID
-    ## click "Submit"
-    driver.find_element_by_xpath('//*[@id="main"]/form/table[1]/tbody/tr[5]/td/input').click()
+    ################################################
+    ##
+    ## Click on 'Submit' button to setup the Card ID
+    ##
+    ## #############################################
+    submit_button_xpath = '//*[@id="main"]/form/table[1]/tbody/tr[6]/td/input'
+    if check_exists_by_xpath(submit_button_xpath):
+        driver.find_element_by_xpath(submit_button_xpath).click()
+    else:
+        driver.find_element_by_xpath('//*[@id="main"]/form/table[1]/tbody/tr[5]/td/input').click()
     
-    ############################################
+    ################################################
     ##
     ## Change the Card ID
     ## Need to detect "Delete" button, disabled or enabled
     ##
-    ############################################
+    ################################################
     ## check if the "Delete" button is enabled
     
     ## pause to give time to open the new page
