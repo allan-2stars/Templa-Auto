@@ -78,14 +78,27 @@ print("starting...")
 for i in df.index:
     user_code = df['CODE']
     user_name = df['NAME']
+    user_email = df['EMAIL']
+    user_setup = df['SETUP']
     status = df['STATUS']
+    
+    ## convert numbers to string text
+    
+    ## uncommon below to use code with leading 0
+    # user_code_text = '0'+ str(int(user_code[i]))
+    ## uncommon below to use code without leading 0
+    user_code_text = str(int(user_code[i]))  
 
     if status[i] == "Done" or status[i] == "Skip":
-        print(str(user_code[i]) + ', done for ' + user_name[i])
+        print(user_code_text + ', DONE for ' + user_name[i])
+        continue
+        
+    if status[i] == "Skip":
+        print(user_code_text + ', SKIPPED for ' + user_name[i])
         continue
 
     if status[i] == "Stop":
-        print("Stop here")
+        print("STOPPED as Files told!!")
         break
 
 
@@ -146,7 +159,7 @@ for i in df.index:
     
     ################################################
     ##
-    ## Change the Card ID
+    ## Update the Card ID
     ## Need to detect "Delete" button, disabled or enabled
     ##
     ################################################
@@ -156,8 +169,7 @@ for i in df.index:
     
     ## parse all code to text and 
     ## adding leading 0 at front
-    # user_code_text = '0'+ str(int(user_code[i]))
-    user_code_text = str(int(user_code[i]))
+    
     time.sleep(2)
     
     register_delete_button = driver.find_element_by_xpath('//*[@id="main"]/form/table[2]/tbody/tr/td/input')
@@ -170,13 +182,46 @@ for i in df.index:
     ## once check the textbox is ediable by checking the delete button status,
     ## then type in the Card ID code
     register_card_id_textbox = driver.find_element_by_xpath('//*[@id="element14"]')
-    register_card_id_textbox.send_keys(str(user_code_text))
+    register_card_id_textbox.send_keys(user_code_text)
     print('input the code number ...')
     
     # Click OK button
     register_ok_button = driver.find_element_by_xpath('//*[@id="mainContentsScroll"]/div[4]/div/input[1]')
     register_ok_button.click()
+    
+    ################################################
+    ##
+    ## Update the User Email
+    ## Need to detect if email exist or not
+    ##
+    ################################################
+    
+    
+    email_textbox_xpath = '//*[@id="element8"]'
+    email_textbox = driver.find_element_by_xpath(email_textbox_xpath)
+    if check_exists_by_xpath(email_textbox_xpath):
+        ## if email not exists in system, then enter the email
+        if email_textbox.get_attribute('value') == '':
+            email_textbox.send_keys(user_email[i])
+            print('email updated ...')
+        else: ## if email already exists, skip
+            print('email already exist, no changes for email ...')
+    else:
+        print('email textbox not found, SKIP Email entry only !!')
+    ## if some else email xpath exist later, uncommon below,
+    ## and change the xpath to the real one
+    ## else:
+    ##     driver.find_element_by_xpath('//*[@id="element8"]"]').send_keys(user_email[i])
+    ## if the email textbox xpath changed to another one, use below
+   
 
+        
+    ################################################  
+    ##
+    ## Once finish all the works, 
+    ## then submit the form to save the changes
+    ##
+    ################################################
     ## click the "Submit" button to finalise the setup
     submit_button = driver.find_element_by_xpath('//*[@id="mainContentsScroll"]/div[2]/div/input[1]')
     submit_button.click()
