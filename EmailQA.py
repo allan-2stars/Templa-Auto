@@ -34,7 +34,7 @@ mainQAListWindow = templa.child_window(title='QA Form List', control_type='Windo
 #
 ########################
 sheetLoader = 'Email QA' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 print("starting...")
 
 for i in df.index:

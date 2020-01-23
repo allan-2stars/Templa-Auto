@@ -32,7 +32,7 @@ mainStoresTemplatesWindow = templa.child_window(title='Stores Templates', contro
 #
 ########################
 sheetLoader = 'Product-IPAD' 
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 print("starting...")
 
 for i in df.index:

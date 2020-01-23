@@ -40,7 +40,7 @@ mainSitesWindow = templa.child_window(title='Sites', control_type='Window')
 
 
 site_reallocate_sheet = 'Sites Re-Allocate' 
-df = pd.read_excel('test.xlsx', sheetname=site_reallocate_sheet)
+df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
 
 
 for i in df.index:

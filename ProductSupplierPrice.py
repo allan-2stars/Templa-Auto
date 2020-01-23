@@ -32,7 +32,7 @@ mainProductsWindow = templa.child_window(title='Product List', control_type='Win
 #
 ########################
 sheetLoader = 'Product Cost'
-df = pd.read_excel('test.xlsx', sheetname=sheetLoader)
+df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 
 for i in df.index:
     productCode = df['PRODUCT-CODE']
