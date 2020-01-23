@@ -156,7 +156,8 @@ for i in df.index:
     
     ## parse all code to text and 
     ## adding leading 0 at front
-    user_code_text = '0'+ str(int(user_code[i]))
+    # user_code_text = '0'+ str(int(user_code[i]))
+    user_code_text = str(int(user_code[i]))
     time.sleep(2)
     
     register_delete_button = driver.find_element_by_xpath('//*[@id="main"]/form/table[2]/tbody/tr/td/input')
