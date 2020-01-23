@@ -83,7 +83,8 @@ for i in df.index:
     status = df['STATUS']
     
     ## convert numbers to string text
-    
+    ## parse all code to text and 
+    ## adding leading 0 at front
     ## uncommon below to use code with leading 0
     # user_code_text = '0'+ str(int(user_code[i]))
     ## uncommon below to use code without leading 0
@@ -166,10 +167,7 @@ for i in df.index:
     ## check if the "Delete" button is enabled
     
     ## pause to give time to open the new page
-    
-    ## parse all code to text and 
-    ## adding leading 0 at front
-    
+       
     time.sleep(2)
     
     register_delete_button = driver.find_element_by_xpath('//*[@id="main"]/form/table[2]/tbody/tr/td/input')
