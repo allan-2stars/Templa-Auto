@@ -51,12 +51,17 @@ for i in df.index:
 
     # trim the space on leading and tailing, in case excel sheet code un-stripped.
     product_code_text = str(product_code[i]).strip()
+    product_name_text = str(product_name[i]).strip()
 
     # # If the product exists
     # # click on the "Code" Edit Box
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
     pyautogui.typewrite(product_code_text)
 
+    ## in case product not found, after 'Tab' key pressed,
+    ## next time when type write the code, 
+    ## will replace the last enteried text
+    pyautogui.press('tab') 
 
     # check if the Part Number is match the Product code, move Part no. on the first column
     productItem = mainProductsWindow.child_window(title=product_code_text, control_type="DataItem")
@@ -77,7 +82,7 @@ for i in df.index:
         productDetailWindow.wait('exists', timeout=15)
         pyautogui.press('tab')
         ## productDetailWindow.child_window(auto_id="txtDescription", control_type="Edit").click_input()
-        pyautogui.typewrite(product_name[i])
+        pyautogui.typewrite(product_name_text)
 
         print("Product name/description changed ...")
 

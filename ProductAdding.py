@@ -47,7 +47,13 @@ for i in df.index:
     status = df['STATUS']
     prefer = df['PREFERRED']
     unit = df['UNIT']
-    preferString = str(int(prefer[i]))
+    try:
+        preferString = str(int(prefer[i]))
+    except:
+        print('-------------------------------------------------------------')
+        print('---- PREFERRED column not a number, should be 1 or 0 !!! ----')
+        print('-------------------------------------------------------------')
+        break
 
     if status[i] == "Done" or status[i] == "Skip":
         print(str(productCode[i]) + " is Done")
