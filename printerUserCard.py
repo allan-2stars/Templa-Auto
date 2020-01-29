@@ -9,7 +9,7 @@ from pandas import ExcelFile
 import time
 
 driver = webdriver.Chrome()
-driver.get("http://192.168.10.19/account_userlist.html")
+driver.get("http://192.168.10.21/account_userlist.html")
 # 192.168.10.12
 # 192.168.10.19
 # 192.168.10.20
@@ -81,14 +81,7 @@ for i in df.index:
     user_email = df['EMAIL']
     user_setup = df['SETUP']
     status = df['STATUS']
-    
-    ## convert numbers to string text
-    ## parse all code to text and 
-    ## adding leading 0 at front
-    ## uncommon below to use code with leading 0
-    # user_code_text = '0'+ str(int(user_code[i]))
-    ## uncommon below to use code without leading 0
-    user_code_text = str(int(user_code[i]))  
+ 
 
     if status[i] == "Done" or status[i] == "Skip":
         print(user_code_text + ', DONE for ' + user_name[i])
@@ -101,11 +94,23 @@ for i in df.index:
     if status[i] == "Stop":
         print("STOPPED as Files told!!")
         break
-
-
+        
+    ################################################
+    ## convert numbers to string text
+    ##
+    ## uncommon below to use code with leading 0
+    user_code_text = '0'+ str(int(user_code[i]))
+    ##
+    ##
+    ## uncommon below to use code without leading 0
+    ## user_code_text = str(int(user_code[i])) 
+    ##
+    ################################################
+    
+    
+    ################################################
     ## Search Users one by one and change the settings
     
-
     ################################################
     ##
     ## Check if the User Name link text exists
@@ -167,7 +172,6 @@ for i in df.index:
     ## check if the "Delete" button is enabled
     
     ## pause to give time to open the new page
-       
     time.sleep(2)
     
     register_delete_button = driver.find_element_by_xpath('//*[@id="main"]/form/table[2]/tbody/tr/td/input')
