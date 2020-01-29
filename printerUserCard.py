@@ -83,7 +83,7 @@ for i in df.index:
     status = df['STATUS']
  
 
-    if status[i] == "Done" or status[i] == "Skip":
+    if status[i] == "Done":
         print(user_code_text + ', DONE for ' + user_name[i])
         continue
         
