@@ -208,7 +208,9 @@ for i in df.index:
     pyautogui.press('tab')
     print('date end ', dateEndString)
     pyautogui.typewrite(dateEndString)
-
+    ####
+    ## print out the current site
+    print('site analytics: ', siteName[i])
 
     ## if the site is Special case, use below
     if str(siteName[i]) == 'DAWR' or str(siteName[i]) == 'PMC':
