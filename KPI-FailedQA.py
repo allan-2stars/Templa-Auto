@@ -96,41 +96,53 @@ else:
     analysis_month = datetime.now().month - 1
     analysis_year = datetime.now().year
 
+analysis_month_string = '01'
 if analysis_month == 1:
     analysis_month_text = 'Jan'
 if analysis_month == 2:
+    analysis_month_string = '02'
     analysis_month_text = 'Feb'
 if analysis_month == 3:
+    analysis_month_string = '03'
     analysis_month_text = 'Mar'
 if analysis_month == 4:
+    analysis_month_string = '04'
     analysis_month_text = 'Apr'
 if analysis_month == 5:
+    analysis_month_string = '05'
     analysis_month_text = 'May'
 if analysis_month == 6:
+    analysis_month_string = '06'
     analysis_month_text = 'Jun'
 if analysis_month == 7:
+    analysis_month_string = '07'
     analysis_month_text = 'Jul'
 if analysis_month == 8:
+    analysis_month_string = '08'
     analysis_month_text = 'Aug'
 if analysis_month == 9:
+    analysis_month_string = '09'
     analysis_month_text = 'Sep'
 if analysis_month == 10:
+    analysis_month_string = str(analysis_month)
     analysis_month_text = 'Oct'
 if analysis_month == 11:
+    analysis_month_string = str(analysis_month)
     analysis_month_text = 'Nov'
 if analysis_month == 12:
+    analysis_month_string = str(analysis_month)
     analysis_month_text = 'Dec'
 
-monthName = analysis_month_text
-yearName = str(analysis_year)
+monthName_string = analysis_month_text
+yearName_string = str(analysis_year)
 
-lastday_analysis_month = str(calendar.monthrange(analysis_year, analysis_month)[1])
+lastday_analysis_month_string = str(calendar.monthrange(analysis_year, analysis_month)[1])
 
-dateStartString = '01' + str(analysis_month) + yearName
-dateEndString = lastday_analysis_month + str(analysis_month) + yearName
+dateStartString = '01' + analysis_month_string + yearName_string
+dateEndString = lastday_analysis_month_string + analysis_month_string + yearName_string
 
 print('starting...')
-print('analysis month: ' + monthName + ' analysis year: ' + yearName)
+print('analysis month: ' + monthName_string + ' analysis year: ' + yearName_string)
 print('analysis month text: ' + analysis_month_text)
 
 for i in df.index:
@@ -189,10 +201,12 @@ for i in df.index:
 
 
     ## filter on date range of audited date
+    print('date from ', dateStartString)
     filterWindow.child_window(auto_id='datAuditDateFrom', control_type='Edit').click_input()
     pyautogui.typewrite(dateStartString)
     ##filterWindow.child_window(auto_id='datAuditDateTo', control_type='Edit').click_input()
     pyautogui.press('tab')
+    print('date end ', dateEndString)
     pyautogui.typewrite(dateEndString)
 
 
@@ -288,7 +302,7 @@ for i in df.index:
 
 
     ## read below from excel sheet
-    folderName = monthName + '-' + yearName
+    folderName = monthName_string + '-' + yearName_string
     ##
     print('Ready to Export to Excel File ...')
     saveAsExcel(templa, filePath[i], folderName , fileName[i])

@@ -68,11 +68,11 @@ def saveAsExcel(flag, window, pathName, folderName, fileName):
 # Setup Excel Sheet
 #
 ########################
-if datetime.now().month - 1 == 0:
+analysis_month = datetime.now().month - 1
+if analysis_month == 0:
     analysis_month = 12
     analysis_year = datetime.now().year - 1
 else:
-    analysis_month = datetime.now().month - 1
     analysis_year = datetime.now().year
 
 if analysis_month == 1:
@@ -157,11 +157,16 @@ for i in df.index:
     pyautogui.click() # open the site by double click
     reportConfigWindow.Select.click_input()
     analysisWindow['Run report'].click_input()
+
+    ## calculate the loading time
+    start = time.time()
     print('Data loading ...')
     
     ## Header defined
     siteHeader = analysisWindow.child_window(title='Site', control_type='ComboBox')
     siteHeader.wait('exists', timeout=280)  ## wait for the analysis result
+    end = time.time()
+    print('Time taken for loading the result: ', int(end - start))
     ## once the report loaded, start generating...
     dragArea = analysisWindow.child_window(auto_id='GroupByBox', control_type='Group')
     qaItemHeader = analysisWindow.child_window(title='QA Item',  control_type='ComboBox')
