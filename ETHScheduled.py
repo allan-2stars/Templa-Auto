@@ -82,8 +82,6 @@ df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 for i in df.index:
     area = df['AREA']
     title = df['TITLE']
-    dateStart = df['DATE START']
-    dateEND = df['DATE END']
     qaTemplate = df['QA TEMPLATE']
     task = df['TASK']
     status = df['STATUS']
@@ -101,35 +99,33 @@ for i in df.index:
     monthDec = df['Dec']
     completeTitle = area[i] + ' - ' + title[i]
 
-    print(completeTitle + ' ' + str(status[i]))
-
-    use_month = monthJan   
+    use_month = monthJan[i]   
     if next_month == '02':
-        use_month = monthFeb
+        use_month = monthFeb[i]
     if next_month == '03':
-        use_month = monthMar
+        use_month = monthMar[i]
     if next_month == '04':
-        use_month = monthApr
+        use_month = monthApr[i]
     if next_month == '05':
-        use_month = monthMar
+        use_month = monthMar[i]
     if next_month == '06':
-        use_month = monthJun
+        use_month = monthJun[i]
     if next_month == '07':
-        use_month = monthMJul
+        use_month = monthMJul[i]
     if next_month == '08':
-        use_month = monthAug
+        use_month = monthAug[i]
     if next_month == '09':
-        use_month = monthSep
+        use_month = monthSep[i]
     if next_month == '10':
-        use_month = monthOct
+        use_month = monthOct[i]
     if next_month == '11':
-        use_month = monthNov
+        use_month = monthNov[i]
     if next_month == '12':
-        use_month = monthDec
+        use_month = monthDec[i]
         
     # 'x' marks need to set it up, otherwise no need setup.
-    if use_month[i] != "x":
-        print("the QA for month of " + str(next_month))
+    if use_month != "x":
+        print('Skipped: ', completeTitle)
         continue
 
     if status[i] == "Stop":
@@ -137,9 +133,11 @@ for i in df.index:
         break
 
     if status[i] == "Done" or status[i] == "Skip":
-        print(completeTitle + " is Done")
+        print('Done: ', completeTitle)
         continue
-    print('now is writing... ' + str(use_month[i]) + ' ' + str(current_year))
+
+    print('now is writing... ')
+    print(dateStartString + '-' + dateEndString)
     ## click Add    
     contractDetailWindow.child_window(title="Add", auto_id="btnAddQA", control_type="Button").click_input()
 
