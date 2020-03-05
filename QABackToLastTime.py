@@ -82,9 +82,9 @@ for i in df.index:
     # see if QA item exist
 
     # see if exist	    # see if exist
-    qaInternalItem = contractDetailWindow.window(title='1 -- Internal QA -- QA-INT')
-    qaExternalItem = contractDetailWindow.window(title='2 -- External QA -- QA-EXT')
-    qaExternalItemOther = contractDetailWindow.window(title='4 -- QA-Ext -- QA-EXT')
+    qaInternalItem = contractDetailWindow.window(title='1')
+    qaExternalItem = contractDetailWindow.window(title='2')
+    qaExternalItemOther = contractDetailWindow.window(title='4')
 
 
     # if item exist, then see if need to change freq

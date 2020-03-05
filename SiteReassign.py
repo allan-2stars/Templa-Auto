@@ -54,8 +54,11 @@ for i in df.index:
     #print("Site Name:" + siteName[i])
     #print("CSM: " + csm[i])
     #print("iPad: " + ipad[i])
-    if status[i] == "Done" or status[i] == "Skip":
+    if status[i] == "Done":
         print(str(siteCode[i]) + " is Done")
+        continue
+    if status[i] == "Skip":
+        print(str(siteCode[i]) + " is Skipped")
         continue
 
     if status[i] == "Stop":
@@ -160,7 +163,9 @@ for i in df.index:
         # press Accept button
         # Save
         siteAnalysisWindow.Accept.click_input()
+        pyautogui.PAUSE = 2.5
         siteDetailWindow.Save.click_input()
+        #siteDetailWindow.window(title='Save', control_type='Button')[0].click_input()
         pyautogui.PAUSE = 1.5
         print(str(siteCode[i]) + ": is Done now")
         print("###############################")

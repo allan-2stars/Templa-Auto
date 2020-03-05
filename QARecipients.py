@@ -83,19 +83,24 @@ for i in df.index:
 
     # Check if there is QA Items
     # if no qa at all, then no need to change qa recipient
-    # qaExternalItemTitle = '2 -- External QA -- QA-EXT'
-    # qaExternalItemTitleOther = '4 -- QA-EXT -- QA-EXT'
-    qaExternalItemTitle = '2'
-    qaExternalItemTitleOther = '4'
-    qaAgedCareItemTitle = 'NationWide - Nation Wide Aged Care Standard'
 
-    qaExternalItemExists = contractDetailWindow.window(title=qaExternalItemTitle).exists()
-    qaExternalItemOtherExists = contractDetailWindow.window(title=qaExternalItemTitleOther).exists()
-    qaAgedCareItemTitleExists = contractDetailWindow.window(title=qaAgedCareItemTitle).exists()
-    print("qa item NORMAL exist: " + str(qaExternalItemExists))
-    print("qa item OTHER exist: " + str(qaExternalItemOtherExists))
-    
-    if  qaExternalItemExists or qaExternalItemOtherExists or qaAgedCareItemTitleExists:
+    qaTaskNumber2 = '2'
+    qaTaskNumber4 = '4'
+    # qaAgedCareItemTitle = 'NationWide - Nation Wide Aged Care Standard'
+
+    try:
+        qaExternalItem2Exists = contractDetailWindow.window(title=qaTaskNumber2).exists()
+        qaExternalItem4Exists = contractDetailWindow.window(title=qaTaskNumber4).exists()
+        # qaAgedCareItemTitleExists = contractDetailWindow.window(title=qaAgedCareItemTitle).exists()
+    except:
+        print('--------------------------------------------------')
+        print('Note: More than one QA task exists ... It is fine.')
+        print('--------------------------------------------------')
+        qaExternalItem4Exists = True
+        qaExternalItem2Exists = True
+    #finally:
+  
+    if  qaExternalItem2Exists or qaExternalItem4Exists: # or qaAgedCareItemTitleExists:
         ## QA failure recipients button click.
         if str(isFailRecipient[i]).lower() == 'yes':
             contractDetailWindow['QA failure recipients'].click_input()
