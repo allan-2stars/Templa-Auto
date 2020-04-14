@@ -36,10 +36,10 @@ def saveAsExcel(flag, window, pathName, folderName, fileName):
 
     ## check if this 'save' is the same as the previouse 'save' - save in the same folder?
     if flag == 'first save round':
-        addressBar = saveAsWindow.child_window(title_re='Address: *', control_type='ToolBar')
-        addressBar.click_input()
+        print('type in Address bar to the correct directory ...')
+        saveAsWindow.child_window(title_re='Address: *', control_type='ToolBar').click_input()
         pyautogui.typewrite(pathName)
-        time.sleep(1)
+        time.sleep(2)
         pyautogui.press('enter')
 
         ## add a new folder if not exists
