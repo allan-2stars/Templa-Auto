@@ -109,7 +109,7 @@ for i in df.index:
             contractDetailWindow['QA form recipients'].click_input()
 
         contractRecipientsWindow = contractDetailWindow.child_window(title_re='Contract Recipients - *')
-        contractRecipientsWindow.wait('exists', timeout=15)
+        contractRecipientsWindow.wait('exists', timeout=35)
         
         #contractRecipientsWindow.wait('exists', timeout=15)
         print("check recipient")
