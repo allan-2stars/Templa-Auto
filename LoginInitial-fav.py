@@ -24,7 +24,7 @@ loginPage['LoginButton'].click_input()
 # Error Active User Exist
 errorWindow = loginPage.window(title_re="Existing*")
 # errorWindow.print_control_identifiers()
-time.sleep(5)
+time.sleep(2)
 #errorWindow.wait("exists",timeout=15)
 print("Starting...")
 if errorWindow.exists():

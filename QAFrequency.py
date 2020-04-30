@@ -65,12 +65,12 @@ for i in df.index:
 
     # # open analysis details dialouge window
     contractDetailWindow = app.window(title_re='Contract - *')
-    contractDetailWindow.wait('exists', timeout=15)
+    contractDetailWindow.wait('exists', timeout=35)
 
 
     # Go to QA tab
-    contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
-
+    contractTabWindow = contractDetailWindow.child_window(title='QA', control_type='TabItem')
+    contractTabWindow.click_input()
 
     # see if exist, use the Task number to check, in Templa, open "Task number" tab if not there.
     qaExternalItem = contractDetailWindow.window(title='2')
@@ -101,7 +101,8 @@ for i in df.index:
             pyautogui.PAUSE = 3.5
 
             # press the tab of QA
-            contractDetailWindow.child_window(title='QA', control_type='TabItem').click_input()
+            contractTabWindow.wait('exists', timeout=35)
+            contractTabWindow.click_input()
             if qaExternalItem.exists():
                 qaExternalItem.click_input(double=True)
             if qaExternalItemOther.exists():
@@ -174,7 +175,7 @@ for i in df.index:
             contractQAWindow.Accept.click_input()
             #contractDetailWindow.print_control_identifiers()
             contractDetailWindow.child_window(title="Request approval", auto_id="[Group : workflow Tools] Tool : requestapproval - Index : 0 ", control_type="Button").click_input()
-            pyautogui.PAUSE = 2.5
+            time.sleep(2.5)
             pyautogui.typewrite('y') ## equivilent to clicking "yes"
             print(siteCode[i] + " updated now")
             time.sleep(6)

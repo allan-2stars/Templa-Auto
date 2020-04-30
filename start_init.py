@@ -2,6 +2,10 @@
 import pyautogui
 from pywinauto.application import Application
 import os
+import time
+
+
+        
 
 def start_init():
     templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
@@ -14,38 +18,32 @@ def start_init():
 
     ### the list of title in 'Favourites' menu
     list_favourites = ['Workflow Manager', 'Device Registration', 'Workflow Paths', \
-                    'LITE Users', 'Analysis Codes', 'Sites', 'Contracts', 'Contacts']
+                      'LITE Users', 'Analysis Codes', 'Sites', 'Contracts', 'Contacts']
+
+    def operate_filter(filter_name):
+        filter_window = templa.window(title_re=filter_name)
+        # Wait filter comes out
+        filter_window.wait('exists', timeout=35)
+        filter_window.child_window(title="Default criteria", control_type="Button").click_input()
+        print("looking for Save button for, " + filter_name )
+        filter_window.child_window(title="Save", \
+                        auto_id="[Group : save Tools] Tool : CodedMaintenance_saveandclose - Index : 0 ", \
+                        control_type="Button").click_input()
+        print(filter_name + " Saved, waiting ...")
+        time.sleep(7)
 
     ## Open Contract
     for list_title in list_favourites:
-
-        #contractsSubMenu = templa.child_window(title=list_title, control_type="DataItem").click_input()
-        #contractsSubMenu.click_input()
+        time.sleep(1) # wait 1 second for opening the menu
         templa.child_window(title=list_title, control_type="DataItem").click_input()
 
         ## if the window opened need more filter or details to do, use below conditions path
         if list_title == "Sites":
-            sitesFilterWindow = templa.window(title_re='Site Filter Detail - *')
-            # Wait filter comes out
-            sitesFilterWindow.wait('exists', timeout=15)
-            sitesFilterWindow.child_window(title="Default criteria").click_input()
-            sitesFilterWindow.Save.click_input()
-            pyautogui.PAUSE = 10.5
+            operate_filter('Site Filter Detail - *')
         
         if list_title == "Contracts":
-            contractsFilterWindow = templa.window(title_re='Contract Filter Detail -*')
-            # Wait filter comes out
-            contractsFilterWindow.wait('exists', timeout=15)
-            contractsFilterWindow.child_window(title="Default criteria").click_input()
-            contractsFilterWindow.Save.click_input()
-            pyautogui.PAUSE = 10.5
+            operate_filter('Contract Filter Detail - *')
 
         if list_title == "Contacts":
-            contactsFilterWindow = templa.window(title_re='Contact Filter Detail - *')
-            # Wait filter comes out
-            contactsFilterWindow.wait('exists', timeout=15)
-            contactsFilterWindow.child_window(title="Default criteria").click_input()
-            contactsFilterWindow.Save.click_input()
-            pyautogui.PAUSE = 5.5
-        ### no matter which menu you select, need wait for least 3 seconds
-        pyautogui.PAUSE = 3.5
+            operate_filter('Contact Filter Detail - *')
+        
