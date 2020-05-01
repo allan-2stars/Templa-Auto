@@ -33,20 +33,19 @@ def start_init():
             pyautogui.press("tab")
             pyautogui.typewrite(date_range_list[1])
             pyautogui.press("tab")
-        else:
-            ## for other filter, click default before save
-            filter_window.child_window(title="Default criteria", control_type="Button").click_input()
+        # else:
+        #     ## for other filter, click default before save
+        #     filter_window.child_window(title="Default criteria", control_type="Button").click_input()
         
         print("looking for Save button for, " + filter_name )
         filter_window.child_window(title="Save", \
                         auto_id="[Group : save Tools] Tool : CodedMaintenance_saveandclose - Index : 0 ", \
                         control_type="Button").click_input()
         print(filter_name + " Saved, waiting ...")
-        time.sleep(7)
 
     ## Open Contract
     for list_title in list_favourites:
-        time.sleep(1) # wait 1 second for opening the menu
+        time.sleep(7) # wait 1 second for opening the menu
         templa.child_window(title=list_title, control_type="DataItem").click_input()
 
         ## if the window opened need more filter or details to do, use below conditions path
