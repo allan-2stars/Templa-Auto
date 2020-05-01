@@ -3,9 +3,8 @@ import pyautogui
 from pywinauto.application import Application
 import os
 import time
+from date_range import date_range
 
-
-        
 
 def start_init():
     templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
@@ -18,13 +17,26 @@ def start_init():
 
     ### the list of title in 'Favourites' menu
     list_favourites = ['Workflow Manager', 'Device Registration', 'Workflow Paths', \
-                      'LITE Users', 'Analysis Codes', 'Sites', 'Contracts', 'Contacts']
+                      'LITE Users', 'Analysis Codes', 'Sites', 'Contracts', 'Contacts', 'QA Forms']
+
 
     def operate_filter(filter_name):
         filter_window = templa.window(title_re=filter_name)
         # Wait filter comes out
         filter_window.wait('exists', timeout=35)
-        filter_window.child_window(title="Default criteria", control_type="Button").click_input()
+        if filter_name == 'QA Filter Detail - *':
+            filter_window.child_window(title="QA filtering criteria", control_type='TabItem').click_input()
+            filter_window.child_window(auto_id="datScheduledDateFrom", control_type="Edit").click_input()
+            # get the list of date, and type them in place
+            date_range_list = date_range(-1)
+            pyautogui.typewrite(date_range_list[0])
+            pyautogui.press("tab")
+            pyautogui.typewrite(date_range_list[1])
+            pyautogui.press("tab")
+        else:
+            ## for other filter, click default before save
+            filter_window.child_window(title="Default criteria", control_type="Button").click_input()
+        
         print("looking for Save button for, " + filter_name )
         filter_window.child_window(title="Save", \
                         auto_id="[Group : save Tools] Tool : CodedMaintenance_saveandclose - Index : 0 ", \
@@ -46,4 +58,7 @@ def start_init():
 
         if list_title == "Contacts":
             operate_filter('Contact Filter Detail - *')
+
+        if list_title == "QA Forms":
+            operate_filter('QA Filter Detail - *')
         

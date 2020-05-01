@@ -14,7 +14,7 @@ import csv
 import os
 import sys
 import pywinauto
-from datetime import datetime
+
 
 
 if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
