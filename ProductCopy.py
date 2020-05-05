@@ -103,26 +103,11 @@ for i in df.index:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     # indent once below
 
     # click on the Code Edit Box
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
-    
-    
-
-
+ 
     #######################################
     #
     # Setup Copied Product Code
@@ -132,7 +117,7 @@ for i in df.index:
     # Setup Copied Product Code.
     # if not all the same setup in Excel Sheet
     # for example copy product CODE URB120
-    existingCode = "URB1000"
+    existingCode = str(productCode[i])
     pyautogui.typewrite(existingCode)
     mainProductsWindow.child_window(title=existingCode, control_type="DataItem").click_input()
 

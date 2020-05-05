@@ -33,18 +33,25 @@ mainProductsWindow = templa.child_window(title='Product List', control_type='Win
 ########################
 sheetLoader = 'Product Cost'
 df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
-
+productCode = df['PRODUCT-CODE']
+supplierCode = df['SUPPLIER-CODE']
+supplierCodeRe = df['SUPPLIER-CODE-RE']
+itemName = df['ITEMS']
+cost = df['COST']
+status = df['STATUS']
+prefer = df['PREFERRED']
 for i in df.index:
-    productCode = df['PRODUCT-CODE']
-    supplierCode = df['SUPPLIER-CODE']
-    supplierCodeRe = df['SUPPLIER-CODE-RE']
-    itemName = df['ITEMS']
-    cost = df['COST']
-    status = df['STATUS']
-    prefer = df['PREFERRED']
+    
+    productCode_string = str(productCode[i])
+    supplierCode_string = str(supplierCode[i])
+    itemName_string = str(itemName[i])
 
-    if status[i] == "Done" or status[i] == "Skip":
-        print(str(productCode[i]) + " is Done")
+    if status[i] == "Done":
+        print(productCode_string + " is Done")
+        continue
+
+    if status[i] == "Skip":
+        print(productCode_string + " is Skipped")
         continue
 
     if status[i] == "Stop":
@@ -52,20 +59,23 @@ for i in df.index:
         break
 
     # click on the Code/Items name to Edit Box
-    if sheetLoader == "Urbanest NT Price"
+    if sheetLoader == "Urbanest NT Price":
         mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
-        pyautogui.typewrite(str(itemName[i]))
-    else        
+        pyautogui.typewrite(itemName_string)
+    else:    
         mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
-        pyautogui.typewrite(str(productCode[i]))
+        pyautogui.typewrite(productCode_string)
 
-    # # in case the code is not long enough to narrow to one product
-    # # so we need item description to narrow it down further
-    # mainProductsWindow.window(title='Description', control_type='ComboBox').click_input()
-    # pyautogui.typewrite(itemName[i])
+    ## check if product exists before open it
+    productItem = mainProductsWindow.child_window(title=productCode_string, control_type="DataItem")
+    if not productItem.exists():
+        pyautogui.press('tab')
+        ## go to next directly, no product need to change due to non-exists
+        continue
+
     pyautogui.moveRel(0, 25) 
     pyautogui.doubleClick() # open the site by double click
-    print("starting...")
+    print("open products window and ready to change ...")
 
     # # open analysis details dialouge window
     # #siteDetailWindow = app.window(title_re='Site Detail - *')
@@ -84,7 +94,7 @@ for i in df.index:
         # add supplier name by code
         # the supplier text box is focused by default
         print ("add supplier")
-        pyautogui.typewrite(supplierCode[i])
+        pyautogui.typewrite(supplierCode_string)
         pyautogui.press('tab')
         preferredCheckbox = productSupplierWindow.child_window(auto_id="chkIsPreferredSupplier", control_type="CheckBox")
         isChecked = preferredCheckbox.get_toggle_state()
@@ -95,7 +105,7 @@ for i in df.index:
         # you can also use tab tab to go down
         pyautogui.press('tab')
         pyautogui.press('tab')
-        pyautogui.typewrite(productCode[i])
+        pyautogui.typewrite(productCode_string)
         pyautogui.press('tab')
         # check prefer checkbox
         # add/change price
@@ -117,7 +127,7 @@ for i in df.index:
     pyautogui.PAUSE = 2.5
     productDetailWindow.Save.click_input()
     pyautogui.PAUSE = 2.5
-    print (str(itemName[i]) + " is Done now")
+    print (productCode_string + ' ' + itemName_string + " is Done now")
 
 
 
