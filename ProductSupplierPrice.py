@@ -68,32 +68,37 @@ for i in df.index:
 
     ## check if product exists before open it
     productItem = mainProductsWindow.child_window(title=productCode_string, control_type="DataItem")
+ #   productItem.wait('exists', timeout=5)
     if not productItem.exists():
         pyautogui.press('tab')
+        print(productCode_string + ' does NOT Exists,')
+        print('Nothing changes, go to Next ...')
+        print('--------------------------------')
+        print(' ')
         ## go to next directly, no product need to change due to non-exists
         continue
 
     pyautogui.moveRel(0, 25) 
     pyautogui.doubleClick() # open the site by double click
-    print("open products window and ready to change ...")
+    print("open products window ...")
 
     # # open analysis details dialouge window
     # #siteDetailWindow = app.window(title_re='Site Detail - *')
     productDetailWindow = app.window(title_re='Products - *')
-    productDetailWindow.wait('exists', timeout=15)
+    productDetailWindow.wait('exists', timeout=35)
 
     # Go to supplier, only change the cost price
     productDetailWindow.window(title='Suppliers', control_type='TabItem').click_input()
     supplierEntry = productDetailWindow.child_window(title_re=supplierCodeRe[i])
     if not supplierEntry.exists():
+        print('supplier NOT Exists')
         productDetailWindow.Add.click_input()
-        print ("not exist")
         # open new supplier detail window
         productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
-        productSupplierWindow.wait('exists', timeout=15)
+        productSupplierWindow.wait('exists', timeout=35)
         # add supplier name by code
         # the supplier text box is focused by default
-        print ("add supplier")
+        print ("add supplier ...")
         pyautogui.typewrite(supplierCode_string)
         pyautogui.press('tab')
         preferredCheckbox = productSupplierWindow.child_window(auto_id="chkIsPreferredSupplier", control_type="CheckBox")
@@ -113,21 +118,25 @@ for i in df.index:
         pyautogui.typewrite(str(cost[i]))
         #pyautogui.press('tab')
     else:  
+        print('supplier exists')
         # open specific supplier item
         supplierEntry.click_input(button='left', double=True)
         productSupplierWindow = productDetailWindow.child_window(title_re='Product suppliers - *')
-        productSupplierWindow.wait('exists', timeout=15)
+        productSupplierWindow.wait('exists', timeout=35)
         # add/change price
         productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
         pyautogui.typewrite(str(cost[i]))
+        print('price changed ...')
         pyautogui.press('tab')
 
     # Save
     productSupplierWindow.Accept.click_input()
     pyautogui.PAUSE = 2.5
     productDetailWindow.Save.click_input()
-    pyautogui.PAUSE = 2.5
+    time.sleep(5)
     print (productCode_string + ' ' + itemName_string + " is Done now")
+    print('#######################')
+    print(' ')
 
 
 
