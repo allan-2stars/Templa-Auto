@@ -2,7 +2,7 @@ import pyautogui
 from pywinauto.application import Application
 import os
 import time
-from start_init import start_init 
+from functions.functions_init import start_init 
 
 if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
     templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"

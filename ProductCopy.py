@@ -14,13 +14,11 @@ import pywinauto
 from datetime import datetime
 
 
-if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
-    templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
-    app = Application(backend='uia').connect(path=templa_file)
-else:
-    print("Can't find Templa on your computer")
+from functions.functions_utils import tm_init
 
-templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
+## get the appliation handler from the init function
+templa = tm_init()[0]
+app = tm_init()[1]
 
 ## start 
 templa.child_window(title='Product List', control_type='TabItem').click_input()
