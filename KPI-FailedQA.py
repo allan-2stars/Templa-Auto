@@ -1,28 +1,16 @@
-from subprocess import Popen
-from pywinauto import Desktop
-from pywinauto import Application
 import pyautogui
 import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
-from pywinauto.application import Application
 import time
 from datetime import datetime
 import calendar
-import csv
-import os
-import sys
 import pywinauto
 from datetime import datetime
+from functions.functions_utils import tm_init
 
-## get Templa ready
-if (os.path.exists(r'E:\TCMS_LIVE\Client Suite')):
-    templa_file = r'E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe'
-    app = Application(backend='uia').connect(path=templa_file)
-else:
-    print('Can not find Templa on your computer')
+## get the appliation handler from the init function
+templa = tm_init()[0]
+app = tm_init()[1]
 
-templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
 
 # completedQAWindow = app.window(title='Completed QA Items', control_type='TabItem')
 completedQAWindow = templa.child_window(title='Completed QA Items', control_type='TabItem')

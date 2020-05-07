@@ -1,48 +1,19 @@
-from subprocess import Popen
-from pywinauto import Desktop
-from pywinauto import Application
+
 import pyautogui
 import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
-from pywinauto.application import Application
 import time
 from datetime import datetime, timedelta, date
 import dateutil.relativedelta as relativedelta
 import calendar
-import csv
-import os
-import sys
 import pywinauto
+from functions.functions_utils import tm_init
+##
 
-
-
-if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
-    templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
-    app = Application(backend='uia').connect(path=templa_file)
-else:
-    print("Can't find Templa on your computer")
-
-templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
-
+## need to active the site and open the qa window
+## get the appliation handler from the init function
+app = tm_init()[1]
 print("Starting...")
-## start 
-# mainContractsTab = templa.child_window(title='Contracts', control_type='TabItem')
-# mainContractsTab.click_input()
-# mainContractsWindow = templa.child_window(title='Contracts', control_type='Window')
 
-# #########################
-# # open ETH site window
-# #########################
-
-# # click on the Code Edit Box
-# mainContractsWindow.window(title='Site', control_type='ComboBox').click_input()
-# pyautogui.typewrite("VI-THO01")
-# pyautogui.moveRel(0, 25) 
-# pyautogui.doubleClick() # open the site by double click
-
-print("contiune...")
-print("Site Activated")
 
 next_month_today = date.today() + relativedelta.relativedelta(months=1)
 next_month = next_month_today.strftime("%m") # type of String

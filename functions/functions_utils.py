@@ -9,13 +9,10 @@ def tm_init():
     if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
         templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
         app = Application(backend='uia').connect(path=templa_file)
+        templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
+        return [templa, app]
     else:
-        print("Can't find Templa on your computer")
-
-    templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
-    return [templa, app]
-
-
+        return None
 
 
 def date_range(relativeMonthNumber):
