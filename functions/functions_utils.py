@@ -1,18 +1,22 @@
+import os
+from pywinauto import Application
 
 import calendar
 from datetime import datetime, timedelta, date
 import dateutil.relativedelta as relativedelta
 
+def tm_init():
+    if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
+        templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
+        app = Application(backend='uia').connect(path=templa_file)
+    else:
+        print("Can't find Templa on your computer")
 
-## this function output a list of start date and end date for filter
-#####################################
-#
-#   parameter: relativeMonthNumber
-#   type: number
-#   if the number is 1, means the month will be next month from current month
-#   if the number is -1, means the month will be previous month from current one.
-#
-#####################################
+    templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
+    return [templa, app]
+
+
+
 
 def date_range(relativeMonthNumber):
     month_relative_of_today = date.today() + relativedelta.relativedelta(months=relativeMonthNumber)

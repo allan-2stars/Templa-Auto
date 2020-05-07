@@ -3,7 +3,7 @@ import pyautogui
 from pywinauto.application import Application
 import os
 import time
-from date_range import date_range
+from functions.functions_utils import date_range
 
 
 def start_init():
