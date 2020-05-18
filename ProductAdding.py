@@ -1,17 +1,7 @@
-from subprocess import Popen
-from pywinauto import Desktop
-from pywinauto import Application
 import pyautogui
 import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
-from pywinauto.application import Application
 import time
-import csv
-import os
-import sys
 import pywinauto
-from datetime import datetime
 
 from functions.functions_utils import tm_init
 
@@ -135,7 +125,6 @@ for i in df.index:
     # Go to Price Group, change selling price
     # if no need to setup sale price, then clientname will be "na"
     hasSalePrice = str(clientName[i]) != 'nan'
-    print(str(clientName[i]))
     print ("has client? " + str(hasSalePrice))
     if hasSalePrice:
         productDetailWindow.window(title='Price groups', control_type='TabItem').click_input()
@@ -181,7 +170,6 @@ for i in df.index:
         # add/change price
         #productSupplierWindow.child_window(auto_id="numUnitCost", control_type="Edit").click_input()
         pyautogui.typewrite(str(cost[i]))
-        #pyautogui.press('tab')
     else:  
         # open specific supplier item
         supplierEntry.click_input(button='left', double=True)
