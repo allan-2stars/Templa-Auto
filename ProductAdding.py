@@ -56,6 +56,7 @@ for i in df.index:
 
     # # If the product exists
     # # click on the "Code" Edit Box
+    mainProductsWindow.wait('exists', timeout=35)
     mainProductsWindow.window(title='Code', control_type='ComboBox').click_input()
     pyautogui.typewrite(productPartNo)
 
@@ -182,9 +183,8 @@ for i in df.index:
 
     # Save
     productSupplierWindow.Accept.click_input()
-    pyautogui.PAUSE = 2.5
+    time.sleep(2.5)
     productDetailWindow.Save.click_input()
-    pyautogui.PAUSE = 2.5
     print (productPartNo + " is Done now")
 
     print ("###################################")

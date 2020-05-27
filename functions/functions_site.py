@@ -41,14 +41,16 @@ def Site_Reassign():
             tablet = df['TABLET']
             status = df['STATUS']
 
+            site_code_string = str(siteCode[i])
+            site_name_string= str(siteName[i])
             #print("Site Name:" + siteName[i])
             #print("CSM: " + csm[i])
             #print("iPad: " + ipad[i])
             if status[i] == "Done":
-                print(str(siteCode[i]) + " is Done")
+                print(site_code_string + " is Done")
                 continue
             if status[i] == "Skip":
-                print(str(siteCode[i]) + " is Skipped")
+                print(site_code_string + " is Skipped")
                 continue
 
             if status[i] == "Stop":
@@ -57,7 +59,7 @@ def Site_Reassign():
 
             # click on the Code Edit Box
             mainSitesWindow.window(title='Code', control_type='ComboBox').click_input()
-            pyautogui.typewrite(str(siteCode[i]))
+            pyautogui.typewrite(site_code_string)
 
             #####################################
             # before open the site, 
@@ -72,11 +74,15 @@ def Site_Reassign():
             #
             #   MUST make the CSM on the first Column
             #
-            csmExists = mainSitesWindow.child_window(title=str(csm[i]), control_type="DataItem")
+            ## below function does not work
+            #  regex_string_for_csm = '/' + csm[i] + '/i'
+
+            csmExists = mainSitesWindow.child_window(title=csm[i], control_type="DataItem")
+            
             
             if csmExists.exists():  
-                print("site Code: " + str(siteCode[i]))
-                print("site Name: " + str(siteName[i]))
+                print("site Code: " + site_code_string)
+                print("site Name: " + site_name_string)
                 print("Already assigned to " + csm[i])
                 print("#################################")
                 print(" ")
@@ -85,6 +91,7 @@ def Site_Reassign():
 
             else:
                 print("CSM Different, need to change")
+                print("New CSM: " + csm[i])
                 pyautogui.moveRel(-25, 25) 
                 pyautogui.doubleClick() # open the site by double click
 
@@ -94,7 +101,7 @@ def Site_Reassign():
                 siteDetailWindow = app.window(title_re='Site Detail - *')
                 siteDetailWindow.wait('exists', timeout=15)
                 siteDetailWindow.window(title='Analysis versions', control_type='TabItem').click_input()
-                print("site name: " + str(siteName[i]))
+                print("site name: " + site_name_string)
 
 
                 ########################
@@ -135,7 +142,7 @@ def Site_Reassign():
                 # pyautogui.moveRel(60,0)
                 time.sleep(1.5)
                 pyautogui.dragRel(-500,0)
-                pyautogui.typewrite(str(csm[i]))
+                pyautogui.typewrite(csm[i])
                 pyautogui.press("tab")
                 time.sleep(1.5)
                 # print("Located now to: " + str(csm[i]))
@@ -157,7 +164,7 @@ def Site_Reassign():
                 siteDetailWindow.Save.click_input()
                 #siteDetailWindow.window(title='Save', control_type='Button')[0].click_input()
                 time.sleep(1.5)
-                print(str(siteCode[i]) + ": is Done now")
+                print(site_code_string + ": is Done now")
                 print("###############################")
                 print(" ")
     
