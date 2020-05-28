@@ -117,8 +117,13 @@ def Site_Reassign():
 
                 itemExist = False
                 for j in range(1,32):  # loop from 1 to 31
-                    titleDate= "%s/%s/%s" %(j,currentMonth,currentYearFull)
+                    day = str(j)
+                    if j <= 9:
+                        day = '0' + day 
+            
+                    titleDate= "%s.%s.%s" %(day,currentMonth,currentYearFull)
                     lastAnalysisItem = siteDetailWindow.window(title=str(titleDate))
+                    # print('date of today: ' + titleDate)
                     if lastAnalysisItem.exists():
                         itemExist = True
                         break
