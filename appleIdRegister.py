@@ -48,6 +48,7 @@ for i in df.index:
     password_2 = df['Password_2']
     phone_code = df['Phone Code']
     phone_number = df['Phone Number']
+    subscription = df['Subscription Tick']  ## do not subscribe anything for now
     status = df['Status']
     ## convert numbers to strings
     dob_string = format(dob[i], '08d')
@@ -99,7 +100,6 @@ for i in df.index:
     region_code_selection_element.select_by_index(11)
     phone_number_element.send_keys(phone_number_string)
 
-    print(announcements_tick_element.get_attribute('checked'))
     if announcements_tick_element.get_attribute('checked'):
         announcements_tick_element.send_keys(Keys.SPACE)
     if apps_more_tick_element.get_attribute('checked'):
