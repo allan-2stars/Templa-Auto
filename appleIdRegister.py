@@ -8,9 +8,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd
 import time
 
-driver = webdriver.Chrome()
-driver.get("https://appleid.apple.com/account#!&page=create")
-
 xpath_first_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div/full-name/div[1]/div/div/first-name-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_last_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div/full-name/div[2]/div/div/last-name-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_countries = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/idms-dropdown/div/idms-error-wrapper/div/div/select'
@@ -37,8 +34,21 @@ apple_news_tick_id = 'appleNews'
 site_reallocate_sheet = 'users' 
 df = pd.read_excel('apple_register.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
+driver = webdriver.Chrome()
 
 for i in df.index:
+
+    status = df['Status']   
+    if status[i] == "Done":
+        print(full_name_string + " is Done")
+        continue
+    if status[i] == "Skip":
+        print(full_name_string + " is Skipped")
+        continue
+    if status[i] == "Stop":
+        print("Stop here")
+        break
+
     first_name = df['First Name']
     last_name = df['Last Name']
     country = df['Country']
@@ -48,32 +58,23 @@ for i in df.index:
     password_2 = df['Password_2']
     phone_code = df['Phone Code']
     phone_number = df['Phone Number']
-    subscription = df['Subscription Tick']  ## do not subscribe anything for now
-    status = df['Status']
+    URL = df['URL']
+
     ## convert numbers to strings
-    dob_string = format(dob[i], '08d')
+
+    full_name_string = str(first_name[i]) + ' ' + str(last_name[i])
+    dob_string = format(int(float(dob[i])),'08d')
     phone_code_string = str(phone_code[i])
-    phone_number_string = format(phone_number[i], '010d')
+    # phone_number_string = format(phone_number[i], '010d')
+    phone_number_string = format(int(float(phone_number[i])),'010d')
 
 
-    print(first_name[i])
-    print(dob_string)
-    print(phone_number_string)
+    ## multiple tab
+    if i > 0:
+        driver.execute_script("window.open();")
+        driver.switch_to.window(driver.window_handles[i])
+    driver.get(URL[i])
 
-    if status[i] == "Done":
-        print(site_code_string + " is Done")
-        continue
-    if status[i] == "Skip":
-        print(site_code_string + " is Skipped")
-        continue
-    if status[i] == "Stop":
-        print("Stop here")
-        break
-
-    # # last_element = driver.find_elements_by_xpath("//*[contains(text(), 'Phone number')]")
-    # hook_link.send_keys(Keys.TAB)
-
-    # last_element = driver.find_element_by_xpath(xpath_phone_number)
     first_name_element = driver.find_element_by_xpath(xpath_first_name)
     last_name_element = driver.find_element_by_xpath(xpath_last_name)
     countries_element = driver.find_element_by_xpath(xpath_countries)
