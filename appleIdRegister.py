@@ -36,14 +36,23 @@ site_reallocate_sheet = 'users'
 df = pd.read_excel('apple_register.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
 driver = webdriver.Chrome()
+browser_tab_index_offset = 0 ## offset the index number once meet a Done or Skip
 
 for i in df.index:
 
-    status = df['Status']   
+    ### get the full name of the user
+    first_name = df['First Name']
+    last_name = df['Last Name']
+    full_name_string = str(first_name[i]) + ' ' + str(last_name[i])
+
+    ### if the status is Done, then skip to next entry
+    status = df['Status']
     if status[i] == "Done":
-        print(full_name_string + " is Done")
+        browser_tab_index_offset +=1
+        print(full_name_string  + " is Done")
         continue
     if status[i] == "Skip":
+        browser_tab_index_offset += 1
         print(full_name_string + " is Skipped")
         continue
     if status[i] == "Stop":
@@ -53,8 +62,7 @@ for i in df.index:
     ###############################################################
     ### Get ready for data from Excel
     ###############################################################
-    first_name = df['First Name']
-    last_name = df['Last Name']
+
     country = df['Country']
     dob = df['DOB']
     email = df['Email']
@@ -64,18 +72,23 @@ for i in df.index:
     phone_number = df['Phone Number']
     URL = df['URL']
 
-    full_name_string = str(first_name[i]) + ' ' + str(last_name[i])
-    dob_string = format(int(float(dob[i])),'08d')
-    phone_code_string = str(phone_code[i])
-    # phone_number_string = format(phone_number[i], '010d')
-    phone_number_string = format(int(float(phone_number[i])),'010d')
+
+ 
+    try:
+        dob_string = format(int(float(dob[i])),'08d')
+        phone_code_string = str(phone_code[i])
+        phone_number_string = format(int(float(phone_number[i])),'010d')
+    except:
+        print('Program stopped, check if all user registered propurly ...')
+        break
+
     #################################################################
 
     #######
     ## except for the first run, you need open a new tab for multiple user register
     if i > 0:
         driver.execute_script("window.open();")
-        driver.switch_to.window(driver.window_handles[i])
+        driver.switch_to.window(driver.window_handles[i - browser_tab_index_offset])
     ## open the URL
     driver.get(URL[i])
 
