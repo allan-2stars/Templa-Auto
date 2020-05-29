@@ -8,6 +8,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 import pandas as pd
 import time
 
+#######################################################
+### all web elements/handles info recoreded as below
 xpath_first_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div/full-name/div[1]/div/div/first-name-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_last_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div/full-name/div[2]/div/div/last-name-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_countries = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/idms-dropdown/div/idms-error-wrapper/div/div/select'
@@ -21,16 +23,15 @@ xpath_phone_number = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid
 announcements_tick_id = 'news'
 apps_more_tick_id = 'itunes'
 apple_news_tick_id = 'appleNews'
+#######################################################
 
 
 ## apple change id xpath after refreshing the webpage.
 ## the only solution here is use tab key
 
-########################
-#
-# Get data from Excel Sheet
-#
-########################
+####################################################################
+### Get data from Excel Sheet, loop over until all entries are done
+####################################################################
 site_reallocate_sheet = 'users' 
 df = pd.read_excel('apple_register.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
@@ -48,7 +49,10 @@ for i in df.index:
     if status[i] == "Stop":
         print("Stop here")
         break
-
+    
+    ###############################################################
+    ### Get ready for data from Excel
+    ###############################################################
     first_name = df['First Name']
     last_name = df['Last Name']
     country = df['Country']
@@ -60,21 +64,24 @@ for i in df.index:
     phone_number = df['Phone Number']
     URL = df['URL']
 
-    ## convert numbers to strings
-
     full_name_string = str(first_name[i]) + ' ' + str(last_name[i])
     dob_string = format(int(float(dob[i])),'08d')
     phone_code_string = str(phone_code[i])
     # phone_number_string = format(phone_number[i], '010d')
     phone_number_string = format(int(float(phone_number[i])),'010d')
+    #################################################################
 
-
-    ## multiple tab
+    #######
+    ## except for the first run, you need open a new tab for multiple user register
     if i > 0:
         driver.execute_script("window.open();")
         driver.switch_to.window(driver.window_handles[i])
+    ## open the URL
     driver.get(URL[i])
 
+    ##############################################
+    ### get the elements from the browser
+    ##############################################
     first_name_element = driver.find_element_by_xpath(xpath_first_name)
     last_name_element = driver.find_element_by_xpath(xpath_last_name)
     countries_element = driver.find_element_by_xpath(xpath_countries)
@@ -88,9 +95,12 @@ for i in df.index:
     announcements_tick_element = driver.find_element_by_id(announcements_tick_id)
     apps_more_tick_element = driver.find_element_by_id(apps_more_tick_id)
     apple_news_tick_element = driver.find_element_by_id(apple_news_tick_id)
+    ##############################################
 
-    ## check if current active element is the last element
-    ## if not keep going, if it is stop the while loop
+
+    ######################################################
+    ### Operate the element fill text or select options
+    ######################################################
     first_name_element.send_keys(first_name[i])
     last_name_element.send_keys(last_name[i])
     countries_element.send_keys(country[i])
@@ -108,3 +118,7 @@ for i in df.index:
     ## some reason cannot detect below checkbox, do it manully for now.
     # if apple_news_tick_element.get_attribute('checked'):
     #     apple_news_tick_element.send_keys(Keys.SPACE)
+    #######################################################
+
+
+
