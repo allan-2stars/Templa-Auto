@@ -24,8 +24,6 @@ lastday_next_month = calendar.monthrange(current_year, int(next_month))[1]
 
 dateStartString = '01' + next_month + str(current_year)
 dateEndString = str(lastday_next_month) + next_month + str(current_year)
-print(dateStartString)
-print(dateEndString)
 # # open analysis details dialouge window
 contractDetailWindow = app.window(title_re='Contract - *')
 contractDetailWindow.wait('exists', timeout=15)
@@ -96,7 +94,7 @@ for i in df.index:
         
     # 'x' marks need to set it up, otherwise no need setup.
     if use_month != "x":
-        print('Skipped: ', completeTitle)
+        # print('Skipped: ', completeTitle)
         continue
 
     if status[i] == "Stop":
