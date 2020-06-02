@@ -20,9 +20,7 @@ if tm_init() is None:
 else:
     templa = tm_init()[0]
     app = tm_init()[1]
-    mainLiteUsertab = templa.child_window(title='LITE Users', control_type='TabItem')
-    mainLiteUsertab.click_input()
-    mainLiteUserWindow = templa.child_window(title='LITE Users', control_type='Window')
+
 
     ########################
     #
@@ -35,10 +33,11 @@ else:
 
     for i in df.index:
         user_name = df['NAME']
-        user_email = df['EMAIL']
+        user_email = df['NEW EMAIL']
         csm_code = df['CODE']
         status = df['STATUS']
         email_password = df['PASSWORD']
+        user_type = df['USER TYPE']
 
         if status[i] == "Done":
             print(user_name[i] + " is Done")
@@ -50,17 +49,18 @@ else:
             print("Stop here")
             break
 
+        templa.child_window(title=user_type[i], control_type='TabItem').click_input()
+        mainUserWindow = templa.child_window(title=user_type[i], control_type='Window')
         # click on the Code Edit Box
-        mainLiteUserWindow.window(title='Code', control_type='ComboBox').click_input()
+        mainUserWindow.window(title='Code', control_type='ComboBox').click_input()
         pyautogui.typewrite(csm_code[i])
 
-
-        csmEmailAlreadyAssgined = mainLiteUserWindow.child_window(title=user_email[i], control_type="DataItem")
+        csmEmailAlreadyAssgined = mainUserWindow.child_window(title=user_email[i], control_type="DataItem")
         
         
         if csmEmailAlreadyAssgined.exists():  
             print("Email: " + user_email[i])
-            print("Already set email to " + site_name[i])
+            print("Already set email to " + user_name[i])
             print("#################################")
             print(" ")
             pyautogui.moveRel(-25, 25) 
@@ -89,56 +89,8 @@ else:
             pyautogui.dragRel(-200,0)
             pyautogui.typewrite(email_password[i])
 
+            userDetailWindow.Save.click_input()
             time.sleep(1.5)
             print(user_email[i] + ": is Done now")
             print("###############################")
             print(" ")
-
-
-
-
-
-
-
-
-
-
-
-
-            # ## operate the site details analysis window
-            # siteAnalysisWindow = userDetailWindow.child_window(title_re='Site Analysis Detail - *')
-            # siteAnalysisWindow.wait('exists', timeout=15)
-            # siteAnalysisWindow.window(title='Business analysis', control_type='TabItem').click_input()
-
-            # # change CSM and Tablet Number
-            # # Edit 39 = CSM, Edit 43 = Tablet
-            # siteAnalysisWindow.Edit39.click_input()
-            # # pyautogui.moveRel(60,0)
-            # time.sleep(1.5)
-            # pyautogui.dragRel(-500,0)
-            # pyautogui.typewrite(csm[i])
-            # pyautogui.press("tab")
-            # time.sleep(1.5)
-            # # print("Located now to: " + str(csm[i]))
-            # pyautogui.moveRel(500,15)
-            # pyautogui.click()
-            # # siteAnalysisWindow.Edit43.click_input()
-            # pyautogui.dragRel(-500,0)
-            # time.sleep(1.5)
-            # pyautogui.typewrite(tablet[i])
-            # pyautogui.press("tab")
-            # time.sleep(1.5)
-            # pyautogui.moveRel(300,20)
-            # pyautogui.click()
-            # pyautogui.press("tab")
-            # # press Accept button
-            # # Save
-            # siteAnalysisWindow.Accept.click_input()
-            # time.sleep(1.5)
-            # userDetailWindow.Save.click_input()
-            # #userDetailWindow.window(title='Save', control_type='Button')[0].click_input()
-            # time.sleep(1.5)
-            # print(user_email[i] + ": is Done now")
-            # print("###############################")
-            # print(" ")
-    
