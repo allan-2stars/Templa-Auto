@@ -30,6 +30,7 @@ else:
     site_reallocate_sheet = 'Email Changing'
     df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
     print("starting...")
+    print("")
 
     for i in df.index:
         user_name = df['NAME']
