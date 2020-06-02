@@ -59,17 +59,20 @@ else:
         csmEmailAlreadyAssgined = mainUserWindow.child_window(title=user_email[i], control_type="DataItem")
         
         
-        if csmEmailAlreadyAssgined.exists():  
+        if csmEmailAlreadyAssgined.exists(): 
+            print("")
             print("Email: " + user_email[i])
             print("Already set email to " + user_name[i])
             print("#################################")
-            print(" ")
+            print("")
             pyautogui.moveRel(-25, 25) 
             pyautogui.click() # reset the select status
 
         else:
+            print("")
             print("Email Different, need to change")
             print("New Email: " + user_email[i])
+            print("")
             pyautogui.moveRel(-25, 25) 
             pyautogui.doubleClick() # open the site by double click
 
@@ -94,4 +97,4 @@ else:
             time.sleep(1.5)
             print(user_email[i] + ": is Done now")
             print("###############################")
-            print(" ")
+            print("")
