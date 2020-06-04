@@ -32,8 +32,8 @@ apple_news_tick_id = 'appleNews'
 ####################################################################
 ### Get data from Excel Sheet, loop over until all entries are done
 ####################################################################
-site_reallocate_sheet = 'users' 
-df = pd.read_excel('apple_register.xlsx', sheet_name=site_reallocate_sheet)
+site_reallocate_sheet = 'Apple User Rego' 
+df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
 print("starting...")
 driver = webdriver.Chrome()
 browser_tab_index_offset = 0 ## offset the index number once meet a Done or Skip

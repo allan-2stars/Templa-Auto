@@ -1,85 +1,100 @@
-from subprocess import Popen
-from pywinauto import Desktop
-from pywinauto import Application
 import pyautogui
-import pandas as pd
-from pandas import ExcelWriter
-from pandas import ExcelFile
-from pywinauto.application import Application
-import csv
-import os
-import sys
 import pywinauto
+import pandas as pd
+import time
+import csv
+from datetime import datetime
+from functions.functions_utils import tm_init
 
-## Start the App
-if (os.path.exists(r"E:\TCMS_LIVE\Client Suite")):
-    templa_file = r"E:\TCMS_LIVE\Client Suite\TemplaCMS32.exe"
-    app = Application(backend='uia').connect(path=templa_file)
-else:
+
+## get the appliation handler from the init function
+
+
+#############################
+##
+## Site Reassign function
+##
+#############################
+if tm_init() is None:
     print("Can't find Templa on your computer")
-
-templa = app.window(title='TemplaCMS  -  Contract Management System  --  TJS Services Group Pty Ltd LIVE')
-
-
-########################
-#
-# Setup Excel Sheet
-#
-########################
-excel_sheet = 'Change User Email' 
-df = pd.read_excel('test.xlsx', sheet_name=excel_sheet)
-print("starting...")
-
-for i in df.index:
-    userCode = df['USER CODE']
-    userName = df['USER NAME']
-    userEmail = df['USER EMAIL']
-    userGroup = df['USER GROUP']
-    status = df['STATUS']
-
-    if status[i] == "Done":
-        print(str(userName[i]) + " is Done")
-        continue
-
-    if status[i] == "Stop":
-        print("Stop here")
-        break
+else:
+    templa = tm_init()[0]
+    app = tm_init()[1]
 
 
-    ## start 
-    mainUsersTab = templa.child_window(title=userGroup[i], control_type='TabItem')
-    mainUsersTab.click_input()
-    mainUsersWindow = templa.child_window(title=userGroup[i], control_type='Window')
+    ########################
+    #
+    # Setup Excel Sheet
+    #
+    ########################
+    site_reallocate_sheet = 'Email Changing'
+    df = pd.read_excel('test.xlsx', sheet_name=site_reallocate_sheet)
+    print("starting...")
+    print("")
 
-    # click on the Code Edit Box
-    mainUsersWindow.window(title='Name', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(userName[i]))
+    for i in df.index:
+        user_name = df['NAME']
+        user_email = df['NEW EMAIL']
+        csm_code = df['CODE']
+        status = df['STATUS']
+        email_password = df['PASSWORD']
+        user_type = df['USER TYPE']
 
-    userEmailExists = mainUsersWindow.child_window(title=str(userEmail[i]), control_type="DataItem")
-    
-    if userEmailExists.exists():  
-        print("User Name: " + userName[i])
-        print("Already assigned to " + userEmail[i])
-        print("#################################")
-        print(" ")
-        pyautogui.moveRel(-25, 25) 
-        pyautogui.click() # reset the select status
+        if status[i] == "Done":
+            print(user_name[i] + " is Done")
+            continue
+        if status[i] == "Skip":
+            print(user_name[i] + " is Skipped")
+            continue
+        if status[i] == "Stop":
+            print("Stop here")
+            break
 
-    else:
-        print("Email is incorrect, ready to change")
-        pyautogui.moveRel(-25, 25) 
-        pyautogui.doubleClick() # open the users window by double click
+        templa.child_window(title=user_type[i], control_type='TabItem').click_input()
+        mainUserWindow = templa.child_window(title=user_type[i], control_type='Window')
+        # click on the Code Edit Box
+        mainUserWindow.window(title='Code', control_type='ComboBox').click_input()
+        pyautogui.typewrite(csm_code[i])
 
-        userDetailWindow = app.window(title_re='User Details - *')
-        userDetailWindow.wait('exists', timeout=15)
-        # userDetailWindow.window(title='General', control_type='TabItem').click_input()
-        # print("found the users General Tab: " + str(userName[i]))
-        userDetailWindow.child_window(auto_id="txtMobile", control_type="Edit").click_input()
-        pyautogui.press('tab')
-        pyautogui.typewrite(userEmail[i])
-        pyautogui.press('tab')
-        userDetailWindow.Save.click_input()
-        pyautogui.PAUSE = 1.5
-        print(str(userName[i]) + ": is Done now")
-        print("###############################")
-        print(" ")
+        csmEmailAlreadyAssgined = mainUserWindow.child_window(title=user_email[i], control_type="DataItem")
+        
+        
+        if csmEmailAlreadyAssgined.exists(): 
+            print("")
+            print("Email: " + user_email[i])
+            print("Already set email to " + user_name[i])
+            print("#################################")
+            print("")
+            pyautogui.moveRel(-25, 25) 
+            pyautogui.click() # reset the select status
+
+        else:
+            print("")
+            print("Email Different, need to change")
+            print("New Email: " + user_email[i])
+            print("")
+            pyautogui.moveRel(-25, 25) 
+            pyautogui.doubleClick() # open the site by double click
+
+            userDetailWindow = app.window(title_re='User Details - *')
+            userDetailWindow.wait('exists', timeout=15)
+
+            userDetailWindow.child_window(auto_id="txtEmail", control_type="Edit").click_input()
+            pyautogui.dragRel(-200,0)
+            pyautogui.typewrite(user_email[i])
+            userDetailWindow.child_window(title="Email", auto_id="TabItem Key EMAIL", control_type="TabItem").click_input()
+            
+            ## type new email address
+            userDetailWindow.child_window(auto_id="txtSMTPUser", control_type="Edit").click_input()
+            pyautogui.dragRel(-200,0)
+            pyautogui.typewrite(user_email[i])
+
+            userDetailWindow.child_window(auto_id="txtSMTPPassword", control_type="Edit").click_input()
+            pyautogui.dragRel(-200,0)
+            pyautogui.typewrite(email_password[i])
+
+            userDetailWindow.Save.click_input()
+            time.sleep(1.5)
+            print(user_email[i] + ": is Done now")
+            print("###############################")
+            print("")
