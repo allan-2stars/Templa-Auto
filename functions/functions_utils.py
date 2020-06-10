@@ -44,7 +44,7 @@ def save_as_Excel_analysis(**kwargs):
     fileName = kwargs.get('fileName', None)
     flag = kwargs.get('flag', None)
 
-    window.child_window(title='Excel', auto_id='[Group : report Tools] Tool : Report_Excel - Index : 2 ', control_type='Button').click_input()
+    window.child_window(title='Excel', control_type='Button').click_input()
     saveAsWindow = window.child_window(title='Save As')
     saveAsWindow.wait('exists', timeout=15)
     print('save as window open')
