@@ -33,15 +33,19 @@ df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 for i in df.index:
     details = df['DETAILS']
     itemGroup = df['ITEM GROUP']
-    scoreCard = df['SCORE CARD']
+    #scoreCard = df['SCORE CARD']
     status = df['STATUS']
 
     if status[i] == "Stop":
         print("Stop here")
         break
 
-    if status[i] == "Done" or status[i] == "Skip":
+    if status[i] == "Done":
         print(details[i]+ " is Done")
+        continue
+
+    if status[i] == "Skip":
+        print(details[i]+ " is Skipped")
         continue
 
 
