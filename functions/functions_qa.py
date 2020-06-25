@@ -80,10 +80,6 @@ def QA_Recipients():
             contractDetailWindow.wait('exists', timeout=25)
             contractDetailWindow.window(title='QA', control_type='TabItem').click_input()
 
-            contractDetailWindow = app.window(title_re='Contract - *')
-            contractDetailWindow.wait('exists', timeout=25)
-            contractDetailWindow.window(title='QA', control_type='TabItem').click_input()
-
             # Check if there is QA Items
             # if no qa at all, then no need to change qa recipient
 
