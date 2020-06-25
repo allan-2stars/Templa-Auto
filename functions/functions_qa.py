@@ -38,15 +38,23 @@ def QA_Recipients():
             recipient1 = df['RECIPIENT1']
             recipient2 = df['RECIPIENT2']
             recipient3 = df['RECIPIENT3']
+            recipient4 = df['RECIPIENT4']
+            recipient5 = df['RECIPIENT5']
             check1 = df['CHECK1']
             check2 = df['CHECK2']
             check3 = df['CHECK3']
+            check4 = df['CHECK4']
+            check5 = df['CHECK5']
             email1 = df['EMAIL1']
             email2 = df['EMAIL2']
             email3 = df['EMAIL3']
+            email4 = df['EMAIL4']
+            email5 = df['EMAIL5']
             jobTitle1 = df['JOB TITLE1']
             jobTitle2 = df['JOB TITLE2']
             jobTitle3 = df['JOB TITLE3']
+            jobTitle4 = df['JOB TITLE4']
+            jobTitle5 = df['JOB TITLE5']
             isFailRecipient = df['FAIL RECIPIENT']
             status = df['STATUS']
             #print("Site Name:" + siteName[i])
@@ -104,7 +112,7 @@ def QA_Recipients():
                     contractDetailWindow['QA form recipients'].click_input()
 
                 contractRecipientsWindow = contractDetailWindow.child_window(title_re='Contract Recipients - *')
-                contractRecipientsWindow.wait('exists', timeout=35)
+                contractRecipientsWindow.wait('exists', timeout=135)
                 
                 #contractRecipientsWindow.wait('exists', timeout=15)
                 print("check recipient")
@@ -138,6 +146,24 @@ def QA_Recipients():
                     emailList.append(email3[i])
                     jobTitleList.append(jobTitle3[i])
                     print('recipient 3 added: ' + str(recipient3[i]))
+
+                if str(recipient4[i]) != "nan":
+
+                    recipientsAddingList.append(recipient4[i])
+
+                    checkStateList.append(check4[i])
+                    emailList.append(email4[i])
+                    jobTitleList.append(jobTitle4[i])
+                    print('recipient 4 added: ' + str(recipient4[i]))
+
+                if str(recipient5[i]) != "nan":
+
+                    recipientsAddingList.append(recipient5[i])
+
+                    checkStateList.append(check5[i])
+                    emailList.append(email5[i])
+                    jobTitleList.append(jobTitle5[i])
+                    print('recipient 5 added: ' + str(recipient5[i]))
 
 
                 arrayCount = len(recipientsAddingList)

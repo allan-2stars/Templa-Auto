@@ -80,7 +80,7 @@ for i in df.index:
     if next_month == '06':
         use_month = monthJun[i]
     if next_month == '07':
-        use_month = monthMJul[i]
+        use_month = monthJul[i]
     if next_month == '08':
         use_month = monthAug[i]
     if next_month == '09':
