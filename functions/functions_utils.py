@@ -79,7 +79,8 @@ def save_as_Excel_analysis(**kwargs):
             time.sleep(2)
             pyautogui.typewrite(titleCaseFolderName)
             time.sleep(2)
-            pyautogui.press('enter')                
+            pyautogui.press('enter')
+            folderNameNeeded = titleCaseFolder              
         ## get into the newly created folder
         folderNameNeeded.click_input(button='left', double=True)
         saveAsWindow.child_window(title='File name:', auto_id='FileNameControlHost', control_type='ComboBox').click_input()
