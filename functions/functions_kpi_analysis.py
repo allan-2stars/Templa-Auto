@@ -163,7 +163,7 @@ def KPI_Analysis():
 
             ## drag 'QA Item' Label up
             
-            if reportTitle[i] == "DAWR Monthly" or reportTitle[i] == "Prime Minister and Cabinet (PMC)":
+            if reportTitle[i] == "DAWR Monthly" or reportTitle[i] == "PMC Monthly":
                 qaSiteAreaHeader.click_input()
                 time.sleep(1)
                 pyautogui.moveRel(0, -20)
