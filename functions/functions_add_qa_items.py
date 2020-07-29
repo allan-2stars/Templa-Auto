@@ -15,17 +15,17 @@ from functions.functions_utils import tm_init
 ## Site Reassign function
 ##
 #############################
-def Site_Reassign():
+def Add_QA_Items():
     if tm_init() is None:
         print("Can't find Templa on your computer")
     else:
+        templa = tm_init()[0]
+        app = tm_init()[1]
         # start 
         mainQAItemsTab = templa.child_window(title='QA Items', control_type='TabItem')
         mainQAItemsTab.click_input()
-        mainQAItemsWindow = templa.child_window(title='QA Items', control_type='Window')
 
         templa.child_window(title="New", control_type="Button").click_input()
-
         QAItemDetailWindow = app.window(title_re='QA Item *')
         QAItemDetailWindow.wait('exists', timeout=15)
         print("QA Item Window opened...")

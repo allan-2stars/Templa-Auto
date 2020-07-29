@@ -31,7 +31,7 @@ def Create_Site_Structures():
         # Setup Excel Sheet
         #
         ########################
-        sheetLoader = 'Add Site Structures' 
+        sheetLoader = 'Create Site Structures' 
         df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
         print("Reading Excel...")
         for i in df.index:

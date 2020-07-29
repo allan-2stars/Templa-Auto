@@ -1,0 +1,5 @@
+from functions.functions_create_site_structures import Create_Site_Structures
+from functions.functions_add_qa_items import Add_QA_Items
+
+Create_Site_Structures()
+Add_QA_Items()
