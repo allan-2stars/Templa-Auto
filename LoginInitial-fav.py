@@ -29,18 +29,36 @@ time.sleep(2)
 print("Starting...")
 if errorWindow.exists():
     print("Active user exists...")
-    redCross = errorWindow.child_window(auto_id="50", control_type="Edit")
-    print ("existing ?", redCross.exists())
-    if redCross.exists():
-        redCross.click_input()
+    redCross_DataItem_1 = errorWindow.child_window(auto_id="0", control_type="DataItem")
+    redCross_DataItem_2 = errorWindow.child_window(auto_id="1", control_type="DataItem")
+    redCross_DataItem_3 = errorWindow.child_window(auto_id="2", control_type="DataItem")
+    redCross_1 = redCross_DataItem_1.child_window(auto_id="51", control_type="Edit")
+    redCross_2 = redCross_DataItem_2.child_window(auto_id="51", control_type="Edit")
+    redCross_3 = redCross_DataItem_3.child_window(auto_id="51", control_type="Edit")
+
+    print ("red cross 1 existing ?", redCross_1.exists())
+    print ("red cross 2 existing ?", redCross_2.exists())
+    print ("red cross 3 existing ?", redCross_3.exists())
+
+    if redCross_DataItem_1.exists():
+        redCross_1.click_input()
         pyautogui.press('y')
-        errorWindow.Continue.click_input()
-        start_init()
-    else:
-        print("Cannot close the previouse session, red cross button code changed")
-        print("please use below method to find the correct code")
-        print("uncommon the function '# errorWindow.print_control_identifiers()'")
-        print("exiting ... bye!")
+    if redCross_DataItem_2.exists():
+        redCross_2.click_input()
+        pyautogui.press('y')
+    if redCross_DataItem_3.exists():
+        redCross_3.click_input()
+        pyautogui.press('y')
+
+    # if not (redCross_DataItem_1.exists() or redCross_DataItem_2.exists() or redCross_DataItem_3.exists()):
+    #     print("Cannot close the previouse session, red cross button code changed")
+    #     print("please use below method to find the correct code")
+    #     print("uncommon the function '# errorWindow.print_control_identifiers()'")
+    #     print("press any key to exit!")
+    #     input()
+    
+    errorWindow.Continue.click_input()
+    start_init()
 else:
     start_init()    
 
