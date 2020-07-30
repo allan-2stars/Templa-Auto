@@ -12,7 +12,7 @@ from functions.functions_utils import tm_init
 
 #############################
 ##
-## Site Reassign function
+## Create Site Structures function
 ##
 #############################
 def Create_Site_Structures():

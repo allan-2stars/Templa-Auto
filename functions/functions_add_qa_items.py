@@ -12,7 +12,7 @@ from functions.functions_utils import tm_init
 
 #############################
 ##
-## Site Reassign function
+## Add QA Items function
 ##
 #############################
 def Add_QA_Items():
