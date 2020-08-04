@@ -2,7 +2,6 @@ import pyautogui
 import pywinauto
 import pandas as pd
 import time
-import csv
 from functions.functions_utils import tm_init
 
 

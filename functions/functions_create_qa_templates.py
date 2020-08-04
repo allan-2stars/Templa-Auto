@@ -47,7 +47,7 @@ def Create_QA_Templates():
 
             if status[i] == "Same Template":
                 ## no need print out infomation
-                ## undless in debug mode
+                ## unless in debug mode
                 # print(description[i] + " is under Same Section")
                 continue
 
@@ -100,7 +100,7 @@ def Create_QA_Templates():
 
             QATemplateWindow.child_window(title="QA items", auto_id="TabItem Key items", control_type="TabItem").click_input()
 
-            ## Start QA items section
+            ## Start "QA items" tab section
             ## add Overall criteria
             print('Adding QA Items to every Section ...')
             QATemplateWindow.child_window(title="Overall criteria", auto_id="[Node] 0", control_type="DataItem").click_input()
@@ -119,7 +119,7 @@ def Create_QA_Templates():
             
             ## Loop to every section here
             while True:
-                i = i + 1
+                i = i + 1 # i need +1 because, the qa item from the 2nd line
                 section_title = QATemplateWindow.child_window(title=str(sections[i]), control_type="DataItem")
                 section_title.click_input()
                 add_qa_item_button.click_input()
@@ -130,7 +130,7 @@ def Create_QA_Templates():
                 pyautogui.typewrite(str(qa_item_groups[i]))
                 
                 print('Adding Items under section: ' + str(sections[i]))
-                ## Loop to add qa items for each section here
+                ## Loop to add QA items for each section here
                 while True:
                     QAItemsWindow.child_window(title="Description", control_type="ComboBox").click_input()
                     pyautogui.typewrite(str(qa_items[i]))
@@ -140,25 +140,28 @@ def Create_QA_Templates():
                     print('Added item: ' + qa_items[i])
                     ## check if next items are in the same seciont,
                     ## if not, jump out of the loop
-                    try:
+                    try: ## check if next line exists in spreadsheet
                         next_section = sections[i+1]
-                    except:
+                    except: ## not exist, then must be the last item already
                         print('last line, no more section !')
                         print('---------------------------')
                         QAItemsWindow.Close.click_input()
                         break
                     else:
+                        ## if next line is not the same section, 
+                        ## jump out of the while loop, need to add to a new section
                         if sections[i] != sections[i+1]:
                             QAItemsWindow.Close.click_input()
-                            break
+                            break  # note, once break i will not plus one
+                    ## next line still int the same section, Go to next line
                     i = i + 1
 
                 QATemplateWindow.wait('exists', timeout=10)
                 section_title.click_input(button='left', double=True) ## to collapse items save screen space
 
-                try:
+                try: ## check if next line exists in spreadsheet
                     next_template = description[i+1]
-                except:
+                except: ## not exist, then must be the last item already
                     print('no more template need to be created, exit !')
                     QATemplateWindow.Save.click_input()
                     break

@@ -13,6 +13,9 @@ from functions.functions_utils import tm_init
 #############################
 ##
 ## Site Reassign function
+## Important Note:
+##   in Templa system, 
+##   make sure the CSM columu the first columu
 ##
 #############################
 def Site_Reassign():
