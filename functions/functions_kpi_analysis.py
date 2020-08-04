@@ -94,29 +94,32 @@ def KPI_Analysis():
                 ## due to the counter will stop counting and not reach the bottom code.
                 break
 
-
+            analysisWindow = app.window(title=str(reportTitle[i]))
             ## start a report with title, need open one of the report analyser first
-            if i == 0:
-                previouseAnalysisWindow = app.window(title='QA Analysis Report')
-            else: 
+            ## if i == 0, which mean the first line runs, and just click Run report button
+            ## streight away
+
+            if i != 0: 
                 previouseAnalysisWindow = app.window(title=str(reportTitle[i-1]))
                 print('last report is',str(reportTitle[i-1]))
-            print('report now is,', str(reportTitle[i]))
-            analysisWindow = app.window(title=str(reportTitle[i]))
-            ## open the report selection window
-            ## previouseAnalysisWindow['Select live report'].click_input()  ## too slow
-            liveReportButton = previouseAnalysisWindow.child_window(title='Select live report', auto_id='[Group : report Tools] Tool : Select - Index : 5 ', control_type='Button')
-            liveReportButton.wait('exists',20)
-            liveReportButton.click_input()
-            reportConfigWindow = previouseAnalysisWindow.child_window(title='QA Analysis Report Configurations')
-            reportConfigWindow.wait('exists', timeout=15)
+                print('report now is,', str(reportTitle[i]))
+                analysisWindow = app.window(title=str(reportTitle[i]))
+                ## open the report selection window
+                ## previouseAnalysisWindow['Select live report'].click_input()  ## too slow
+                liveReportButton = previouseAnalysisWindow.child_window(title='Select live report', auto_id='[Group : report Tools] Tool : Select - Index : 5 ', control_type='Button')
+                liveReportButton.wait('exists',20)
+                liveReportButton.click_input()
+                reportConfigWindow = previouseAnalysisWindow.child_window(title='QA Analysis Report Configurations')
+                reportConfigWindow.wait('exists', timeout=15)
 
-            ## type report title 
-            reportConfigWindow.window(title='Description', control_type='ComboBox').click_input()
-            pyautogui.typewrite(str(reportTitle[i]))
-            pyautogui.moveRel(0, 25) 
-            pyautogui.click() # open the site by double click
-            reportConfigWindow.Select.click_input()
+                ## type report title 
+                reportConfigWindow.window(title='Description', control_type='ComboBox').click_input()
+                pyautogui.typewrite(str(reportTitle[i]))
+                pyautogui.moveRel(0, 25) 
+                pyautogui.click() # open the site by double click
+                reportConfigWindow.Select.click_input()
+            
+            ## Press Run report button
             analysisWindow['Run report'].click_input()
 
             ## calculate the loading time
