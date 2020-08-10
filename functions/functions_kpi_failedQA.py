@@ -20,6 +20,7 @@ def KPI_FaildedQA():
         completedQAWindow = templa.child_window(title='Completed QA Items', control_type='TabItem')
         if not completedQAWindow.exists():
             print('Completed QA Items NOT found?')
+            print('Have your open the Complete QA Items Window Tab/Window?')
             print('Exit.')
 
         else:

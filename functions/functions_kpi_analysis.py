@@ -71,6 +71,12 @@ def KPI_Analysis():
         ## recursively generate analysis report and export to local drive ######
         ##
         ########################################################################
+
+        ## skipped_count counts the lines of spreadsheet,
+        ## see how many lines marked as "Done" or "Skip",
+        ## if the total number of skipped_count equals i, which means,
+        ## all line are skpped to run. Then finish the function directly.
+        skipped_count = 0
         for i in df.index:
             reportTitle = df['TITLE']
             #monthName = df['MONTH']
@@ -82,10 +88,12 @@ def KPI_Analysis():
 
             if status[i] == 'Done':
                 print(str(reportTitle[i]) + ' is Done')
+                skipped_count = skipped_count + 1
                 continue
 
             if status[i] == 'Skip':
                 print(str(reportTitle[i]) + ' is Skipped')
+                skipped_count = skipped_count + 1
                 continue
 
             if status[i] == 'Stop':
@@ -194,9 +202,17 @@ def KPI_Analysis():
             print('###############################')
             print(' ')
 
-        ## if this is the last item need to be analysis in Excel sheet,
-        ## close the active window by press Alt+F4.
-        keyboard.send_keys('%{F4}')
+        ## if total lines are skipped, then do nothing and finish
+        ## otherwise, close analysis window
+        number_of_rows = len(df.index)
+        if skipped_count != number_of_rows:
+            ## if this is the last item need to be analysis in Excel sheet,
+            ## close the active window by press Alt+F4.
+            print('closing analysis window now ...')
+            keyboard.send_keys('%{F4}')
+        # print('total number of rows: ', number_of_rows)
+        # print('total skipped count: ', skipped_count)
+        print('total skipped')
         
         ## analysisWindow.Close.click_input()
         ## analysis_window = app.window(title_re='*Monthly'), control_type='Button').Close.click_input()

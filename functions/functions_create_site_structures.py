@@ -23,8 +23,8 @@ def Create_Site_Structures():
         app = tm_init()[1]
         # start 
         print("Starting...")
-        # mainSiteStructuresTab = templa.child_window(title='Site Structures', control_type='TabItem')
-        # mainSiteStructuresTab.click_input()
+        mainSiteStructuresTab = templa.child_window(title='Site Structures', control_type='TabItem')
+        mainSiteStructuresTab.click_input()
         mainSiteStructuresWindow = templa.child_window(title='Site Structures', control_type='Window')
         ########################
         #
