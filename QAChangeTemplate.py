@@ -129,25 +129,6 @@ for i in df.index:
 
     #contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
     contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
-
-    ####################################
-    #
-    # Quick Way to change Next QA Date
-    #
-    # ##################################
-    # nextDateString = "13082018"
-    # pyautogui.typewrite(nextDateString)
-    # pyautogui.press('tab')
-
-    #######################################
-    #
-    # Felxible Way to Change Next QA Date
-    #
-    #######################################
-    # nextDateString = str(nextQaDate[i])
-    # # get the date character one by one and type in
-    # for letter in nextDateString:
-    #     pyautogui.typewrite(letter)
     pyautogui.typewrite(next_qa_date)
     pyautogui.press('tab')
 
