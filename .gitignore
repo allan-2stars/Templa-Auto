@@ -14,5 +14,6 @@ testing*
 test*
 templa-env.yml
 files/
+*.log
 
 __pycache__
