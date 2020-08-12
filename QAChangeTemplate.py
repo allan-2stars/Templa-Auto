@@ -137,10 +137,7 @@ for i in df.index:
     contractDetailWindow.window(title='Request approval').click_input()
     pyautogui.PAUSE = 2.5
     pyautogui.typewrite('y') ## equivilent to clicking "yes"
-    print(siteCode[i] + " updated now")
-    time.sleep(50)
-
-
-print(str(siteCode[i]) + " Done now")    
-print("########################")
-print("")
+    print(siteCode[i] + " updated to Template " + str(qaTemplate[i]))
+    time.sleep(50)  
+    print("########################")
+    print("")
