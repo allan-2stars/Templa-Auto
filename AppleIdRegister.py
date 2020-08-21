@@ -14,7 +14,7 @@ xpath_first_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-c
 xpath_last_name = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[1]/div/div/full-name/div[2]/div/div/last-name-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_countries = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[2]/div/idms-dropdown/div/idms-error-wrapper/div/div/select'
 
-xpath_dob = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[3]/div/wc-birthday/div/div/div/div/masked-date/idms-error-wrapper/div/div/input'
+xpath_dob = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[2]/div/div[3]/div/wc-birthday/div/div/div/div/masked-date/div/idms-error-wrapper/div/div/input'
 xpath_email = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[3]/div/div[1]/div/account-name/div/div/email-input/div/idms-textbox/idms-error-wrapper/div/div/input'
 xpath_password = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[3]/div/div[2]/div/new-password/div/div/password-input/div/input'
 xpath_password_confirm = '/html/body/div[2]/aid-web/div[2]/div[2]/div/create-app/aid-create/idms-flow/div/div/div/idms-step/div/div/div/div[2]/div/div/div[3]/div/div[2]/div/confirm-password/div/div/confirm-password-input/div/idms-textbox/idms-error-wrapper/div/div/input'
@@ -67,7 +67,6 @@ for i in df.index:
     dob = df['DOB']
     email = df['Email']
     password = df['Password']
-    password_2 = df['Password_2']
     phone_code = df['Phone Code']
     phone_number = df['Phone Number']
     URL = df['URL']
@@ -120,8 +119,10 @@ for i in df.index:
     dob_element.send_keys(dob_string)
     email_element.send_keys(email[i])
     password_element.send_keys(password[i])
-    password_2_element.send_keys(password_2[i])
-    region_code_selection_element.select_by_index(11)
+    password_2_element.send_keys(password[i])
+    
+    region_code_selection_element.select_by_index(13)
+    #region_code_selection_element
     phone_number_element.send_keys(phone_number_string)
 
     if announcements_tick_element.get_attribute('checked'):

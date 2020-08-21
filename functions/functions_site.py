@@ -60,6 +60,12 @@ def Site_Reassign():
                 print("Stop here")
                 break
 
+            ## convert nan to N/A so that
+            ## we can type this into The System
+            tablet_name = str(tablet[i])
+            if tablet_name == 'nan':
+                tablet_name = 'N/A'
+
             # click on the Code Edit Box
             mainSitesWindow.window(title='Code', control_type='ComboBox').click_input()
             pyautogui.typewrite(site_code_string)
@@ -159,7 +165,7 @@ def Site_Reassign():
                 # siteAnalysisWindow.Edit43.click_input()
                 pyautogui.dragRel(-500,0)
                 time.sleep(1.5)
-                pyautogui.typewrite(tablet[i])
+                pyautogui.typewrite(tablet_name)
                 pyautogui.press("tab")
                 time.sleep(1.5)
                 pyautogui.moveRel(300,20)
