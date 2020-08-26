@@ -172,7 +172,7 @@ def QA_Recipients():
 
 
             arrayCount = len(recipientsAddingList)
-            print ('now is row: ' + str(i))
+            print ('now is row: ' + str(i+2) + ' in Excel Sheet')
             ## loop over the recipient names
             for k in range(arrayCount):
                 print ("recipient's name array total: " + str(arrayCount)+ ', now is on ' + str(k+1))
@@ -306,7 +306,7 @@ def QA_Recipients():
                         # find the email
                         print("adding new Contact to list...")
                         contactsSelectWindow = app.window(title='Contacts Select')
-                        contactsSelectWindow.wait('exists', timeout=35)
+                        contactsSelectWindow.wait('exists', timeout=95)
                         contactsSelectWindow.window(title='Email', control_type='ComboBox').click_input()
                         pyautogui.typewrite(emailList[k])
                         pyautogui.moveRel(0, 25)

@@ -143,6 +143,15 @@ for i in df.index:
         pyautogui.hotkey('ctrl','v')
         pyautogui.press('tab')
 
+        ## if need to change other date for next qa date, 
+        ## uncomment below:
+
+        # contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input()
+        # pyautogui.typewrite('31082020')
+        # pyautogui.press('tab')
+
+        ## uncomment above
+
         # Save
         contractQAWindow.Accept.click_input()
         contractDetailWindow.window(title='Request approval').click_input()
