@@ -72,12 +72,12 @@ for i in df.index:
 
     elif contractDetailWindow.window(title='7').exists():     
         print("This QA is Weekly currently." + str(siteCode[i]))
-        next_qa_date = '10082020'
+        next_qa_date = '17082020'
         qa_item = contractDetailWindow.window(title='7')
 
     elif contractDetailWindow.window(title='14').exists():     
         print("This QA is Forenightly currently." + str(siteCode[i]))
-        next_qa_date = '10082020'
+        next_qa_date = '17082020'
         qa_item = contractDetailWindow.window(title='14')
 
     elif contractDetailWindow.window(title='365').exists():     

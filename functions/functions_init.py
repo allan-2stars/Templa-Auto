@@ -1,6 +1,5 @@
 
 import pyautogui
-from pywinauto.application import Application
 import os
 import time
 from functions.functions_utils import date_range
