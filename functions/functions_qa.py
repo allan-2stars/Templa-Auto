@@ -84,24 +84,18 @@ def QA_Recipients():
 
             if contractDetailWindow.window(title='30').exists():    
                 print("This QA is Monthly currently." + str(siteCode[i]))
-                qa_item = contractDetailWindow.window(title='30')
-
+                
             elif contractDetailWindow.window(title='90').exists():     
                 print("This QA is Quaterly currently." + str(siteCode[i]))
-                qa_item = contractDetailWindow.window(title='90')
-
 
             elif contractDetailWindow.window(title='7').exists():     
                 print("This QA is Weekly currently." + str(siteCode[i]))
-                qa_item = contractDetailWindow.window(title='7')
 
             elif contractDetailWindow.window(title='14').exists():     
                 print("This QA is Forenightly currently." + str(siteCode[i]))
-                qa_item = contractDetailWindow.window(title='14')
 
             elif contractDetailWindow.window(title='365').exists():     
                 print("This QA is Yearly currently." + str(siteCode[i]))
-                qa_item = contractDetailWindow.window(title='365')
 
             ## if not match above, there must exist an error
             else:
@@ -109,6 +103,9 @@ def QA_Recipients():
                 print("This QA is UNKNOWN frequency or QA NOT Exist." + str(siteCode[i]))
                 print("Check this please ..." + str(siteCode[i]))
                 print("----------------------------------------------")
+
+                ## if you want add the recipient without checking the qa exists or not
+                ## comment below 2 lines
                 contractDetailWindow.Close.click_input()
                 continue
 

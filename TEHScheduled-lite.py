@@ -19,7 +19,7 @@ print("Site Activated")
 # Setup Excel Sheet
 #
 ########################
-sheetLoader = 'ETH' 
+sheetLoader = 'TEH' 
 df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 print("Reading Excel...")
 for i in df.index:
