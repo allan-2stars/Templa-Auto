@@ -23,18 +23,19 @@ loginPage['LoginButton'].click_input()
 
 # Error Active User Exist
 errorWindow = loginPage.window(title_re="Existing*")
-# errorWindow.print_control_identifiers()
 time.sleep(2)
-#errorWindow.wait("exists",timeout=15)
+
 print("Starting...")
 if errorWindow.exists():
     print("Active user exists...")
+    # errorWindow.print_control_identifiers()
     redCross_DataItem_1 = errorWindow.child_window(auto_id="0", control_type="DataItem")
     redCross_DataItem_2 = errorWindow.child_window(auto_id="1", control_type="DataItem")
     redCross_DataItem_3 = errorWindow.child_window(auto_id="2", control_type="DataItem")
-    redCross_1 = redCross_DataItem_1.child_window(auto_id="51", control_type="Edit")
-    redCross_2 = redCross_DataItem_2.child_window(auto_id="51", control_type="Edit")
-    redCross_3 = redCross_DataItem_3.child_window(auto_id="51", control_type="Edit")
+    # if updated again, increase the auto_id by 1, last time was 51
+    redCross_1 = redCross_DataItem_1.child_window(auto_id="52", control_type="Edit")
+    redCross_2 = redCross_DataItem_2.child_window(auto_id="52", control_type="Edit")
+    redCross_3 = redCross_DataItem_3.child_window(auto_id="52", control_type="Edit")
 
     print ("red cross 1 existing ?", redCross_1.exists())
     print ("red cross 2 existing ?", redCross_2.exists())

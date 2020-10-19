@@ -63,7 +63,7 @@ for i in df.index:
     # # open analysis details dialouge window
     # #siteDetailWindow = app.window(title_re='Site Detail - *')
     productDetailWindow = app.window(title_re='Products - *')
-    productDetailWindow.wait('exists', timeout=15)
+    productDetailWindow.wait('exists', timeout=55)
 
     # Go to supplier, only change the cost price
     productDetailWindow.window(title='Suppliers', control_type='TabItem').click_input()

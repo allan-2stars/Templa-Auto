@@ -118,7 +118,7 @@ def KPI_Analysis():
                 liveReportButton.wait('exists',20)
                 liveReportButton.click_input()
                 reportConfigWindow = previouseAnalysisWindow.child_window(title='QA Analysis Report Configurations')
-                reportConfigWindow.wait('exists', timeout=15)
+                reportConfigWindow.wait('exists', timeout=55)
 
                 ## type report title 
                 reportConfigWindow.window(title='Description', control_type='ComboBox').click_input()
@@ -174,7 +174,7 @@ def KPI_Analysis():
 
             ## drag 'QA Item' Label up
             
-            if reportTitle[i] == "DAWR Monthly" or reportTitle[i] == "PMC Monthly":
+            if reportTitle[i] == "DAWR Monthly" or reportTitle[i] == "PMC Monthly" or reportTitle[i] == "TK MAXX Monthly" :
                 qaSiteAreaHeader.click_input()
                 time.sleep(1)
                 pyautogui.moveRel(0, -20)

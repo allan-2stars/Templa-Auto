@@ -206,9 +206,9 @@ def QA_Recipients():
                         if checkStateOnExcel == "0":
                             print("duplicate name exist: " + nameFirstLast)
                             recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                            recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                            recipientEntryCheckboxFL = recipientEntryFL.child_window(title="Receive documents?", control_type="CheckBox")
                             isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
-                            isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
+                            isCheckedFL = recipientEntryCheckboxFL.get_toggle_state()
                             
                             if str(isCheckedFL) != checkStateOnExcel:
                                 recipientEntryCheckboxLF.toggle()
@@ -221,9 +221,9 @@ def QA_Recipients():
                         if checkStateOnExcel == "1":
                             print("duplicate name exist: " + nameFirstLast)
                             recipientEntryCheckboxLF = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
-                            recipientEntryCheckboxFL = recipientEntryLF.child_window(title="Receive documents?", control_type="CheckBox")
+                            recipientEntryCheckboxFL = recipientEntryFL.child_window(title="Receive documents?", control_type="CheckBox")
                             isCheckedLF = recipientEntryCheckboxLF.get_toggle_state()
-                            isCheckedFL = recipientEntryCheckboxLF.get_toggle_state()
+                            isCheckedFL = recipientEntryCheckboxFL.get_toggle_state()
                             
                             # If currently not checked, let Firstname Lastname check
                             if str(isCheckedFL) != checkStateOnExcel:

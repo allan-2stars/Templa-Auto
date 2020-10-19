@@ -65,7 +65,7 @@ def Create_Site_Structures():
             new_button = templa.child_window(title="New", auto_id="[Group : row Tools] Tool : list_New - Index : 1 ", control_type="Button")
             new_button.click_input()
             SiteStructureWindow = app.window(title_re='Site Structure*')
-            SiteStructureWindow.wait('exists', timeout=25)
+            SiteStructureWindow.wait('exists', timeout=35)
             print("Site Structure Window opened...")
             pyautogui.PAUSE = 1.5
             pyautogui.press('tab')

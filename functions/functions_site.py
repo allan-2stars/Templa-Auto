@@ -147,7 +147,7 @@ def Site_Reassign():
 
                 ## operate the site details analysis window
                 siteAnalysisWindow = siteDetailWindow.child_window(title_re='Site Analysis Detail - *')
-                siteAnalysisWindow.wait('exists', timeout=15)
+                siteAnalysisWindow.wait('exists', timeout=125)
                 siteAnalysisWindow.window(title='Business analysis', control_type='TabItem').click_input()
 
                 # change CSM and Tablet Number
