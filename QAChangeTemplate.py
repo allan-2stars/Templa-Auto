@@ -22,7 +22,7 @@ mainContractsWindow = templa.child_window(title='Contracts', control_type='Windo
 # Setup Excel Sheet
 #
 ########################
-sheetLoader = 'QA Template' 
+sheetLoader = 'Change QA Template' 
 df = pd.read_excel('test.xlsx', sheet_name=sheetLoader)
 print("Reading Excel...")
 for i in df.index:
@@ -61,23 +61,23 @@ for i in df.index:
     qa_item = ''
     if contractDetailWindow.window(title='30').exists():    
         print("This QA is Monthly currently." + str(siteCode[i]))
-        next_qa_date = '01082020'
+        next_qa_date = '01112020'
         qa_item = contractDetailWindow.window(title='30')
 
     elif contractDetailWindow.window(title='90').exists():     
         print("This QA is Quaterly currently." + str(siteCode[i]))
-        next_qa_date = '01082020'
+        next_qa_date = '01112020'
         qa_item = contractDetailWindow.window(title='90')
 
 
     elif contractDetailWindow.window(title='7').exists():     
         print("This QA is Weekly currently." + str(siteCode[i]))
-        next_qa_date = '17082020'
+        next_qa_date = '19102020'
         qa_item = contractDetailWindow.window(title='7')
 
     elif contractDetailWindow.window(title='14').exists():     
         print("This QA is Forenightly currently." + str(siteCode[i]))
-        next_qa_date = '17082020'
+        next_qa_date = '1910020'
         qa_item = contractDetailWindow.window(title='14')
 
     elif contractDetailWindow.window(title='365').exists():     
