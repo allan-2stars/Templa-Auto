@@ -96,6 +96,7 @@ def KPI_FaildedQA():
             for i in df.index:
                 constracts = df['CONTRACTS']
                 siteName = df['SITE NAME']
+                siteName_string = str(siteName[i])
                 site = df['SITE']
                 client = df['CLIENT']
                 template = df['TEMPLATE']
@@ -109,11 +110,11 @@ def KPI_FaildedQA():
                 useTemplate = df['USE TEMPLATE']
 
                 if status[i] == 'Done':
-                    print(str(siteName[i]) + ' is Done')
+                    print(siteName_string + ' is Done')
                     continue
 
                 if status[i] == 'Skip':
-                    print(str(siteName[i]) + ' is Skipped')
+                    print(siteName_string + ' is Skipped')
                     continue
 
                 if status[i] == 'Stop':
@@ -154,19 +155,20 @@ def KPI_FaildedQA():
                 ## print out the current site
                 print('site analytics: ', siteName[i])
 
-                ## if the site is Special case, use below
-                if str(siteName[i]) == 'DAWR' or str(siteName[i]) == 'PMC':
-                    print('Ignore the failed Items')
-                    # pyautogui.press('right')
-                    # pyautogui.press('right')
-                    # pyautogui.press('space')
-                # ## ## click on Failed Items button to YES
-                else:
-                    pyautogui.press('tab')
-                    pyautogui.press('tab')
-                    pyautogui.press('tab')
-                    pyautogui.press('right')
-                    pyautogui.press('space')
+                # ## if the site is Special case, use below
+                # if siteName_string == 'DAWR Monthly' or siteName_string == 'PMC Monthly':
+                #     print('Ignore the failed Items')
+                #     ## 
+                #     pyautogui.press('right')
+                #     pyautogui.press('right')
+                #     pyautogui.press('space')
+                # # ## ## click on Failed Items button to YES
+                # else:
+                pyautogui.press('tab')
+                pyautogui.press('tab')
+                pyautogui.press('tab')
+                pyautogui.press('right')
+                pyautogui.press('space')
 
 
                 # ###########   End of Basic Filtering    #########
@@ -200,7 +202,7 @@ def KPI_FaildedQA():
                     pyautogui.press('tab')
 
                 ## check the other tab filtering
-                if siteName[i] == 'Redcape':    
+                if siteName_string == 'Redcape':    
                     protertyFilterCriteria = filterWindow.child_window(title='Property filtering criteria', control_type='TabItem')
                     protertyFilterCriteria.click_input()
                     ## get the handle of Group filter
@@ -234,8 +236,8 @@ def KPI_FaildedQA():
                 filterFormatsWindow.window(title='Description', control_type='ComboBox').click_input()
 
                 ## if the site is Special case, use below
-                if str(siteName[i]) == 'DAWR' or str(siteName[i]) == 'PMC':
-                    pyautogui.typewrite(str(siteName[i]))
+                if siteName_string == 'DAWR Monthly' or siteName_string == 'PMC Monthly' or siteName_string == 'TK MAXX Monthly':
+                    pyautogui.typewrite('Special Format')
                     pyautogui.moveRel(-25, 25) 
                     pyautogui.doubleClick() # apply the format
                 else:
@@ -251,7 +253,7 @@ def KPI_FaildedQA():
                 print('Ready to Export to Excel File ...')
                 save_as_Excel_analysis(window=templa, pathName=filePath[i], folderName=folderName, \
                                         fileName=fileName[i], flag='first time save to this folder')
-                print(str(siteName[i]) + ' is Done.')
+                print(siteName_string + ' is Done.')
                 print('#######################')
                 print(' ')
 

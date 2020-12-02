@@ -72,11 +72,6 @@ def KPI_Analysis():
         ##
         ########################################################################
 
-        ## skipped_count counts the lines of spreadsheet,
-        ## see how many lines marked as "Done" or "Skip",
-        ## if the total number of skipped_count equals i, which means,
-        ## all line are skpped to run. Then finish the function directly.
-        skipped_count = 0
         for i in df.index:
             reportTitle = df['TITLE']
             #monthName = df['MONTH']
@@ -88,12 +83,10 @@ def KPI_Analysis():
 
             if status[i] == 'Done':
                 print(str(reportTitle[i]) + ' is Done')
-                skipped_count = skipped_count + 1
                 continue
 
             if status[i] == 'Skip':
                 print(str(reportTitle[i]) + ' is Skipped')
-                skipped_count = skipped_count + 1
                 continue
 
             if status[i] == 'Stop':
@@ -101,52 +94,42 @@ def KPI_Analysis():
                 ## if stopped the last Analysis window will not close
                 ## due to the counter will stop counting and not reach the bottom code.
                 break
+    
+            analysis_window = app.window(title_re='.*Monthly', control_type='Window')
+          
+            ## open the report selection window
+            
+            liveReportButton = analysis_window.child_window(title='Select live report', auto_id='[Group : report Tools] Tool : Select - Index : 5 ', control_type='Button').click_input()
+            report_config_window = analysis_window.child_window(title='QA Analysis Report Configurations')
+            report_config_window.wait('exists', timeout=55)
 
-            analysisWindow = app.window(title=str(reportTitle[i]))
-            ## start a report with title, need open one of the report analyser first
-            ## if i == 0, which mean the first line runs, and just click Run report button
-            ## streight away
-
-            if i != 0: 
-                previouseAnalysisWindow = app.window(title=str(reportTitle[i-1]))
-                print('last report is',str(reportTitle[i-1]))
-                print('report now is,', str(reportTitle[i]))
-                analysisWindow = app.window(title=str(reportTitle[i]))
-                ## open the report selection window
-                ## previouseAnalysisWindow['Select live report'].click_input()  ## too slow
-                liveReportButton = previouseAnalysisWindow.child_window(title='Select live report', auto_id='[Group : report Tools] Tool : Select - Index : 5 ', control_type='Button')
-                liveReportButton.wait('exists',20)
-                liveReportButton.click_input()
-                reportConfigWindow = previouseAnalysisWindow.child_window(title='QA Analysis Report Configurations')
-                reportConfigWindow.wait('exists', timeout=55)
-
-                ## type report title 
-                reportConfigWindow.window(title='Description', control_type='ComboBox').click_input()
-                pyautogui.typewrite(str(reportTitle[i]))
-                pyautogui.moveRel(0, 25) 
-                pyautogui.click() # open the site by double click
-                reportConfigWindow.Select.click_input()
+            ## type report title 
+            report_config_window.window(title='Description', control_type='ComboBox').click_input()
+            pyautogui.typewrite(str(reportTitle[i]))
+            pyautogui.moveRel(0, 25) 
+            pyautogui.click() # open the site by double click
+            analysis_window.Select.click_input()
             
             ## Press Run report button
-            analysisWindow['Run report'].click_input()
+            analysis_window['Run report'].click_input()
 
             ## calculate the loading time
             start = time.time()
             print('Data loading ...')
             
             ## Header defined
-            siteHeader = analysisWindow.child_window(title='Site', control_type='ComboBox')
+            siteHeader = analysis_window.child_window(title='Site', control_type='ComboBox')
             siteHeader.wait('exists', timeout=280)  ## wait for the analysis result
             end = time.time()
             print('Time taken for loading the result: ', str(int(end - start)) + ' sec')
             ## once the report loaded, start generating...
-            dragArea = analysisWindow.child_window(auto_id='GroupByBox', control_type='Group')
-            qaItemHeader = analysisWindow.child_window(title='QA Item',  control_type='ComboBox')
-            qaSiteAreaHeader = analysisWindow.child_window(title='QA Site Area',  control_type='ComboBox')
+            dragArea = analysis_window.child_window(auto_id='GroupByBox', control_type='Group')
+            qaItemHeader = analysis_window.child_window(title='QA Item',  control_type='ComboBox')
+            qaSiteAreaHeader = analysis_window.child_window(title='QA Site Area',  control_type='ComboBox')
             print('Data loaded, report generating ...')
             ## Drag area title defined
-            siteDragArea = analysisWindow.child_window(title='Site', control_type='Button')
-            qaItemDragArea = analysisWindow.child_window(title='QA Item', control_type='Button')
+            siteDragArea = analysis_window.child_window(title='Site', control_type='Button')
+            qaItemDragArea = analysis_window.child_window(title='QA Item', control_type='Button')
 
             ## drag 'Site' Label up
             siteHeader.click_input(button='left', double='true')
@@ -162,10 +145,10 @@ def KPI_Analysis():
             
             ## save to the folder
             ## setup a flag, if the same site, no need to change the saving path
-            save_as_Excel_analysis(window=analysisWindow, pathName=filePath[i], folderName=folderName, \
+            save_as_Excel_analysis(window=analysis_window, pathName=filePath[i], folderName=folderName, \
                                 fileName=fileNameSiteTotals[i], flag='first time save to this folder')
 
-            #analysisWindow.click_input()
+            #analysis_window.click_input()
             ## drag 'Site' or other Label down back
             time.sleep(1)
 
@@ -181,12 +164,12 @@ def KPI_Analysis():
                 time.sleep(1)
                 pyautogui.dragRel(0,-70)
                 time.sleep(1)
-                ## drag 'Site' Label to the right
-                siteHeader.click_input(button='left', double='true')
-                time.sleep(1)
+                ## drag 'QA item' Label to the left
+                qaItemHeader.click_input(button='left', double='true')
                 pyautogui.moveRel(0, -20)
-                time.sleep(1)
-                pyautogui.dragRel(100, 0)
+                ## click on Site label to sort it
+                print('sort by Site name ...')
+                pyautogui.click()
             else:
                 qaItemHeader.click_input(button='left', double='true')
                 time.sleep(1)
@@ -195,25 +178,13 @@ def KPI_Analysis():
                 pyautogui.dragRel(0,-70)
 
             ## save to the folder
-            save_as_Excel_analysis(window=analysisWindow, pathName=filePath[i], folderName=folderName , \
+            save_as_Excel_analysis(window=analysis_window, pathName=filePath[i], folderName=folderName , \
                                     fileName=fileNameAllItems[i])
 
             print(str(reportTitle[i]) + ': is Done now')
             print('###############################')
             print(' ')
 
-        ## if total lines are skipped, then do nothing and finish
-        ## otherwise, close analysis window
-        number_of_rows = len(df.index)
-        if skipped_count != number_of_rows:
-            ## if this is the last item need to be analysis in Excel sheet,
-            ## close the active window by press Alt+F4.
-            print('closing analysis window now ...')
-            keyboard.send_keys('%{F4}')
-        # print('total number of rows: ', number_of_rows)
-        # print('total skipped count: ', skipped_count)
-        print('total skipped')
-        
-        ## analysisWindow.Close.click_input()
-        ## analysis_window = app.window(title_re='*Monthly'), control_type='Button').Close.click_input()
+        ## after all analysed, close the analysis window, by pressing Alt+ F4
+        keyboard.send_keys('%{F4}')
         print('finishing analysis...')
