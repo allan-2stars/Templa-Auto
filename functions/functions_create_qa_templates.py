@@ -132,10 +132,18 @@ def Create_QA_Templates():
                 print('Adding Items under section: ' + str(sections[i]))
                 ## Loop to add QA items for each section here
                 while True:
-                    QAItemsWindow.child_window(title="Description", control_type="ComboBox").click_input()
+                    QAItemsWindow.child_window(title="Coded structure", control_type="ComboBox").click_input()
                     pyautogui.typewrite(str(qa_items[i]))
-                    pyautogui.moveRel(-25, 25) 
-                    pyautogui.click() # open the site by double click
+                    
+                    #pyautogui.moveRel(-25, 25) 
+                    ## select the exact item, not just move the mouse down a bit to select.
+                    QAItemRequired = QAItemsWindow.child_window(title=str(qa_items[i]), control_type="DataItem")
+                    QAItemRequired.wait('exists', timeout=10)
+                    QAItemRequired.click_input()
+
+
+
+                    #pyautogui.click() # open the site by selected the item
                     QAItemsWindow.Select.click_input()
                     print('Added item: ' + qa_items[i])
                     ## check if next items are in the same seciont,

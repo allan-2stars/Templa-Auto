@@ -98,9 +98,9 @@ def KPI_Analysis():
             analysis_window = app.window(title_re='.*Monthly', control_type='Window')
           
             ## open the report selection window
-            
-            liveReportButton = analysis_window.child_window(title='Select live report', auto_id='[Group : report Tools] Tool : Select - Index : 5 ', control_type='Button').click_input()
-            report_config_window = analysis_window.child_window(title='QA Analysis Report Configurations')
+            ## auto_id='[Group : report Tools] Tool : Select - Index : 5 ',
+            liveReportButton = analysis_window.child_window(title='Select live report',  control_type='Button').click_input()
+            report_config_window = analysis_window.child_window(title='QA Analysis Report Configurations', control_type='Window')
             report_config_window.wait('exists', timeout=55)
 
             ## type report title 
@@ -171,6 +171,7 @@ def KPI_Analysis():
                 print('sort by Site name ...')
                 pyautogui.click()
             else:
+                print('drag QA item to top ...')
                 qaItemHeader.click_input(button='left', double='true')
                 time.sleep(1)
                 pyautogui.moveRel(0, -20)

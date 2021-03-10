@@ -146,7 +146,7 @@ for i in df.index:
             pyautogui.PAUSE = 2.5
 
             contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
-            contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
+            #contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
 
             # if frequency[i] == "m":
             #     nextDateString = "01122019"
@@ -160,14 +160,16 @@ for i in df.index:
             # print('next qa date is', nextDateString)
             # pyautogui.typewrite(nextDateString)
             # pyautogui.press('tab')
-            nextDateString = str(nextQaDate[i])
+            
+            
+            #nextDateString = str(nextQaDate[i])
         
             # get the date character one by one and type in
-            for letter in nextDateString:
-                pyautogui.typewrite(letter)
+            # for letter in nextDateString:
+            #     pyautogui.typewrite(letter)
             
-            pyautogui.press('tab')
-            print('next qa date is', nextDateString)
+            #pyautogui.press('tab')
+            #print('next qa date is', nextDateString)
             # Save
             contractQAWindow.Accept.click_input()
             #contractDetailWindow.print_control_identifiers()

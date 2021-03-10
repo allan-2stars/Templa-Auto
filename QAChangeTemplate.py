@@ -31,9 +31,10 @@ for i in df.index:
     qaTemplate = df['TEMPLATE']
     nextQaDate =  df['NEXT QA']
     status = df['STATUS']
+    site_code = str(siteCode[i])
 
     if status[i] == "Done" or status[i] == "Skip":
-        print(siteCode[i] + " is Done")
+        print(site_code + " is Done")
         continue
 
     if status[i] == "Stop":
@@ -42,7 +43,7 @@ for i in df.index:
 
     # click on the Code Edit Box
     mainContractsWindow.window(title='Site', control_type='ComboBox').click_input()
-    pyautogui.typewrite(str(siteCode[i]))
+    pyautogui.typewrite(site_code)
     pyautogui.moveRel(0, 25) 
     pyautogui.doubleClick() # open the site by double click
 
@@ -60,36 +61,36 @@ for i in df.index:
     next_qa_date = ''
     qa_item = ''
     if contractDetailWindow.window(title='30').exists():    
-        print("This QA is Monthly currently." + str(siteCode[i]))
+        print("This QA is Monthly currently." + site_code)
         next_qa_date = '01112020'
         qa_item = contractDetailWindow.window(title='30')
 
     elif contractDetailWindow.window(title='90').exists():     
-        print("This QA is Quaterly currently." + str(siteCode[i]))
+        print("This QA is Quaterly currently." + site_code)
         next_qa_date = '01112020'
         qa_item = contractDetailWindow.window(title='90')
 
 
     elif contractDetailWindow.window(title='7').exists():     
-        print("This QA is Weekly currently." + str(siteCode[i]))
+        print("This QA is Weekly currently." + site_code)
         next_qa_date = '19102020'
         qa_item = contractDetailWindow.window(title='7')
 
     elif contractDetailWindow.window(title='14').exists():     
-        print("This QA is Forenightly currently." + str(siteCode[i]))
+        print("This QA is Forenightly currently." + site_code)
         next_qa_date = '1910020'
         qa_item = contractDetailWindow.window(title='14')
 
     elif contractDetailWindow.window(title='365').exists():     
-        print("This QA is Yearly currently." + str(siteCode[i]))
+        print("This QA is Yearly currently." + site_code)
         next_qa_date = '01012020'
         qa_item = contractDetailWindow.window(title='365')
 
     ## if not match above, there must exist an error
     else:
         print("----------------------------------------------")       
-        print("This QA is UNKNOWN frequency or QA NOT Exist." + str(siteCode[i]))
-        print("Check this please ..." + str(siteCode[i]))
+        print("This QA is UNKNOWN frequency or QA NOT Exist." + site_code)
+        print("Check this please ..." + site_code)
         print("----------------------------------------------")
         contractDetailWindow.Close.click_input()
         continue
@@ -128,8 +129,8 @@ for i in df.index:
     pyautogui.PAUSE = 2.5
 
     #contractQAWindow.child_window(title="Any time", control_type="RadioButton").click_input()
-    contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
-    pyautogui.typewrite(next_qa_date)
+    #  contractQAWindow.child_window(auto_id="datNextQA", control_type="Edit").click_input() # next qa edit box
+    #  pyautogui.typewrite(next_qa_date)
     pyautogui.press('tab')
 
     # Save
@@ -137,7 +138,7 @@ for i in df.index:
     contractDetailWindow.window(title='Request approval').click_input()
     pyautogui.PAUSE = 2.5
     pyautogui.typewrite('y') ## equivilent to clicking "yes"
-    print(siteCode[i] + " updated to Template " + str(qaTemplate[i]))
+    print(site_code + " updated to Template " + str(qaTemplate[i]))
     time.sleep(50)  
     print("########################")
     print("")

@@ -61,7 +61,8 @@ def Add_QA_Items():
             # # add new QA Item
             # #########################
 
-            pyautogui.PAUSE = 2.5
+            time.sleep(2)
+            
             pyautogui.press('tab')
             # print('click on details')
             #QAItemDetailWindow.child_window(title="Details", control_type="Text").click_input()
@@ -71,7 +72,7 @@ def Add_QA_Items():
             pyautogui.typewrite(itemGroup[i])
             pyautogui.press('tab')
             # QAItemDetailWindow.Save.click_input()
-            pyautogui.PAUSE = 2.5
+            time.sleep(2)
             print(details[i] +" Done.")
             QAItemDetailWindow.child_window(title="Save and new", control_type="Button").click()
 
